@@ -1,8 +1,7 @@
 {% extends "users/dashboard.html" %}
 
 {% block dashboard_content %}
-<h1 class="page-header">Favorites</h1>
-<input type="text" class="find-bar" placeholder="Find Favorites">
+<h1 class="page-header">Your Favorites</h1>
 
 <div class="product-grid">
     {% for p in products %}
@@ -13,18 +12,27 @@
             {% endif %}
         </div>
         <div class="list-card-details">
-            <h3 class="list-card-name">{{ p.name }}</h3>
-             <p class="list-card-price">₹{{ p.price }} <del>₹{{p.old_price}}</del></p>
             <span class="list-card-company">{{ p.startup.name|default:"RCN Startup" }}</span>
+            <h3 class="list-card-name">{{ p.name }}</h3>
+            <p class="list-card-price">
+                ₹{{ p.price }}
+                {% if p.old_price %}<del>₹{{p.old_price}}</del>{% endif %}
+            </p>
             <div class="list-card-actions">
-                <a href="#" class="buy-btn">Buy</a>
-                 <button class="icon-btn like active" data-fav-url="{% url 'favorites:toggle_favorite' p.id %}"><i class="fa-solid fa-heart"></i></button>
-                <a href="{% url 'cart:add_to_cart' p.id %}" class="icon-btn cart"><i class="fa-solid fa-cart-shopping"></i></a>
+                <a href="{% url 'products:product_detail' p.slug %}" class="buy-btn">Buy</a>
+                <button class="icon-btn like active" data-fav-url="{% url 'favorites:toggle_favorite' p.id %}">
+                    <i class="fa-solid fa-heart"></i>
+                </button>
+                <a href="{% url 'cart:add_to_cart' p.id %}" class="icon-btn cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
             </div>
         </div>
     </div>
     {% empty %}
-    <p>You have no favorite items.</p>
+    <div class="card" style="text-align: center; grid-column: 1 / -1;">
+        <p>You haven't favorited any items yet.</p>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}

@@ -17,9 +17,7 @@
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/ghost.css' %}" />
 
-  {% block extra_css %}{% endblock %}
 </head>
 
 <body class="{% if 'users/' in request.path or 'cart/' in request.path or 'favorites/' in request.path or 'orders/' in request.path %}dashboard-body{% endif %}">

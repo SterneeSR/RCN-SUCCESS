@@ -1,38 +1,39 @@
 {% extends "users/dashboard.html" %}
 
 {% block dashboard_content %}
-<h1 class="page-header">Orders</h1>
-<input type="text" class="find-bar" placeholder="Find Orders">
+<h1 class="page-header">Your Orders</h1>
 
 <div class="item-list">
     {% for order in orders %}
     <div class="order-card">
-        <h4>Order ID: {{ order.id }}</h4>
+        <h4>Order ID: #{{ order.id }}</h4>
         <table>
             <thead>
                 <tr>
-                    <th>Sl No</th>
-                    <th>Items</th>
+                    <th>Item</th>
                     <th>Quantity</th>
+                    <th>Price</th>
                 </tr>
             </thead>
             <tbody>
                 {% for item in order.items.all %}
                 <tr>
-                    <td>{{ forloop.counter }}</td>
                     <td>{{ item.product.name }}</td>
                     <td>{{ item.quantity }}</td>
+                    <td>₹{{ item.price|floatformat:2 }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         <div class="order-footer">
-            <div>Status: <span class="status-tag">Shipped</span></div>
-            <div>Date: {{ order.created_at|date:"d-m-Y" }}</div>
+            <div>Status: <span class="status-tag">{{ order.get_status_display }}</span></div>
+            <div>Date: {{ order.created_at|date:"d M Y" }}</div>
         </div>
     </div>
     {% empty %}
-    <p>You have no orders.</p>
+    <div class="card" style="text-align: center;">
+        <p>You haven't placed any orders yet.</p>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}

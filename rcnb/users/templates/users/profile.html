@@ -1,38 +1,37 @@
 {% extends "users/dashboard.html" %}
 
 {% block dashboard_content %}
-<h1 class="page-header">Profile</h1>
-
-<div class="profile-grid">
-    <div class="profile-card">
-        <form id="profile-details-form" method="post">
-            {% csrf_token %}
-            <div class="profile-header">
-                <div class="profile-avatar"></div>
-                <div>
-                    <h2 class="profile-name" data-view>{{ user.first_name|default:user.username }}</h2>
-                    <input type="text" name="first_name" value="{{ user.first_name }}" class="form-input" data-edit style="display: none; font-size: 1.5rem; font-weight: 600;">
-                    
-                    <p class="profile-email" data-view>{{ user.email }}</p>
-                    <input type="email" name="email" value="{{ user.email }}" class="form-input" data-edit style="display: none;">
-
-                    {% if user.profile.email_verified %}
-                        <span class="profile-verified"><i class="fa-solid fa-check"></i> Verified</span>
-                    {% endif %}
-                </div>
-                <div class="profile-status-dot"></div>
-                <button type="button" class="icon-btn-edit" id="edit-profile-btn" data-view><i class="fa-solid fa-pen"></i></button>
-                <button type="submit" class="save-btn-small" data-edit style="display: none;">Save</button>
-            </div>
-        </form>
+<div class="profile-container">
+    <h1>Profile</h1>
+    <div class="card">
+      <div class="avatar"></div>
+      <div class="info">
+        <h2>{{ user.get_full_name|default:user.username }}</h2>
+        <p>{{ user.email }}</p>
+        {% if user.profile.email_verified %}
+            <div class="verified">Verified</div>
+        {% endif %}
+      </div>
+      <div class="status-dot"></div>
+      <svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 20h9" />
+        <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+      </svg>
     </div>
 
-    <div class="settings-card">
-        <h3>Account Settings</h3>
-        <ul>
-            <li><a href="#">Reset Password</a></li>
-            <li><a href="#" class="danger-link">Delete Account</a></li>
-        </ul>
+    <div class="details">
+        <form method="post">
+            {% csrf_token %}
+            <div class="detail-row">
+                <span>Email:</span>
+                <div class="detail-value">{{ user_form.email }}</div>
+            </div>
+            <div class="detail-row">
+                <span>Name:</span>
+                <div class="detail-value">{{ user_form.first_name }}</div>
+            </div>
+            <button type="submit" class="save-btn" style="margin-top: 20px;">Save Changes</button>
+        </form>
     </div>
 </div>
 {% endblock %}
