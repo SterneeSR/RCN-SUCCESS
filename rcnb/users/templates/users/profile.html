@@ -3,50 +3,36 @@
 {% block dashboard_content %}
 <h1 class="page-header">Profile</h1>
 
-<div class="profile-card">
-    <div class="profile-header">
-        <div class="profile-avatar"></div>
-        <div>
-            <h2 class="profile-name">{{ user.first_name|default:user.username }}</h2>
-            <p class="profile-email">{{ user.email }}</p>
-            {% if user.profile.email_verified %}
-                <span class="profile-verified">Verified</span>
-            {% endif %}
-        </div>
-        <div class="profile-status-dot"></div>
-        <i class="fa-solid fa-pen profile-edit-icon"></i>
+<div class="profile-grid">
+    <div class="profile-card">
+        <form id="profile-details-form" method="post">
+            {% csrf_token %}
+            <div class="profile-header">
+                <div class="profile-avatar"></div>
+                <div>
+                    <h2 class="profile-name" data-view>{{ user.first_name|default:user.username }}</h2>
+                    <input type="text" name="first_name" value="{{ user.first_name }}" class="form-input" data-edit style="display: none; font-size: 1.5rem; font-weight: 600;">
+                    
+                    <p class="profile-email" data-view>{{ user.email }}</p>
+                    <input type="email" name="email" value="{{ user.email }}" class="form-input" data-edit style="display: none;">
+
+                    {% if user.profile.email_verified %}
+                        <span class="profile-verified"><i class="fa-solid fa-check"></i> Verified</span>
+                    {% endif %}
+                </div>
+                <div class="profile-status-dot"></div>
+                <button type="button" class="icon-btn-edit" id="edit-profile-btn" data-view><i class="fa-solid fa-pen"></i></button>
+                <button type="submit" class="save-btn-small" data-edit style="display: none;">Save</button>
+            </div>
+        </form>
     </div>
 
-    <div class="profile-details-grid">
-        <div class="detail-item">
-            <label>Email</label>
-            <p>{{ user.email }}</p>
-            <i class="fa-solid fa-pen profile-edit-icon"></i>
-        </div>
-        <div class="detail-item">
-            <label>Phone</label>
-            <p>{{ user.addresses.first.phone|default:"Not Provided" }}</p>
-            <i class="fa-solid fa-pen profile-edit-icon"></i>
-        </div>
-        <div class="detail-item">
-            <label>Address</label>
-            <p>{{ user.addresses.first.address_line_1|default:"Not Provided" }}</p>
-            <i class="fa-solid fa-pen profile-edit-icon"></i>
-        </div>
-        <div class="detail-item">
-            <label>Pincode</label>
-            <p>{{ user.addresses.first.pincode|default:"Not Provided" }}</p>
-            <i class="fa-solid fa-pen profile-edit-icon"></i>
-        </div>
+    <div class="settings-card">
+        <h3>Account Settings</h3>
+        <ul>
+            <li><a href="#">Reset Password</a></li>
+            <li><a href="#" class="danger-link">Delete Account</a></li>
+        </ul>
     </div>
-</div>
-
-<div class="settings-card">
-    <h3>Settings:</h3>
-    <ul>
-        <li><a href="#">Reset Password</a></li>
-        <li><a href="#" class="danger-link">Delete Account</a></li>
-        <li><a href="{% url 'users:logout' %}">Logout</a></li>
-    </ul>
 </div>
 {% endblock %}

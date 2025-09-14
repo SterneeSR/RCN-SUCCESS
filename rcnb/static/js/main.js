@@ -107,3 +107,107 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // --- Mobile Navigation Active State ---
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.mobile-nav-item');
+
+    navLinks.forEach(link => {
+        const linkPath = link.getAttribute('href');
+        // More specific check to avoid multiple active states
+        if (linkPath === currentPath) {
+             link.classList.add('active');
+        }
+    });
+    
+    // --- Profile Edit Toggle ---
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+    const profileForm = document.getElementById('profile-details-form');
+    
+    if (editProfileBtn && profileForm) {
+        const viewElements = profileForm.querySelectorAll('[data-view]');
+        const editElements = profileForm.querySelectorAll('[data-edit]');
+
+        editProfileBtn.addEventListener('click', () => {
+            viewElements.forEach(el => el.style.display = 'none');
+            editElements.forEach(el => el.style.display = 'block');
+        });
+    }
+
+
+    // --- Existing AJAX for Favorites & Cart ---
+    function getCookie(name) {
+        const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+        return match ? match.pop() : '';
+    }
+
+    document.querySelectorAll('.icon-btn.like').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const favUrl = btn.dataset.favUrl;
+            if (!favUrl) return;
+
+            try {
+                const res = await fetch(favUrl, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                });
+
+                if (res.status === 401) {
+                    window.location.href = '/users/login/';
+                    return;
+                }
+
+                if (!res.ok) throw new Error(`Favorite toggle failed: ${res.status}`);
+
+                const data = await res.json();
+                btn.classList.toggle('active', data.is_favorited);
+                
+                // Optional: Reload to see change reflected in favorites list immediately
+                if(window.location.pathname.includes('/favorites/')) {
+                    location.reload();
+                }
+
+            } catch (err) {
+                console.warn('Favorite toggle fetch failed', err);
+            }
+        });
+    });
+
+    document.querySelectorAll('.icon-btn.cart').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const url = btn.href;
+            if (!url) return;
+             try {
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                      'X-CSRFToken': getCookie('csrftoken'),
+                      'X-Requested-With': 'XMLHttpRequest',
+                    },
+                });
+
+                 if (res.status === 401) {
+                    window.location.href = '/users/login/';
+                    return;
+                }
+                
+                // Simple visual feedback
+                btn.style.transform = 'scale(1.2)';
+                setTimeout(() => btn.style.transform = 'scale(1)', 150);
+                
+                // You could update a cart count here if you have one
+                
+             } catch(err) {
+                console.error("Error adding item to cart", err)
+             }
+        });
+    });
+
+});
