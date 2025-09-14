@@ -3325,3 +3325,176 @@ Orders Page Styles
         gap: 1rem;
     }
 }
+
+/* ---
+Address Page Styles (Based on New Code)
+--- */
+:root {
+  --primary-purple: #6A38D4;
+  --input-bg: #3D3D3D;
+  --card-address-bg: #212121;
+  --border-address-color: #444444;
+}
+
+.main-content h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 32px;
+}
+
+.address-card-wrapper {
+    background-color: var(--card-address-bg);
+    border-radius: 10px;
+    padding: 32px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.address-card-wrapper h2 {
+    font-size: 20px;
+    margin-bottom: 24px;
+    font-weight: 600;
+}
+
+/* --- Saved Address List --- */
+.address-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+/* Custom Scrollbar */
+.address-list::-webkit-scrollbar { width: 6px; }
+.address-list::-webkit-scrollbar-track { background: transparent; }
+.address-list::-webkit-scrollbar-thumb { background: var(--input-bg); border-radius: 10px; }
+
+.saved-address-item {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-address-color);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.saved-address-item:hover {
+    border-color: var(--primary-purple);
+    box-shadow: 0 0 8px rgba(106, 56, 212, 0.3);
+}
+
+.address-header {
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+}
+
+.address-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.action-icon {
+    background: var(--input-bg);
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.action-icon:hover { background-color: #555; }
+.action-icon svg { fill: var(--text-primary); width: 18px; height: 18px; }
+
+.address-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    padding: 0 20px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+.saved-address-item.expanded .address-details {
+    max-height: 200px;
+    padding: 12px 20px 20px 20px;
+    border-top: 1px solid var(--border-address-color);
+    margin-top: 12px;
+}
+
+/* --- New Address Form & Buttons --- */
+.btn-primary {
+    background-color: var(--primary-purple);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 32px;
+    box-shadow: 0 4px 10px rgba(106, 56, 212, 0.4);
+}
+.btn-primary:hover {
+    background-color: #7B4FE3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(106, 56, 212, 0.6);
+}
+
+.address-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.form-input, .form-textarea {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-address-color);
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 16px;
+    color: var(--text-primary);
+    width: 100%;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--primary-purple);
+    box-shadow: 0 0 0 2px rgba(106, 56, 212, 0.3);
+}
+.form-input::placeholder, .form-textarea::placeholder {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+.form-textarea { resize: vertical; min-height: 90px; }
+.form-row { display: flex; gap: 16px; }
+.form-row > * { flex: 1; }
+
+/* --- Confirmation Delete Card --- */
+.confirm-card {
+    background-color: var(--card-address-bg);
+    border-radius: 10px;
+    padding: 32px;
+    text-align: center;
+    max-width: 500px;
+    margin: 2rem auto;
+}
+.confirm-card h2 { font-size: 1.75rem; font-weight: 600; margin-bottom: 1rem; }
+.confirm-card p { color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6; }
+.confirm-actions { display: flex; justify-content: center; gap: 1rem; }
+.confirm-btn { padding: 12px 24px; border-radius: 8px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: opacity 0.2s ease; }
+.confirm-btn:hover { opacity: 0.9; }
+.delete-btn { background-color: var(--accent-red); color: white; }
+.cancel-btn { background-color: var(--input-bg); color: var(--text-primary); }
+
+
+/* --- Utility --- */
+.hidden { display: none !important; }
+

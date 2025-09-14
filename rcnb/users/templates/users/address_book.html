@@ -1,43 +1,109 @@
 {% extends "users/dashboard.html" %}
 
 {% block dashboard_content %}
-<h1 class="page-header">Addresses</h1>
+<main class="main-content">
+    <h1>Address</h1>
 
-<div class="address-grid">
-    <div class="card">
-        <h3>Saved Addresses</h3>
-        <div class="address-list">
-            {% for address in addresses %}
-                <div class="address-item">
-                    <p><strong>{{ address.full_name }}</strong></p>
-                    <p>{{ address.address_line_1 }}, {% if address.address_line_2 %}{{ address.address_line_2 }}, {% endif %}<br>
-                    {{ address.city }}, {{ address.state }} - {{ address.pincode }}</p>
-                    <p>Phone: {{ address.phone }}</p>
-                    <div class="address-actions">
-                        <a href="{% url 'users:edit_address' address.id %}">Edit</a>
-                        <form action="{% url 'users:delete_address' address.id %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="danger-link" style="background:none; border:none; padding:0; font-size: 0.875rem; cursor:pointer;">Delete</button>
-                        </form>
+    <section id="savedAddressesSection">
+        <div class="address-card-wrapper">
+            <h2>Saved Addresses</h2>
+            <div class="address-list">
+                {% for address in addresses %}
+                <div class="saved-address-item">
+                    <div class="address-header">
+                        <span>{{ address.full_name }}</span>
+                        <div class="address-actions">
+                            <a href="{% url 'users:edit_address' address.id %}" class="action-icon" title="Edit Address">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m16 2.012 3 3L16.713 7.3l-3-3zm-14 12v3h3l8.299-8.299-3-3zm0 6h16v2H2z"/></svg>
+                            </a>
+                            <a href="{% url 'users:delete_address' address.id %}" class="action-icon" title="Delete Address">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h3V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h3v12zm5-11h4v9h-4V9zM8 6h8V4H8v2z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="address-details">
+                        <p>
+                            {{ address.address_line_1 }},<br>
+                            {% if address.address_line_2 %}{{ address.address_line_2 }},<br>{% endif %}
+                            {{ address.city }}, {{ address.pincode }}<br>
+                            {{ address.state }}<br><br>
+                            Phone: {{ address.phone }}
+                        </p>
                     </div>
                 </div>
-            {% empty %}
-                <p>You have no saved addresses.</p>
-            {% endfor %}
+                {% empty %}
+                <p>You have no saved addresses. Add one below!</p>
+                {% endfor %}
+            </div>
         </div>
-    </div>
+        <button class="btn-primary" id="showAddFormBtn">Add New Address</button>
+    </section>
 
-    <div class="card">
-        <h3>Add a New Address</h3>
-        <form method="post">
-            {% csrf_token %}
-            {% for field in form %}
-                <div class="form-group">
-                    {{ field }}
+    <section id="newAddressSection" class="hidden">
+        <div class="address-card-wrapper">
+            <h2>New Address</h2>
+            <form class="address-form" method="post">
+                {% csrf_token %}
+                {{ form.full_name }}
+                {{ form.phone }}
+                {{ form.address_line_1 }}
+                {{ form.address_line_2 }}
+                <div class="form-row">
+                    {{ form.city }}
+                    {{ form.pincode }}
                 </div>
-            {% endfor %}
-            <button type="submit" class="save-btn">Save Address</button>
-        </form>
-    </div>
-</div>
+                {{ form.state }}
+                <button type="submit" class="btn-primary" style="margin-top: 1rem;">Add Address</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // --- Add Placeholders to Django Form ---
+    // Note: It's best practice to add placeholders in your Django forms.py file.
+    // This is a front-end fallback.
+    const placeholders = {
+        'id_full_name': 'Full Name',
+        'id_phone': 'Contact No',
+        'id_address_line_1': 'House no., Building, Street',
+        'id_address_line_2': 'Landmark (Optional)',
+        'id_city': 'City',
+        'id_pincode': 'Pin Code',
+        'id_state': 'State'
+    };
+    for (const [id, text] of Object.entries(placeholders)) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.placeholder = text;
+            el.classList.add(el.tagName === 'TEXTAREA' ? 'form-textarea' : 'form-input');
+        }
+    }
+
+    // --- View Toggling Logic ---
+    const savedAddressesSection = document.getElementById('savedAddressesSection');
+    const newAddressSection = document.getElementById('newAddressSection');
+    const showAddFormBtn = document.getElementById('showAddFormBtn');
+    
+    showAddFormBtn.addEventListener('click', () => {
+        savedAddressesSection.classList.add('hidden');
+        newAddressSection.classList.remove('hidden');
+    });
+
+    // --- Accordion Logic ---
+    const addressItems = document.querySelectorAll('.saved-address-item');
+    addressItems.forEach(item => {
+        item.addEventListener('click', (event) => {
+            // Prevent click on icons from toggling the accordion
+            if (event.target.closest('.action-icon')) {
+                return;
+            }
+            const isExpanded = item.classList.contains('expanded');
+            addressItems.forEach(otherItem => otherItem.classList.remove('expanded'));
+            item.classList.toggle('expanded', !isExpanded);
+        });
+    });
+});
+</script>
 {% endblock %}
