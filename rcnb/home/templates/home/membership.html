@@ -1,129 +1,471 @@
 {% extends "base.html" %}
 
-{% load static %}
+{% load static%}
 
-{% block title %}RCN Membership{% endblock title %}
+{%block content %}
 
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership - RAISE Centre for Nanobiotechnology</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
-{% block content %}
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif']
+                    },
+                    colors: {
+                        'nano-purple': '#8B5A8C',
+                        'nano-orange': '#FF6B35', 
+                        'nano-green': '#7FB069',
+                        'nano-dark': '#0f0f0f',
+                        'nano-light': '#fafafa',
+                        'nano-gray': '#2a2a2a'
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'fadeInUp': 'fadeInUp 0.6s ease-out',
+                        'scaleIn': 'scaleIn 0.5s ease-out',
+                        'slideInRight': 'slideInRight 0.6s ease-out',
+                        'pulse-slow': 'pulse-slow 2s ease-in-out infinite',
+                        'bounce-slow': 'bounce-slow 2s infinite'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="membership-page dark">
 
-
-<section>
-    <section class="membership-section">
-    <div class="overlay"></div>
-    <div class="membership-container">
-      <h1>APPLY FOR MEMBERSHIP</h1>
-      <p>The Raise Centre for Nanobiotechnology (RCN) is a premier global hub connecting experts in science, technology, and innovation to drive breakthroughs in the nanobiotechnology field.</p>
-      <p>RCN membership offers an influential platform for individuals, organizations, and professionals to collaborate on cutting-edge advancements, shape industry direction, and address key challenges.</p>
-      <p>Through comprehensive support services including mentoring, technical assistance, and financial resources, RCN empowers members to lead in research, product development, and sustainable innovation.</p>
-      <a href="https://aicraise.accubate.app/ext/survey/592/apply"><button>Register Now</button></a>
-    </div>
-  </section>
-
-  <section class="network-body">
-    <h1 class="networking-title">Networking</h1>
-    <div class="cards-container">
-      <div class="card"><p>RCN members gain access to exclusive networking opportunities with global business leaders, entrepreneurs, academicians, and institutions.</p></div>
-      <div class="card"><p>Participation in RCN events like conferences, seminars, and workshops offers chances to engage with peers and expand networks.</p></div>
-      <div class="card"><p>Members can collaborate with Indian and international corporate majors fostering innovation and growth.</p></div>
-      <div class="card"><p>RCN enables industry-academia interactions and shares best practices on emerging technology trends.</p></div>
-      <div class="card"><p>An online member directory helps members connect and collaborate within the RCN network.</p></div>
-    </div>
-  </section>
-
-  <section class="learning-section">
-    <div class="learning-container">
-      <h1><em>Learning & Professional Development</em></h1>
-      <div class="content-wrapper">
-        <div class="left-column">
-          <div class="card">
-            <div class="number">01</div>
-            <p>Direct support to nanotechnology experts and future professionals via training courses and educational materials.</p>
-          </div>
-          <div class="card">
-            <div class="number">02</div>
-            <p><strong>Technical Support & Guidelines:</strong> Access to consultancy services, integration of nanobiotechnology, and technology applications reports.</p>
-          </div>
-          <div class="card">
-            <div class="number">03</div>
-            <p><strong>Leadership Opportunities:</strong> Opportunities to serve in leadership, volunteer, speak at conferences, and conduct workshops.</p>
-          </div>
+    <main class="main-content">
+        <!-- Nanobiotechnology decorative elements -->
+        <div class="nano-decoration nano-decoration-1">
+            <div class="nano-dot nano-purple"></div>
         </div>
-        <div class="image-wrapper">
-          <img src="{% static '/images/pic.jpg' %}" alt="Development Illustration">
+        <div class="nano-decoration nano-decoration-2">
+            <div class="nano-dot nano-orange"></div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="knowledge-section">
-    <h1><i>Knowledge Sharing</i></h1>
-    <ul class="knowledge-list">
-      <li>→ Engage in knowledge-sharing events like conferences, seminars, and workshops.</li>
-      <li>→ Access to RCN’s central lab facilities for research and development.</li>
-      <li>→ Legal Base Services offer insights into regulatory aspects of technologies.</li>
-      <li>→ Resources for improving management skills, leadership, and business development.</li>
-    </ul>
-  </section>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">APPLY FOR MEMBERSHIP</h1>
+                <div class="hero-description">
+                    <p>
+                        The Raise Centre for Nanobiotechnology (RCN) is a premier global hub connecting experts in science, technology, and innovation to drive breakthroughs in the nanobiotechnology field.
+                    </p>
+                    <p>
+                        RCN membership offers an influential platform for individuals, organizations, and professionals to collaborate on cutting-edge advancements, shape industry direction, and address key challenges.
+                    </p>
+                    <p>
+                        Through comprehensive support services including mentoring, technical assistance, and financial resources, RCN empowers members to lead in research, product development, and sustainable innovation.
+                    </p>
+                </div>
+                <a href="https://aicraise.accubate.app/ext/survey/592/apply" class="hero-cta" target="_blank" rel="noopener noreferrer">
+                    Register Now
+                </a>
+            </div>
+        </section>
 
-  <section class="discount-section">
-    <h1>Discount</h1>
-    <div class="discount-items">
-      <div class="discount-item"><i class="fas fa-pen-square"></i><p>Discounts on registration for conferences, workshops, seminars, and training programs.</p></div>
-      <div class="discount-item"><i class="fas fa-percent"></i><p>Discounted rates on testing and consultancy services.</p></div>
-      <div class="discount-item"><i class="fas fa-handshake"></i><p>Free participation in job fairs and discounts on essential research materials.</p></div>
-      <div class="discount-item"><i class="fas fa-globe"></i><p>Individual research profiles listed on the RCN website for enhanced visibility.</p></div>
-    </div>
-  </section>
+        <!-- Networking Section -->
+        <section class="networking-section">
+            <h2 class="section-title">Networking</h2>
+            <div class="networking-grid">
+                <div class="networking-card" data-color="purple">
+                    <div class="card-decoration"></div>
+                    <p>RCN members gain access to exclusive networking opportunities with global business leaders, entrepreneurs, academicians, and institutions.</p>
+                </div>
+                <div class="networking-card" data-color="orange">
+                    <div class="card-decoration"></div>
+                    <p>Participation in RCN events like conferences, seminars, and workshops offers chances to engage with peers and expand networks.</p>
+                </div>
+                <div class="networking-card" data-color="green">
+                    <div class="card-decoration"></div>
+                    <p>Members can collaborate with Indian and international corporate majors fostering innovation and growth.</p>
+                </div>
+                <div class="networking-card" data-color="blue">
+                    <div class="card-decoration"></div>
+                    <p>RCN enables industry-academia interactions and shares best practices on emerging technology trends.</p>
+                </div>
+                <div class="networking-card" data-color="red">
+                    <div class="card-decoration"></div>
+                    <p>An online member directory helps members connect and collaborate within the RCN network.</p>
+                </div>
+            </div>
+        </section>
 
-  <section class="membership-fee-section">
-    <h2>Membership Category and Fee</h2>
-    <div class="content-container">
-      <div class="icon-circle">
-        <div class="icon-box" id="icon1"><i class="fas fa-sitemap"></i><p class="popup">Fee depends on the membership type.</p></div>
-        <div class="icon-box" id="icon2"><i class="fas fa-user-edit"></i><p class="popup">Fee valid for one year post-registration.</p></div>
-        <div class="icon-box" id="icon3"><i class="fas fa-address-book"></i><p class="popup">Renew membership within 30 days post expiry.</p></div>
-      </div>
+        <!-- Learning & Professional Development -->
+        <section class="development-section">
+            <div class="development-container">
+                <h2 class="section-title">Learning & Professional Development</h2>
+                
+                <div class="development-content">
+                    <div class="development-items">
+                        <div class="development-item">
+                            <div class="development-number">01</div>
+                            <p>Direct support to nanotechnology experts and future professionals via training courses and educational materials.</p>
+                        </div>
+                        <div class="development-item">
+                            <div class="development-number">02</div>
+                            <p>Technical Support & Guidelines: Access to consultancy services, integration of nanobiotechnology, and technology applications reports.</p>
+                        </div>
+                        <div class="development-item">
+                            <div class="development-number">03</div>
+                            <p>Leadership Opportunities: Opportunities to serve in leadership, volunteer, speak at conferences, and conduct workshops.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="development-image">
+                        <img src="{% static "/images/pic.png" %}" 
+                             alt="Development Illustration" 
+                             loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
 
-      <div class="fee-table-container">
-        <table class="fee-table">
-          <thead>
-            <tr>
-              <th>S.No</th>
-              <th>Membership Type</th>
-              <th>Annual Fee (Rs.)</th>
-              <th>GST</th>
-              <th>Total Fee (Rs.)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1.</td><td>Students/Research Scholars</td><td>1000/-</td><td>18%</td><td>1180/-</td></tr>
-            <tr><td>2.</td><td>Faculty/Scientists/Individuals</td><td>2500/-</td><td>18%</td><td>2950/-</td></tr>
-            <tr><td>3.</td><td>Institutional/Industry</td><td>5000/-</td><td>18%</td><td>5900/-</td></tr>
-            <tr><td>4.</td><td>Life time fellow</td><td>Nil</td><td>Nil</td><td>Nil</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+        <!-- Knowledge Sharing -->
+        <section class="knowledge-section">
+            <h2 class="section-title">Knowledge Sharing</h2>
+            <ul class="knowledge-list">
+                <li>→ Engage in knowledge-sharing events like conferences, seminars, and workshops.</li>
+                <li>→ Access to RCN's central lab facilities for research and development.</li>
+                <li>→ Legal Base Services offer insights into regulatory aspects of technologies.</li>
+                <li>→ Resources for improving management skills, leadership, and business development.</li>
+            </ul>
+        </section>
 
-  <section class="discount-section">
-    <div class="coin-side">
-      <img src="{% static "/images/coin img.png"%}" alt="Coin Stack with FUND label" class="coin-banner">
-    </div>
+        <!-- Discount Section -->
+        <section class="discount-section">
+            <h2 class="section-title">Discount</h2>
+            <div class="discount-grid">
+                <div class="discount-item">
+                    <div class="discount-icon pen-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/>
+                        </svg>
+                    </div>
+                    <p>Discounts on registration for conferences, workshops, seminars, and training programs.</p>
+                </div>
+                <div class="discount-item">
+                    <div class="discount-icon percent-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="5" x2="5" y2="19"/>
+                            <circle cx="6.5" cy="6.5" r="2.5"/>
+                            <circle cx="17.5" cy="17.5" r="2.5"/>
+                        </svg>
+                    </div>
+                    <p>Discounted rates on testing and consultancy services.</p>
+                </div>
+                <div class="discount-item">
+                    <div class="discount-icon handshake-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 17a4 4 0 0 1-8 0V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2z"/>
+                            <path d="M16.7 13H19a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H7"/>
+                            <path d="M7 17v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-4"/>
+                            <path d="M7 8h4"/>
+                            <path d="M7 12h4"/>
+                        </svg>
+                    </div>
+                    <p>Free participation in job fairs and discounts on essential research materials.</p>
+                </div>
+                <div class="discount-item">
+                    <div class="discount-icon globe-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                    </div>
+                    <p>Individual research profiles listed on the RCN website for enhanced visibility.</p>
+                </div>
+            </div>
+        </section>
 
-    <div class="text-side">
-      <h2>AIC RAISE Incubatees Get 50% Discount on Membership Fee</h2>
-      <p>Life time Fellowship (FRCN) is a prestigious level awarded to those demonstrating significant achievements in lifesciences, engineering, or related fields over five years.</p>
-    </div>
+        <!-- Membership Fee Section -->
+        <section class="membership-fee-section">
+            <h2 class="section-title">Membership Category and Fee</h2>
+            
+            <div class="fee-container">
+                <!-- Interactive Icons -->
+                <div class="icons-container">
+                    <div class="icon-item" data-index="0" data-description="Different membership tiers available for students, professionals, and institutions">
+                        <div class="interactive-icon users-icon">
+                            <div class="icon-orbit"></div>
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="icon-item" data-index="1" data-description="Annual membership with renewable benefits and continuous access to resources">
+                        <div class="interactive-icon zap-icon">
+                            <div class="icon-orbit"></div>
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="icon-item" data-index="2" data-description="Grace period for renewal ensures uninterrupted access to all member benefits">
+                        <div class="interactive-icon target-icon">
+                            <div class="icon-orbit"></div>
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <circle cx="12" cy="12" r="6"/>
+                                <circle cx="12" cy="12" r="2"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="qr-side">
-      <img src="{% static '/images/MEMBER QR.png'%}" alt="QR Code" class="qr-code">
-      <a href="https://aicraise.accubate.app/ext/survey/592/apply" class="register-button">Click to Register</a>
-    </div>
-  </section>
+                <!-- Dynamic Text Display -->
+                <div class="dynamic-text">
+                    <p id="icon-description">Choose a membership type to see details</p>
+                </div>
 
-</section>
+                <!-- Fee Table Desktop -->
+                <div class="fee-table-container desktop-table">
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Membership Type</th>
+                                <th>Annual Fee (Rs.)</th>
+                                <th>GST</th>
+                                <th>Total Fee (Rs.)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-color="purple">
+                                <td>1.</td>
+                                <td>Students/Research Scholars</td>
+                                <td class="fee-amount">1000/-</td>
+                                <td>18%</td>
+                                <td class="total-amount">1180/-</td>
+                            </tr>
+                            <tr data-color="orange">
+                                <td>2.</td>
+                                <td>Faculty/Scientists/Individuals</td>
+                                <td class="fee-amount">2500/-</td>
+                                <td>18%</td>
+                                <td class="total-amount">2950/-</td>
+                            </tr>
+                            <tr data-color="green">
+                                <td>3.</td>
+                                <td>Institutional/Industry</td>
+                                <td class="fee-amount">5000/-</td>
+                                <td>18%</td>
+                                <td class="total-amount">5900/-</td>
+                            </tr>
+                            <tr data-color="gray">
+                                <td>4.</td>
+                                <td>Life time fellow</td>
+                                <td class="fee-amount">Nil</td>
+                                <td>Nil</td>
+                                <td class="total-amount">Nil</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
+                <!-- Fee Cards Mobile -->
+                <div class="fee-cards mobile-cards">
+                    <div class="fee-card" data-color="purple">
+                        <div class="card-header">
+                            <div class="card-number">1. Students/Research Scholars</div>
+                        </div>
+                        <div class="card-details">
+                            <div class="detail-row">
+                                <span>Annual Fee:</span>
+                                <span class="fee-amount">1000/-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>GST:</span>
+                                <span>18%</span>
+                            </div>
+                            <div class="detail-row total-row">
+                                <span>Total Fee:</span>
+                                <span class="total-amount">1180/-</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fee-card" data-color="orange">
+                        <div class="card-header">
+                            <div class="card-number">2. Faculty/Scientists/Individuals</div>
+                        </div>
+                        <div class="card-details">
+                            <div class="detail-row">
+                                <span>Annual Fee:</span>
+                                <span class="fee-amount">2500/-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>GST:</span>
+                                <span>18%</span>
+                            </div>
+                            <div class="detail-row total-row">
+                                <span>Total Fee:</span>
+                                <span class="total-amount">2950/-</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fee-card" data-color="green">
+                        <div class="card-header">
+                            <div class="card-number">3. Institutional/Industry</div>
+                        </div>
+                        <div class="card-details">
+                            <div class="detail-row">
+                                <span>Annual Fee:</span>
+                                <span class="fee-amount">5000/-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>GST:</span>
+                                <span>18%</span>
+                            </div>
+                            <div class="detail-row total-row">
+                                <span>Total Fee:</span>
+                                <span class="total-amount">5900/-</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fee-card" data-color="gray">
+                        <div class="card-header">
+                            <div class="card-number">4. Life time fellow</div>
+                        </div>
+                        <div class="card-details">
+                            <div class="detail-row">
+                                <span>Annual Fee:</span>
+                                <span class="fee-amount">Nil</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>GST:</span>
+                                <span>Nil</span>
+                            </div>
+                            <div class="detail-row total-row">
+                                <span>Total Fee:</span>
+                                <span class="total-amount">Nil</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-{% endblock content %}
+                <!-- Nanobiotechnology decoration -->
+                <div class="nano-decoration-center">
+                    <div class="nano-dot nano-purple"></div>
+                    <div class="nano-dot nano-orange"></div>
+                    <div class="nano-dot nano-green"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom CTA Section -->
+        <section class="cta-section">
+            <div class="cta-container">
+                <div class="fund-image">
+                    <img src="{%static "/images/coin img.png" %}" 
+                         alt="Funding Support" 
+                         loading="lazy">
+                </div>
+
+                <div class="cta-content">
+                    <h3>AIC RAISE Incubatees Get 50% Discount on Membership Fee</h3>
+                    <p>
+                        Life time Fellowship (FRCN) is a prestigious level awarded to those demonstrating significant achievements in lifesciences, engineering, or related fields over five years.
+                    </p>
+                </div>
+
+                <div class="cta-actions">
+                    <img src="{% static "/images/QR.png" %}" 
+                         alt="QR Code" 
+                         class="qr-code"
+                         loading="lazy">
+                    <a href="https://aicraise.accubate.app/ext/survey/592/apply" 
+                       class="register-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer">
+                        Click to Register
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be inserted by JavaScript -->
+    <div id="footer-container"></div>
+
+  
+
+    <!-- Initialize Page -->
+    <script>
+        // Ensure dark mode is applied on page load
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+        
+        // Initialize the page when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize header with new component (this is handled by header-integration.js)
+            // The new header will be automatically initialized with the correct page
+            
+            // Initialize footer
+            if (typeof ComponentGenerator !== 'undefined') {
+                const footerContainer = document.getElementById('footer-container');
+                
+                if (footerContainer) {
+                    footerContainer.innerHTML = ComponentGenerator.generateFooter();
+                }
+            }
+            
+            // Initialize Lucide icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+
+        // Simple navigation function if router is not available
+        function navigate(page) {
+            if (typeof router !== 'undefined') {
+                router.navigate(page);
+            } else {
+                window.location.href = page === 'home' ? 'index.html' : `${page}.html`;
+            }
+        }
+
+        // Theme toggle function (always dark mode)
+        function toggleDarkMode(button) {
+            // Keep everything in dark mode
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+            
+            // Update button icon to show it's locked to dark mode
+            const icon = button.querySelector('i');
+            if (icon) {
+                icon.setAttribute('data-lucide', 'moon');
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
+{%endblock%}
