@@ -1,0 +1,127 @@
+{% extends "users/dashboard.html" %}
+
+{% block dashboard_content %}
+<style>
+    .orders-header {
+        margin-bottom: 2rem;
+    }
+    .orders-header h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #e6e6e6;
+    }
+    .order-card {
+        background-color: #161b22;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid #30363d;
+    }
+    .order-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #30363d;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+    }
+    .order-id {
+        font-weight: 600;
+        color: #e6e6e6;
+    }
+    .order-date {
+        font-size: 0.875rem;
+        color: #8b949e;
+    }
+    .order-items-table {
+        width: 100%;
+        font-size: 0.875rem;
+    }
+    .order-items-table th, .order-items-table td {
+        text-align: left;
+        padding: 0.5rem 0;
+    }
+    .order-items-table th {
+        color: #8b949e;
+    }
+    .order-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #30363d;
+        padding-top: 1rem;
+        margin-top: 1rem;
+    }
+    .status-tag {
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-weight: 500;
+        font-size: 0.75rem;
+        text-transform: capitalize;
+    }
+    .status-shipped {
+        background-color: rgba(59, 130, 246, 0.2);
+        color: #60a5fa;
+    }
+    .status-awaiting {
+        background-color: rgba(245, 158, 11, 0.2);
+        color: #fbbf24;
+    }
+</style>
+
+<div class="orders-header">
+    <h2>My Orders</h2>
+</div>
+
+<div>
+    {% for order in orders %}
+    <div class="order-card">
+        <div class="order-card-header">
+            <span class="order-id">Order ID: #{{ order.id }}</span>
+            <span class="order-date">Date: {{ order.created_at|date:"d-m-Y" }}</span>
+        </div>
+        
+        <table class="order-items-table">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">Sl No</th>
+                    <th style="width: 60%;">Items</th>
+                    <th style="width: 30%;">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="order-card-footer">
+            <span>Status</span>
+            {% if order.status == 'SHIPPED' or order.status == 'COMPLETED' %}
+                <span class="status-tag status-shipped">{{ order.get_status_display }}</span>
+            {% else %}
+                <span class="status-tag status-awaiting">{{ order.get_status_display }}</span>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <p>You have not placed any orders yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Set the active page for the dashboard sidebar
+    document.addEventListener('DOMContentLoaded', function() {
+        // This script is not strictly necessary if we pass context
+        // but it's a good fallback.
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Startups{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<header class="HeadT">
+    <h1>OUR STARTUPS</h1>
+</header>
+
+<form method="get" action="{% url 'startups:startups' %}" class="filter-form">
+    <div class="search-container">
+        <input type="text" id="startup-search" name="q" placeholder="Search startups..." value="{{ q }}">
+        <button type="submit" class="search-icon"><i class="fa fa-search"></i></button>
+    </div>
+    <div class="StartupsNav">
+        {% for cat in categories %}
+            <a href="?category={{ cat.value }}&q={{ q }}" class="st-nav-item {% if cat.value == selected_category %}active{% endif %}" data-category="{{ cat.value }}">
+                {{ cat.label }}
+            </a>
+        {% endfor %}
+    </div>
+</form>
+
+<section class="startup-container" id="startup-container">
+    {% for startup in startups %}
+    <div class="startup-box" data-category="{{ startup.category }}" data-name="{{ startup.name|lower }}" data-description="{{ startup.description|lower }}">
+        <div class="startup-logo">
+            {% if startup.logo %}
+                <img src="{{ startup.logo.url }}" alt="{{ startup.name }} logo">
+            {% else %}
+                <span class="no-logo-text">{{ startup.name|slice:":1" }}</span>
+            {% endif %}
+        </div>
+        <h3>{{ startup.name }}</h3>
+        <div class="st-tags">
+            <span class="st-tag highlight1">{{ startup.get_category_display }}</span>
+        </div>
+        <p>{{ startup.description }}</p>
+        <div class="st-contact-card">
+            {% if startup.phone %}
+                <p>☎️ {{ startup.phone }}</p>
+            {% endif %}
+            {% if startup.email %}
+                <p><i class="fas fa-envelope" style="color:#d8a9ff;"></i> {{ startup.email }}</p>
+            {% endif %}
+            {% if startup.website %}
+                <p><i class="fas fa-globe" style="color:#52a0ff;"></i>
+                    <a href="{{ startup.website }}" target="_blank">{{ startup.website }}</a>
+                </p>
+            {% endif %}
+            <div class="st-social-icons">
+                {% if startup.twitter %}<a href="{{ startup.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>{% endif %}
+                {% if startup.instagram %}<a href="{{ startup.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>{% endif %}
+                {% if startup.linkedin %}<a href="{{ startup.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a>{% endif %}
+                {% if startup.facebook %}<a href="{{ startup.facebook }}" target="_blank"><i class="fab fa-facebook"></i></a>{% endif %}
+                {% if startup.youtube %}<a href="{{ startup.youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>{% endif %}
+            </div>
+            <div class="more-info">
+                {% if startup.info_img %}
+                <button class="more-btn" data-image="{{ startup.info_img.url }}">More Info</button>{% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <p>No startups found for your search.</p>
+    {% endfor %}
+</section>
+
+<div id="imagePopup" class="popup-overlay">
+    <div class="popup-content">
+        <span class="close-button">&times;</span>
+        <img id="popupImage" src="" alt="Startup Image">
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}<script src="{% static 'startups/startups.js' %}" defer></script>{% endblock %}

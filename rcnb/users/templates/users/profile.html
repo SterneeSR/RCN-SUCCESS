@@ -1,0 +1,129 @@
+{% extends "users/dashboard.html" %}
+{% load static %}
+{% block dashboard_content %}
+<style>
+    .profile-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    @media (min-width: 1024px) {
+        .profile-grid {
+            grid-template-columns: 2fr 1fr;
+        }
+    }
+    .profile-card, .settings-card {
+        background-color: #161b22;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        border: 1px solid #30363d;
+    }
+    .profile-summary {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-bottom: 1px solid #30363d;
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background-color: #30363d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #c084fc;
+    }
+    .user-name {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #e6e6e6;
+    }
+    .user-email {
+        font-size: 0.875rem;
+        color: #8b949e;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .form-group label {
+        display: block;
+        font-size: 0.875rem;
+        color: #8b949e;
+        margin-bottom: 0.5rem;
+    }
+    .form-input {
+        width: 100%;
+        background-color: #0d1117;
+        border: 1px solid #30363d;
+        color: #e6e6e6;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+    }
+    .save-btn {
+        width: 100%; padding: 0.75rem; border-radius: 0.5rem; background: linear-gradient(to right, #4a00e0, #8e2de2); color: white; font-weight: 600; border: none; cursor: pointer; margin-top: 1rem;
+    }
+    .settings-card h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    .settings-card a, .settings-card button {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        margin-bottom: 0.75rem;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+    }
+    .reset-password-btn { background-color: #238636; color: white; }
+    .delete-account-btn { background-color: #da3633; color: white; }
+    .logout-btn { background-color: #30363d; color: #e6e6e6; }
+</style>
+
+<div class="profile-grid">
+    <div class="profile-card">
+        <div class="profile-summary">
+            <div class="avatar">
+                {{ user.first_name.0|upper|default:user.email.0|upper }}
+            </div>
+            <div>
+                <p class="user-name">{{ user.first_name|default:"Update Your Name" }}</p>
+                <p class="user-email">{{ user.email }}</p>
+            </div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ user_form.first_name.id_for_label }}">Name</label>
+                <input type="text" name="first_name" value="{{ user_form.first_name.value|default:'' }}" class="form-input" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label for="{{ user_form.email.id_for_label }}">Email</label>
+                <input type="email" name="email" value="{{ user_form.email.value|default:'' }}" class="form-input" placeholder="Enter your email">
+            </div>
+            <button type="submit" class="save-btn">Save Changes</button>
+        </form>
+    </div>
+
+    <div class="settings-card">
+        <h3>Account Settings</h3>
+        <a href="{% url 'users:reset_password' %}" class="reset-password-btn">Reset Password</a>
+        <a href="{% url 'users:delete_account' %}" class="delete-account-btn">Delete Account</a>
+        
+        <form action="{% url 'users:logout' %}" method="post" style="margin-top: 2rem;">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

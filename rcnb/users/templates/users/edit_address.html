@@ -1,0 +1,25 @@
+{% extends "users/dashboard_base.html" %}
+
+{% block dashboard_content %}
+<style>
+    .form-card { background-color: #161b22; padding: 2rem; border-radius: 1rem; border: 1px solid #30363d; }
+    .form-card h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: #e6e6e6; }
+    .form-group p { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+    .form-group label { display: none; }
+    .form-input { width: 100%; background-color: #0d1117; border: 1px solid #30363d; color: #e6e6e6; padding: 0.75rem; border-radius: 0.5rem; }
+    .save-btn { width: 100%; padding: 0.75rem; border-radius: 0.5rem; background: linear-gradient(to right, #4a00e0, #8e2de2); color: white; font-weight: 600; border: none; cursor: pointer; margin-top: 1rem; }
+</style>
+
+<div class="form-card">
+    <h2>Edit Address</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="save-btn">Update Address</button>
+    </form>
+</div>
+{% endblock %}

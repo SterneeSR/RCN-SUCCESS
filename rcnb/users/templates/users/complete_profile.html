@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Complete Your Profile{% endblock %}
+{% block content %}
+<style>
+    .auth-container { display: flex; align-items: center; justify-content: center; min-height: 80vh; }
+    .auth-card { background-color: #161b22; padding: 2rem; border-radius: 1rem; width: 100%; max-width: 450px; }
+    .auth-card h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; color: #e6e6e6; }
+    .auth-card p { color: #8b949e; margin-bottom: 1.5rem; }
+    .form-group { text-align: left; margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: #8b949e; }
+    .form-input { width: 100%; background-color: #0d1117; border: 1px solid #30363d; color: #e6e6e6; padding: 0.75rem; border-radius: 0.5rem; }
+    textarea.form-input { min-height: 80px; }
+    .auth-btn { width: 100%; padding: 0.75rem; border-radius: 0.5rem; background: linear-gradient(to right, #4a00e0, #8e2de2); color: white; font-weight: 600; border: none; cursor: pointer; margin-top: 1rem; }
+</style>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Complete Your Profile</h2>
+        <p>Please provide your contact and address details before proceeding to checkout.</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="auth-btn">Save and Continue</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

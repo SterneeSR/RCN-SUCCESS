@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Select Address{% endblock %}
+
+{% block content %}
+<style>
+    .checkout-container { max-width: 700px; margin: 40px auto; padding: 30px; background-color: #161b22; border-radius: 1rem; color: #c9d1d9; }
+    .checkout-container h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; }
+    .address-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+    .address-option { background-color: #0d1117; border: 1px solid #30363d; border-radius: 0.5rem; padding: 1rem; cursor: pointer; }
+    .address-option:has(input:checked) { border-color: #8b5cf6; box-shadow: 0 0 10px rgba(139, 92, 246, 0.3); }
+    .address-option label { display: block; cursor: pointer; }
+    .address-option strong { color: #e6e6e6; }
+    .checkout-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; border-top: 1px solid #30363d; padding-top: 1.5rem; }
+    .add-address-link { color: #58a6ff; text-decoration: none; }
+    .proceed-btn { padding: 0.75rem 1.5rem; border-radius: 0.5rem; background: linear-gradient(to right, #4a00e0, #8e2de2); color: white; font-weight: 600; border: none; cursor: pointer; }
+</style>
+
+<div class="checkout-container">
+    <h2>Select a Shipping Address</h2>
+    
+    {% if addresses %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="address-list">
+            {% for address in addresses %}
+                <div class="address-option">
+                    <input type="radio" name="shipping_address" value="{{ address.id }}" id="address-{{ address.id }}" {% if forloop.first %}checked{% endif %} style="display:none;">
+                    <label for="address-{{ address.id }}">
+                        <strong>{{ address.full_name }}</strong><br>
+                        {{ address.address_line_1 }}, {% if address.address_line_2 %}{{ address.address_line_2 }}, {% endif %}<br>
+                        {{ address.city }}, {{ address.state }} - {{ address.pincode }}<br>
+                        Phone: {{ address.phone }}
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="checkout-actions">
+            <a href="{% url 'users:address_book' %}" class="add-address-link">Manage Addresses</a>
+            <button type="submit" class="proceed-btn">Proceed to Payment</button>
+        </div>
+    </form>
+    {% else %}
+        <p>You have no saved addresses.</p>
+        <div class="checkout-actions">
+            <a href="{% url 'users:address_book' %}" class="proceed-btn">Add a New Address</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

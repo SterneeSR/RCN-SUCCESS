@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Contact Us{% endblock title %}
+
+{% block content %}
+<style>
+    /* Style for the success message overlay */
+    #success-overlay {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #238636;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 8px;
+        z-index: 1000;
+        display: none; /* Hidden by default */
+        font-weight: 500;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+</style>
+
+<section>
+    <video autoplay muted loop id="bg-video">
+        <source src="{% static 'images/background-vid.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+  
+    <div class="contact-card">
+        <h1>Contact Us</h1>
+        
+        <form id="contact-form" method="post" action="{% url 'home:submit_contact_form' %}">
+            {% csrf_token %}
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your Name" required>
+            
+            <label for="contact_number">Contact Number</label>
+            <input type="tel" id="contact_number" name="contact_number" pattern="[0-9]{10}" placeholder="Enter your number" required>
+            
+            <label for="email">Email ID</label>
+            <input type="email" id="email" name="email" placeholder="Enter your Email" required>
+            
+            <label for="message">Your Message</label>
+            <textarea id="message" name="message" class="message-box" placeholder="Type your message here..." required></textarea>
+            
+            <center><button type="submit">Submit</button></center>
+        </form>
+    </div>
+</section>
+
+<div id="success-overlay">Your message has been sent successfully!</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.getElementById('contact-form');
+        const successOverlay = document.getElementById('success-overlay');
+
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Stop the default form submission (page reload)
+
+            const formData = new FormData(contactForm);
+            
+            fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    successOverlay.style.display = 'block'; // Show the overlay
+                    contactForm.reset(); // Clear the form
+                    // Hide the overlay after 3 seconds
+                    setTimeout(() => {
+                        successOverlay.style.display = 'none';
+                    }, 3000);
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+    });
+</script>
+{% endblock content %}

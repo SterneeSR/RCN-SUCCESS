@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .success-container { max-width: 600px; margin: 40px auto; padding: 30px; background-color: #161b22; border-radius: 8px; color: #c9d1d9; text-align: center; }
+    .success-icon { font-size: 3rem; color: #238636; }
+</style>
+<div class="success-container">
+    <div class="success-icon">✅</div>
+    <h2>Order Placed Successfully!</h2>
+    <p>Thank you for your purchase. Your Order ID is <strong>#{{ order.id }}</strong>.</p>
+    <p>Your order is currently awaiting payment verification. We will notify you once it has been processed.</p>
+    <a href="{% url 'products:product_list' %}" style="margin-top: 20px; display: inline-block;">Continue Shopping</a>
+</div>
+{% endblock %}

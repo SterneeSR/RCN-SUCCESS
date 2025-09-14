@@ -1,0 +1,25 @@
+{% extends "users/dashboard.html" %}
+
+{% block dashboard_content %}
+<style>
+    .confirm-card { background-color: #161b22; padding: 2rem; border-radius: 1rem; text-align: center; border: 1px solid #30363d; }
+    .confirm-card h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: #e6e6e6; }
+    .confirm-card p { color: #8b949e; margin-bottom: 1.5rem; }
+    .confirm-actions { display: flex; justify-content: center; gap: 1rem; }
+    .confirm-btn { padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; }
+    .delete-btn { background-color: #da3633; color: white; }
+    .cancel-btn { background-color: #30363d; color: #e6e6e6; }
+</style>
+
+<div class="confirm-card">
+    <h2>Confirm Deletion</h2>
+    <p>Are you sure you want to delete this address?<br><strong>{{ address }}</strong></p>
+    <form method="post" style="display: inline;">
+        {% csrf_token %}
+        <div class="confirm-actions">
+            <a href="{% url 'users:address_book' %}" class="confirm-btn cancel-btn">Cancel</a>
+            <button type="submit" class="confirm-btn delete-btn">Yes, Delete</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

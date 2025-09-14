@@ -1,0 +1,213 @@
+{% extends "users/dashboard.html" %}
+{% load static %}
+
+{% block dashboard_content %}
+<style>
+    .favorites-header h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #e6e6e6;
+        margin-bottom: 2rem;
+    }
+    .empty-state-card {
+        background-color: #161b22;
+        padding: 2.5rem;
+        border-radius: 1rem;
+        text-align: center;
+        border: 1px solid #30363d;
+    }
+    .empty-state-card h3 {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+    .empty-state-card p {
+        color: #8b949e;
+        margin-bottom: 1.5rem;
+    }
+    .empty-state-card .browse-btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        background: linear-gradient(to right, #4a00e0, #8e2de2);
+        color: white;
+        font-weight: 600;
+        text-decoration: none;
+        transition: opacity 0.3s;
+    }
+    .empty-state-card .browse-btn:hover {
+        opacity: 0.9;
+    }
+    .favorites-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    /* New Product Card Style from your UI Mockup */
+    .product-card-new {
+        background-color: #161b22;
+        border-radius: 1rem;
+        overflow: hidden;
+        border: 1px solid #30363d;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product-card-new:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    .product-card-new .prod-img {
+        height: 180px;
+        background-color: #30363d;
+    }
+    .product-card-new .prod-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .product-card-new .prod-details {
+        padding: 1rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .product-card-new .prod-tag {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: #8b949e;
+        margin-bottom: 0.25rem;
+    }
+    .product-card-new .prod-name {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #e6e6e6;
+        margin-bottom: 0.5rem;
+    }
+    .product-card-new .prod-price {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #e6e6e6;
+        margin-bottom: 1rem;
+    }
+    .product-card-new .old-price {
+        text-decoration: line-through;
+        color: #8b949e;
+        margin-left: 0.5rem;
+    }
+    .product-card-new .prod-actions {
+        margin-top: auto;
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+    }
+    .product-card-new .buy-btn {
+        flex-grow: 1;
+        background: linear-gradient(to right, #4a00e0, #8e2de2);
+        color: white;
+        text-align: center;
+        padding: 0.6rem 1rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-weight: 500;
+        transition: opacity 0.3s;
+    }
+    .product-card-new .buy-btn:hover {
+        opacity: 0.8;
+    }
+    .product-card-new .icon-btn {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #30363d;
+        background-color: transparent;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .product-card-new .icon-btn:hover {
+        background-color: #30363d;
+    }
+    .product-card-new .icon-btn.like.active i {
+        color: #ef4444; /* Red for active like */
+    }
+    .product-card-new .icon-btn i {
+        font-size: 1.1rem;
+        color: #8b949e;
+    }
+</style>
+
+<div class="favorites-header">
+    <h2>My Favorites</h2>
+</div>
+
+{% if not user.is_authenticated %}
+    <div class="empty-state-card">
+        <h3>Please Log In</h3>
+        <p>Log in to view your favorite products and save new ones.</p>
+        <a href="{% url 'users:login' %}?next={{ request.path }}" class="browse-btn">Go to Login</a>
+    </div>
+{% elif products %}
+    <div class="favorites-grid">
+        {% for p in products %}
+            <div class="product-card-new">
+                <div class="prod-img">
+                    {% if p.image %}
+                        <img src="{{ p.image.url }}" alt="{{ p.name }}">
+                    {% else %}
+                        <img src="{% static 'products/img.png' %}" alt="{{ p.name }}">
+                    {% endif %}
+                </div>
+                <div class="prod-details">
+                    <span class="prod-tag">{{ p.startup.name|default:"RCN Startup" }}</span>
+                    <h3 class="prod-name">{{ p.name }}</h3>
+                    {% if p.price %}
+                        <div class="prod-price">
+                            ₹{{ p.price }}
+                            {% if p.old_price %}
+                                <span class="old-price">₹{{ p.old_price }}</span>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="prod-price">Contact for price</div>
+                    {% endif %}
+
+                    <div class="prod-actions">
+                        {% if p.buy_option == 'external' and p.external_url %}
+                            <a class="buy-btn" href="{{ p.external_url }}" target="_blank" rel="noopener">Buy on Startup Site</a>
+                        {% else %}
+                            <a class="buy-btn" href="{% url 'products:product_detail' p.slug %}">View Details</a>
+                        {% endif %}
+                        
+                        <!-- Favorite (un-favorite) Button -->
+                        <button class="icon-btn like {% if p.id in favorited_ids %}active{% endif %}"
+                                title="Remove from Favorites"
+                                data-product-id="{{ p.id }}"
+                                data-fav-url="{% url 'favorites:toggle_favorite' p.id %}">
+                            <i class="fa fa-heart"></i>
+                        </button>
+                        
+                        <!-- Cart Button (only for internal products) -->
+                        {% if p.buy_option == 'internal' %}
+                        <a href="{% url 'cart:add_to_cart' p.id %}" class="icon-btn cart" title="Add to Cart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state-card">
+        <h3>Your Favorites is Empty</h3>
+        <p>Looks like you haven't added any products to your favorites yet.</p>
+        <a href="{% url 'products:product_list' %}" class="browse-btn">Browse Products</a>
+    </div>
+{% endif %}
+
+{% endblock %}
+

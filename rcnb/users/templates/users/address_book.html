@@ -1,0 +1,134 @@
+{% extends "users/dashboard.html" %}
+
+{% block dashboard_content %}
+<style>
+    .address-header {
+        margin-bottom: 2rem;
+    }
+    .address-header h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #e6e6e6;
+    }
+    .address-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    @media (min-width: 1024px) {
+        .address-grid {
+            grid-template-columns: 1fr 1fr;
+            align-items: flex-start;
+        }
+    }
+    .card {
+        background-color: #161b22;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        border: 1px solid #30363d;
+    }
+    .card h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #30363d;
+    }
+    .address-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .address-item {
+        border-bottom: 1px solid #30363d;
+        padding-bottom: 1.5rem;
+    }
+    .address-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+    .address-item p {
+        color: #8b949e;
+        line-height: 1.6;
+    }
+    .address-item strong {
+        color: #e6e6e6;
+        font-weight: 500;
+    }
+    .address-actions {
+        margin-top: 1rem;
+        display: flex;
+        gap: 1rem;
+    }
+    .address-actions a {
+        color: #58a6ff;
+        text-decoration: none;
+        font-size: 0.875rem;
+    }
+    .form-group p {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    .form-group label { display: none; }
+    .form-input {
+        width: 100%;
+        background-color: #0d1117;
+        border: 1px solid #30363d;
+        color: #e6e6e6;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+    }
+    .save-btn {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        background: linear-gradient(to right, #4a00e0, #8e2de2);
+        color: white;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+</style>
+
+<div class="address-header">
+    <h2>My Addresses</h2>
+</div>
+
+<div class="address-grid">
+    <div class="card">
+        <h3>Saved Addresses</h3>
+        <div class="address-list">
+            {% for address in addresses %}
+                <div class="address-item">
+                    <p><strong>{{ address.full_name }}</strong></p>
+                    <p>{{ address.address_line_1 }}, {% if address.address_line_2 %}{{ address.address_line_2 }}, {% endif %}<br>
+                    {{ address.city }}, {{ address.state }} - {{ address.pincode }}</p>
+                    <p>Phone: {{ address.phone }}</p>
+                    <div class="address-actions">
+                        <a href="{% url 'users:edit_address' address.id %}">Edit</a>
+                        <a href="{% url 'users:delete_address' address.id %}" style="color: #da3633;">Delete</a>
+                    </div>
+                </div>
+            {% empty %}
+                <p>You have no saved addresses.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Add a New Address</h3>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="save-btn">Save Address</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

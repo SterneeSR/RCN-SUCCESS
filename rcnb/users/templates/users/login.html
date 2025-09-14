@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+    .auth-container { display: flex; align-items: center; justify-content: center; min-height: 80vh; padding: 20px; }
+    .auth-card { background-color: #161b22; padding: 2.5rem; border-radius: 1rem; width: 100%; max-width: 400px; text-align: center; border: 1px solid #30363d; }
+    .auth-logo { width: 80px; height: auto; margin: 0 auto 1.5rem; }
+    .auth-card h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 2rem; color: #e6e6e6; }
+    .form-group { text-align: left; margin-bottom: 1.5rem; }
+    .form-group p { display: flex; flex-direction: column; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: #8b949e; }
+    .form-input { width: 100%; background-color: #0d1117; border: 1px solid #30363d; color: #e6e6e6; padding: 0.75rem; border-radius: 0.5rem; transition: border-color 0.3s, box-shadow 0.3s; }
+    .form-input:focus { outline: none; border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
+    .auth-btn { width: 100%; padding: 0.75rem; border-radius: 0.5rem; background: linear-gradient(to right, #4a00e0, #8e2de2); color: white; font-weight: 600; border: none; cursor: pointer; margin-top: 1rem; transition: opacity 0.3s; }
+    .auth-btn:hover { opacity: 0.8; }
+    .auth-link { margin-top: 1.5rem; font-size: 0.875rem; color: #8b949e; }
+    .auth-link a { color: #58a6ff; text-decoration: none; font-weight: 500; }
+</style>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <img src="{% static 'images/RCN-Logo-2.jpg' %}" alt="RCN Logo" class="auth-logo">
+        <h2>LOGIN</h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="auth-btn">Login</button>
+        </form>
+        <div class="auth-link">
+            Don't have an account? <a href="{% url 'users:register' %}">Register</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}RCN Membership{% endblock title %}
+
+
+{% block content %}
+
+
+<section>
+    <section class="membership-section">
+    <div class="overlay"></div>
+    <div class="membership-container">
+      <h1>APPLY FOR MEMBERSHIP</h1>
+      <p>The Raise Centre for Nanobiotechnology (RCN) is a premier global hub connecting experts in science, technology, and innovation to drive breakthroughs in the nanobiotechnology field.</p>
+      <p>RCN membership offers an influential platform for individuals, organizations, and professionals to collaborate on cutting-edge advancements, shape industry direction, and address key challenges.</p>
+      <p>Through comprehensive support services including mentoring, technical assistance, and financial resources, RCN empowers members to lead in research, product development, and sustainable innovation.</p>
+      <a href="https://aicraise.accubate.app/ext/survey/592/apply"><button>Register Now</button></a>
+    </div>
+  </section>
+
+  <section class="network-body">
+    <h1 class="networking-title">Networking</h1>
+    <div class="cards-container">
+      <div class="card"><p>RCN members gain access to exclusive networking opportunities with global business leaders, entrepreneurs, academicians, and institutions.</p></div>
+      <div class="card"><p>Participation in RCN events like conferences, seminars, and workshops offers chances to engage with peers and expand networks.</p></div>
+      <div class="card"><p>Members can collaborate with Indian and international corporate majors fostering innovation and growth.</p></div>
+      <div class="card"><p>RCN enables industry-academia interactions and shares best practices on emerging technology trends.</p></div>
+      <div class="card"><p>An online member directory helps members connect and collaborate within the RCN network.</p></div>
+    </div>
+  </section>
+
+  <section class="learning-section">
+    <div class="learning-container">
+      <h1><em>Learning & Professional Development</em></h1>
+      <div class="content-wrapper">
+        <div class="left-column">
+          <div class="card">
+            <div class="number">01</div>
+            <p>Direct support to nanotechnology experts and future professionals via training courses and educational materials.</p>
+          </div>
+          <div class="card">
+            <div class="number">02</div>
+            <p><strong>Technical Support & Guidelines:</strong> Access to consultancy services, integration of nanobiotechnology, and technology applications reports.</p>
+          </div>
+          <div class="card">
+            <div class="number">03</div>
+            <p><strong>Leadership Opportunities:</strong> Opportunities to serve in leadership, volunteer, speak at conferences, and conduct workshops.</p>
+          </div>
+        </div>
+        <div class="image-wrapper">
+          <img src="{% static '/images/pic.jpg' %}" alt="Development Illustration">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="knowledge-section">
+    <h1><i>Knowledge Sharing</i></h1>
+    <ul class="knowledge-list">
+      <li>→ Engage in knowledge-sharing events like conferences, seminars, and workshops.</li>
+      <li>→ Access to RCN’s central lab facilities for research and development.</li>
+      <li>→ Legal Base Services offer insights into regulatory aspects of technologies.</li>
+      <li>→ Resources for improving management skills, leadership, and business development.</li>
+    </ul>
+  </section>
+
+  <section class="discount-section">
+    <h1>Discount</h1>
+    <div class="discount-items">
+      <div class="discount-item"><i class="fas fa-pen-square"></i><p>Discounts on registration for conferences, workshops, seminars, and training programs.</p></div>
+      <div class="discount-item"><i class="fas fa-percent"></i><p>Discounted rates on testing and consultancy services.</p></div>
+      <div class="discount-item"><i class="fas fa-handshake"></i><p>Free participation in job fairs and discounts on essential research materials.</p></div>
+      <div class="discount-item"><i class="fas fa-globe"></i><p>Individual research profiles listed on the RCN website for enhanced visibility.</p></div>
+    </div>
+  </section>
+
+  <section class="membership-fee-section">
+    <h2>Membership Category and Fee</h2>
+    <div class="content-container">
+      <div class="icon-circle">
+        <div class="icon-box" id="icon1"><i class="fas fa-sitemap"></i><p class="popup">Fee depends on the membership type.</p></div>
+        <div class="icon-box" id="icon2"><i class="fas fa-user-edit"></i><p class="popup">Fee valid for one year post-registration.</p></div>
+        <div class="icon-box" id="icon3"><i class="fas fa-address-book"></i><p class="popup">Renew membership within 30 days post expiry.</p></div>
+      </div>
+
+      <div class="fee-table-container">
+        <table class="fee-table">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Membership Type</th>
+              <th>Annual Fee (Rs.)</th>
+              <th>GST</th>
+              <th>Total Fee (Rs.)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1.</td><td>Students/Research Scholars</td><td>1000/-</td><td>18%</td><td>1180/-</td></tr>
+            <tr><td>2.</td><td>Faculty/Scientists/Individuals</td><td>2500/-</td><td>18%</td><td>2950/-</td></tr>
+            <tr><td>3.</td><td>Institutional/Industry</td><td>5000/-</td><td>18%</td><td>5900/-</td></tr>
+            <tr><td>4.</td><td>Life time fellow</td><td>Nil</td><td>Nil</td><td>Nil</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="discount-section">
+    <div class="coin-side">
+      <img src="{% static "/images/coin img.png"%}" alt="Coin Stack with FUND label" class="coin-banner">
+    </div>
+
+    <div class="text-side">
+      <h2>AIC RAISE Incubatees Get 50% Discount on Membership Fee</h2>
+      <p>Life time Fellowship (FRCN) is a prestigious level awarded to those demonstrating significant achievements in lifesciences, engineering, or related fields over five years.</p>
+    </div>
+
+    <div class="qr-side">
+      <img src="{% static '/images/MEMBER QR.png'%}" alt="QR Code" class="qr-code">
+      <a href="https://aicraise.accubate.app/ext/survey/592/apply" class="register-button">Click to Register</a>
+    </div>
+  </section>
+
+</section>
+
+
+{% endblock content %}

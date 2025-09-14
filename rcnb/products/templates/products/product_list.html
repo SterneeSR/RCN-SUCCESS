@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Our Products{% endblock %}
+
+{% block content %}
+<style>
+    .filter-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+    }
+    .filter-select {
+        background-color: #21262d;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 6px;
+        border: 1px solid #30363d;
+        font-size: 1rem;
+    }
+</style>
+
+<section class="product-navbar">
+    <div class="nanocart-logo">
+        <p>NanoCart</p>
+    </div>
+
+    <form method="get" action="{% url 'products:product_list' %}" autocomplete="off" class="filter-container">
+        <div style="position: relative; flex-grow: 1; max-width: 600px;">
+            <input 
+                type="text"
+                id="product-search"
+                name="q"
+                class="search"
+                value="{{ q }}"
+                placeholder="Search products or startups...">
+            <div class="search-icon"><i class="fa fa-search"></i></div>
+            <div id="suggestions-box" class="suggestions-list"></div>
+        </div>
+
+        <div>
+            <select name="category" class="filter-select" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                {% for value, label in categories %}
+                    <option value="{{ value }}" {% if value == selected_category %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        {% if sort %}
+            <input type="hidden" name="sort" value="{{ sort }}">
+        {% endif %}
+    </form>
+</section>
+
+<section class="new-arrivals">
+  {% if show_profile_prompt %}
+    <div id="profile-prompt" style="background-color: #161b22; border: 1px solid #30363d; padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+        
+        <!-- THIS LINK IS NOW FIXED -->
+        <span>Welcome! Please <a href="{% url 'users:address_book' %}" style="color: #58a6ff; text-decoration: underline;">add an address</a> to ensure a smooth checkout process.</span>
+        
+        <button onclick="document.getElementById('profile-prompt').style.display='none'" style="background:none; border:none; color: #8b949e; font-size: 1.5rem; cursor: pointer;">&times;</button>
+    </div>
+  {% endif %}
+    <h1>Explore Products</h1>
+    <div class="cards-container">
+        {% for p in products %}
+            <div class="product-card">
+                <div class="prod-icons">
+                    {% if p.buy_option == 'internal' %}
+                    <a 
+                        href="{% url 'cart:add_to_cart' p.id %}"
+                        class="prod-btn cart" 
+                        title="Add to Cart" 
+                        aria-label="Add {{ p.name }} to Cart">
+                        <i class="fa fa-shopping-cart"></i>
+                    </a>
+                    {% endif %}
+                    
+                    <button 
+                        class="prod-btn like {% if p.id in favorited_ids %}active{% endif %}" 
+                        title="Add to Favorites" 
+                        aria-label="Add {{ p.name }} to Favorites" 
+                        data-product-id="{{ p.id }}"
+                        data-fav-url="{% url 'favorites:toggle_favorite' p.id %}">
+                        <i class="fa fa-heart" {% if p.id in favorited_ids %}style="color:red;"{% endif %}></i>
+                    </button>
+                </div>
+                <div class="prod-img">
+                    {% if p.image %}
+                        <img src="{{ p.image.url }}" alt="{{ p.name }}">
+                    {% else %}
+                        <img src="{% static 'products/img.png' %}" alt="{{ p.name }}">
+                    {% endif %}
+                </div>
+                <div class="prod-details">
+                    <span class="prod-tag">{{ p.startup.name|default:"RCN Startup" }}</span>
+                    <h3 class="prod-name">{{ p.name }}</h3>
+                    {% if p.price %}
+                    <div class="prod-price">
+                        ₹{{ p.price }}
+                        {% if p.old_price %}
+                            <span class="old-price">₹{{ p.old_price }}</span>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <div class="prod-price">Contact for price</div>
+                    {% endif %}
+                </div>
+                {% if p.buy_option == 'external' and p.external_url %}
+                    <a class="buy-now-btn" href="{{ p.external_url }}" target="_blank" rel="noopener">Buy on Startup Site</a>
+                {% else %}
+                    <a class="buy-now-btn" href="{% url 'products:product_detail' p.slug %}">View Details</a>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p class="no-products">No products found matching your criteria.</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% if has_next or page|add:"-1" > 0 and products %}
+<div class="pagination">
+    {% if products.has_previous %}
+        <a href="?page={{ products.previous_page_number }}{% if q %}&q={{ q }}{% endif %}{% if category %}&category={{ category }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}" class="pagination-btn">Prev</a>
+    {% endif %}
+
+    <span>Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
+    
+    {% if products.has_next %}
+        <a href="?page={{ products.next_page_number }}{% if q %}&q={{ q }}{% endif %}{% if category %}&category={{ category }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}" class="pagination-btn">Next</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    window.CSRF_TOKEN = '{{ csrf_token }}';
+</script>
+<script src="{% static 'products/search.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Complete Payment{% endblock %}
+
+{% block content %}
+<style>
+    .checkout-container { max-width: 700px; margin: 40px auto; padding: 30px; background-color: #161b22; border-radius: 1rem; color: #c9d1d9; border: 1px solid #30363d; }
+    .checkout-container h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; text-align: center; }
+    .checkout-summary { border: 1px solid #30363d; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1.5rem; }
+    .checkout-summary h3 { font-weight: 600; margin-bottom: 0.5rem; font-size: 1.1rem; color: #e6e6e6;}
+    .checkout-summary p { color: #8b949e; line-height: 1.6; }
+    .checkout-summary strong { color: #c9d1d9; }
+    .payment-details { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; margin-top: 1.5rem; }
+    .qr-section { text-align: center; }
+    .qr-section img { max-width: 200px; border-radius: 8px; }
+    .qr-section h4, .details-section h4 { font-weight: 600; margin-bottom: 0.5rem; font-size: 1.1rem; color: #e6e6e6; }
+    .details-section { line-height: 1.8; }
+    .form-section { margin-top: 30px; border-top: 1px solid #30363d; padding-top: 20px; }
+    .form-section label { display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: #8b949e; }
+    .form-section input[type="file"] { background-color: #0d1117; border: 1px solid #30363d; padding: 10px; border-radius: 0.5rem; color: #c9d1d9; width: 100%; }
+    .place-order-btn { display: inline-block; width: 100%; margin-top: 20px; padding: 12px 25px; background: linear-gradient(to right, #4a00e0, #8e2de2); color: white; text-decoration: none; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer; text-align: center; }
+</style>
+
+<div class="checkout-container">
+    <h2>Complete Your Payment</h2>
+    
+    <div class="checkout-summary">
+        <h3>Shipping to:</h3>
+        <p>
+            <strong>{{ shipping_address.full_name }}</strong><br>
+            {{ shipping_address.address_line_1 }}, {% if shipping_address.address_line_2 %}{{ shipping_address.address_line_2 }}, {% endif %}<br>
+            {{ shipping_address.city }}, {{ shipping_address.state }} - {{ shipping_address.pincode }}<br>
+            Phone: {{ shipping_address.phone }}
+        </p>
+    </div>
+
+    <p>Please pay the total amount of <strong>₹{{ total_amount|floatformat:2 }}</strong> using the details below and upload a screenshot of the payment confirmation.</p>
+    
+    <hr style="border-color: #30363d; margin: 20px 0;">
+
+    <div class="payment-details">
+        <div class="qr-section">
+            <h4>Scan to Pay</h4>
+            <img src="{% static 'images/my_qr_code.png' %}" alt="UPI QR Code">
+        </div>
+        <div class="details-section">
+            <h4>Or Use Bank Details</h4>
+            <p><strong>UPI ID:</strong> your-business-upi@oksbi</p>
+            <p><strong>Account Name:</strong> Your Business Name</p>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="place-order-btn">Place Order</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

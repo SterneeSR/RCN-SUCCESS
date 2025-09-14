@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+
+
+{% block content %}
+
+<section>
+    <div class="banner-container">
+      <img src="{% static '/images/web-banner.jpg'%}" alt="Banner" class="banner" />
+    </div>
+
+    <div class="AboutCentre" id="AboutCentre">
+      <h1>ABOUT THE CENTRE</h1>
+      <p>AIC Raise’s Centre for Nanobiotechnology is exceptionally diverse, uncovering new technologies and innovations at the <br> interface of microbiology, food technology, medical devices, drugs/cosmetics, herbals, agri-tech, and environmental <br> technology, with a multidisciplinary team of nanotechnology and biotechnology experts and a facility centre for innovators <br> and startup support</p>
+    </div>
+
+    <section class="mission-vision">
+      <div class="mv-block">
+        <div class="mv-block-head">
+          <img src="{% static '/images/mission-statement.png'%}" alt="Mission Icon" class="mv-icon" />
+          <h3>MISSION</h3>
+        </div>
+        <p>
+          Our mission is to drive innovation by seamlessly transitioning laboratory research into commercial applications, supported by state-of-the-art facilities, a team of experts, dedicated mentors, and robust industry-academia partnerships. We are committed to fostering an environment that encourages collaboration, creativity, and excellence, ultimately contributing to societal well-being and technological advancement.
+        </p>
+      </div>
+
+      <div class="mv-block">
+        <div class="mv-block-head">
+          <img src="{% static '/images/eye.png'%}" alt="Vision Icon" class="mv-icon" />
+          <h3>VISION</h3>
+        </div>
+        <p>
+          The Centre for Nanobiotechnology at AIC Raise aspires to become a world-class technology development hub that harnesses the power of nanoscience and biotechnology to tackle critical societal challenges, advance fundamental scientific knowledge, and develop cutting-edge technologies and solutions.
+        </p>
+      </div>
+
+    <div class="mv-block centered-values">
+      <div class="mv-block-head">
+        <img src="{% static '/images/gemicon.png' %}" alt="Values Icon" class="mv-icon" />
+        <h3>VALUES</h3>
+      </div>
+      <p style="font-size: 13px;">
+        RAISE Centre for Nanobiotechnology values information sustainability, and societal impact.
+        It empowers startups and researchers through mentorship and collaboration, aiming to develop real-world solutions with global relevance.
+      </p>
+    </div>
+
+    </section>
+
+    <div>
+
+      <section class="carousel-section" id="vanta-bg">
+
+        <h1>OUR STARTUPS</h1>
+        <div class="image-carousel-wrapper wrapper"> <!-- Reusing 'wrapper' for arrow styling -->
+          <i id="left-gallery" class="fa-solid fa-angle-left"></i>
+          <ul class="image-carousel">
+              <li class="image-card">
+                  <img src="{% static "/images/ind-c1.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/ind-c2.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/ind-c3.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/ind-c4.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/ind-c5.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/ind-c6.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/ind-c7.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/ind-c8.png" %}" draggable="false">
+              </li>
+          </ul>
+          <i id="right-gallery" class="fa-solid fa-angle-right"></i>
+      </div>
+        
+
+    <hr>
+
+    <!-- Partners -->
+
+  <div class="image-carousel-section" id="Partners">
+      <div class="image-carousel-head">
+          <h1>OUR PARTNERSHIPS</h1>
+          <!-- <div class="image-indicator">
+              <span class="dot active"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+          </div> -->
+      </div>
+      <div class="image-carousel-wrapper wrapper"> <!-- Reusing 'wrapper' for arrow styling -->
+          <i id="left-gallery" class="fa-solid fa-angle-left"></i>
+          <ul class="image-carousel">
+              <li class="image-card">
+                  <img src="{% static "/images/part-1.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/part-2.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/part-3.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/part-4.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/part-5.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/part-6.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/part-7.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/part-8.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/part-9.png" %}" draggable="false">
+              </li>
+              <li class="image-card">
+                  <img src="{% static "/images/part-10.png" %}" draggable="false">
+              </li>
+          </ul>
+          <i id="right-gallery" class="fa-solid fa-angle-right"></i>
+      </div>
+      <div class="image-pagination">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+      </div> 
+  </div>
+</section>
+  
+{% endblock content %}
