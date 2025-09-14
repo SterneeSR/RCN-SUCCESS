@@ -2,64 +2,59 @@
 {% load static %}
 
 {% block content %}
-<style>
-    .dashboard-container {
-        display: flex;
-        max-width: 1200px;
-        margin: 40px auto;
-        gap: 30px;
-        padding: 0 20px;
-    }
-    .dashboard-sidebar {
-        flex: 0 0 250px; /* Sidebar width */
-        background-color: #161b22;
-        padding: 20px;
-        border-radius: 1rem;
-        height: fit-content;
-    }
-    .dashboard-sidebar .nav-link {
-        display: block;
-        padding: 15px 20px;
-        color: #e6e6e6;
-        text-decoration: none;
-        font-weight: 500;
-        border-radius: 0.5rem;
-        margin-bottom: 10px;
-        transition: background-color 0.3s;
-    }
-    .dashboard-sidebar .nav-link:hover {
-        background-color: #30363d;
-    }
-    .dashboard-sidebar .nav-link.active {
-        background-color: #8b5cf6; /* Purple for active link */
-        color: white;
-    }
-    .dashboard-content {
-        flex: 1;
-        min-width: 0; /* Prevents content from overflowing */
-    }
-    @media (max-width: 768px) {
-        .dashboard-container {
-            flex-direction: column;
-        }
-        .dashboard-sidebar {
-            width: 100%;
-        }
-    }
-</style>
+<body class="dashboard-body">
 
-<div class="dashboard-container">
+<div class="dashboard-page">
     <aside class="dashboard-sidebar">
-        <a href="{% url 'users:profile' %}" class="nav-link {% if active_page == 'profile' %}active{% endif %}">Profile</a>
-        <a href="{% url 'users:address_book' %}" class="nav-link {% if active_page == 'addresses' %}active{% endif %}">Addresses</a>
-        <a href="{% url 'cart:cart_detail' %}" class="nav-link {% if active_page == 'cart' %}active{% endif %}">Cart</a>
-        <a href="{% url 'favorites:favorites_list' %}" class="nav-link {% if active_page == 'favorites' %}active{% endif %}">Favorites</a>
-        <a href="{% url 'orders:order_list' %}" class="nav-link {% if active_page == 'orders' %}active{% endif %}">Orders</a>
+        <a href="{% url 'users:profile' %}" class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">Profile</a>
+        <a href="{% url 'cart:cart_detail' %}" class="nav-link {% if request.resolver_match.url_name == 'cart_detail' %}active{% endif %}">Cart</a>
+        <a href="{% url 'favorites:favorites_list' %}" class="nav-link {% if request.resolver_match.url_name == 'favorites_list' %}active{% endif %}">Favorites</a>
+        <a href="{% url 'orders:order_list' %}" class="nav-link {% if request.resolver_match.url_name == 'order_list' %}active{% endif %}">Orders</a>
+        <a href="{% url 'home:home' %}" class="nav-link" style="margin-top: 20px;"><i class="fa-solid fa-house"></i> Home</a>
+        
+        <form action="{% url 'users:logout' %}" method="post" style="margin: 0;">
+            {% csrf_token %}
+            <button type="submit" class="nav-link" style="width: 100%; border: none; background: none; text-align: left; cursor: pointer;">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+            </button>
+        </form>
     </aside>
 
     <main class="dashboard-content">
         {% block dashboard_content %}{% endblock %}
     </main>
 </div>
+
+<!-- Mobile Bottom Navigation for Dashboard -->
+<nav class="mobile-nav">
+    <a href="{% url 'home:home' %}" class="mobile-nav-item" aria-label="Home">
+        <i class="fa-solid fa-house"></i>
+    </a>
+    <a href="{% url 'users:profile' %}" class="mobile-nav-item" aria-label="Profile">
+        <i class="fa-solid fa-user"></i>
+    </a>
+    <a href="{% url 'cart:cart_detail' %}" class="mobile-nav-item" aria-label="Cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+    </a>
+    <a href="{% url 'favorites:favorites_list' %}" class="mobile-nav-item" aria-label="Favorites">
+        <i class="fa-solid fa-heart"></i>
+    </a>
+    <a href="{% url 'orders:order_list' %}" class="mobile-nav-item" aria-label="Orders">
+        <i class="fa-solid fa-box-archive"></i>
+    </a>
+     <a href="{% url 'users:logout' %}" class="mobile-nav-item" aria-label="Logout" onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    </a>
+    <form id="logout-form-mobile" action="{% url 'users:logout' %}" method="post" style="display: none;">
+        {% csrf_token %}
+    </form>
+</nav>
+
+</body>
 {% endblock %}
-    
+
+{% block extra_js %}
+<script>
+    // This block is for page-specific scripts if needed
+</script>
+{% endblock %}

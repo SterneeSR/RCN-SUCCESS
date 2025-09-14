@@ -4,57 +4,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% block title %}RCN HOME{% endblock title %}</title>
-  <link rel="icon" href="{% static 'favicon.ico' %}" />
-  <!-- Global CSS -->
-  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <title>{% block title %}RCNB{% endblock title %}</title>
+  <link rel="icon" href="{% static 'images/20250704_111421.png' %}" />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
-  <!-- Global JS -->
-  <script src="{% static 'js/main.js' %}" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/ghost.css' %}" />
+
+  {% block extra_css %}{% endblock %}
 </head>
 
-<body>
+<body class="{% if 'users/' in request.path or 'cart/' in request.path or 'favorites/' in request.path or 'orders/' in request.path %}dashboard-body{% endif %}">
 
-   {# --- ADD THIS BLOCK TO DISPLAY MESSAGES --- #}
-    {% if messages %}
-        <div class="messages-container" style="position: fixed; top: 80px; right: 20px; z-index: 2000;">
-            {% for message in messages %}
-                <div class="message-box {{ message.tags }}" style="background-color: #da3633; color: white; padding: 15px 25px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-        <script>
-            setTimeout(function() {
-                var messagesContainer = document.querySelector('.messages-container');
-                if (messagesContainer) {
-                    messagesContainer.style.display = 'none';
-                }
-            }, 4000); // Hide messages after 4 seconds
-        </script>
-    {% endif %}
+  {% if 'users/' not in request.path and 'cart/' not in request.path and 'favorites/' not in request.path and 'orders/' not in request.path %}
   <header>
     <div class="logo-container">
       <img src="{% static 'images/RCN-Logo.png' %}" alt="RCN Logo" class="rcn-logo">
     </div>
 
     <div class="circle-toggle" id="circleToggle">
-      <div class="circle-toggle-row">
-        <span class="circle"></span>
-        <span class="circle"></span>
-      </div>
-      <div class="circle-toggle-row">
-        <span class="circle"></span>
-        <span class="circle"></span>
-      </div>
+      <div class="circle-toggle-row"><span class="circle"></span><span class="circle"></span></div>
+      <div class="circle-toggle-row"><span class="circle"></span><span class="circle"></span></div>
     </div>
 
     <nav class="navbar">
@@ -63,19 +41,10 @@
         <li><a href="{% url 'home:team' %}">Our Team</a></li>
         <li><a href="{% url 'startups:startups' %}">Our Startups</a></li>
         <li><a href="{% url 'home:membership' %}">RCN Membership</a></li>
-        {% comment %} <li><a href="{% url 'events' %}">Events</a></li> {% endcomment %}
-        <a href="{% url 'products:product_list' %}">Products</a>
+        <li><a href="{% url 'products:product_list' %}">Products</a></li>
         <li><a href="{% url 'home:contact' %}">Contact Us</a></li>
-        <li><a href="{% url 'favorites:favorites_list' %}">Favorites</a></li>
-        <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
         {% if user.is_authenticated %}
-          <li><a href="{% url 'users:profile' %}">Profile</a></li>
-          <li>
-            <form action="{% url 'users:logout' %}" method="post" style="display: inline;">
-            {% csrf_token %}
-            <button type="submit" style="background:none; border:none; padding:0; color:inherit; cursor:pointer; font: inherit;">Logout</button>
-          </form>
-          </li>
+          <li><a href="{% url 'users:profile' %}" title="Profile"><i class="fa-solid fa-user" style="font-size: 1.2rem;"></i></a></li>
         {% else %}
           <li><a href="{% url 'users:login' %}">Login</a></li>
           <li><a href="{% url 'users:register' %}">Register</a></li>
@@ -83,41 +52,34 @@
       </ul>
     </nav>
   </header>
+  {% endif %}
 
-  <!-- Page-specific content -->
-  {% block content %}{% endblock content %}
+  <main class="main-content">
+      {% block content %}{% endblock content %}
+  </main>
 
+  {% if 'users/' not in request.path and 'cart/' not in request.path and 'favorites/' not in request.path and 'orders/' not in request.path %}
   <footer class="footer" id="footer">
     <div class="footer-container">
-      <!-- Column 1: Logo + Text -->
       <div class="footer-col">
         <img src="{% static 'images/RCN.png' %}" alt="RCN Logo" class="footer-logo">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam illum tempore officia eum ipsum molestiae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium eligendi ratione ipsum eos facilis ex!
-        </p>
+        <p>A premier global hub connecting experts in science, technology, and innovation to drive breakthroughs in the nanobiotechnology field.</p>
       </div>
-
-      <!-- Column 2: Mission -->
       <div class="footer-col">
         <h4>Mission</h4>
         <ul>
-          <li><a href="#AboutCentre">About us</a></li>
+          <li><a href="{% url 'home:home' %}#AboutCentre">About us</a></li>
           <li><a href="{% url 'home:team' %}">Our Team</a></li>
           <li><a href="{% url 'home:contact' %}">Contact</a></li>
         </ul>
       </div>
-
-      <!-- Column 3: Ecosystem -->
       <div class="footer-col">
         <h4>Ecosystem</h4>
         <ul>
           <li><a href="{% url 'home:team' %}#Mentors">Mentors</a></li>
-          <li><a href="#Partners">Partners</a></li>
-          {% comment %} <li><a href="{% url 'startups' %}">Startups</a></li> {% endcomment %}
+          <li><a href="{% url 'home:home' %}#Partners">Partners</a></li>
         </ul>
       </div>
-
-      <!-- Column 4: Contact -->
       <div class="footer-col contact-info">
         <h4>Contact</h4>
         <p><i class="fas fa-envelope"></i> hello@aicraise.com</p>
@@ -126,18 +88,34 @@
       </div>
     </div>
   </footer>
-
   <div class="copyright">
     <p>Copyright © 2024 Startup Incubation Centre | All Rights Reserved.</p>
   </div>
+  {% endif %}
 
-  <div id="login-prompt-modal" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center;">
-    <div id="login-modal-content" style="background-color: #161b22; padding: 2rem; border-radius: 1rem; text-align: center; color: #e6e6e6; border: 1px solid #30363d; position: relative;">          <button id="close-modal-btn" style="position: absolute; top: 10px; right: 15px; background: none; border: none; color: #8b949e; font-size: 1.5rem; cursor: pointer;">&times;</button>
-      <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem;">Please Log In</h3>
-      <p style="color: #8b949e; margin-bottom: 1.5rem;">You need to be logged in to perform this action.</p>
-      <a href="{% url 'users:login' %}" style="display: block; width: 100%; padding: 0.75rem; border-radius: 0.5rem; background: linear-gradient(to right, #4a00e0, #8e2de2); color: white; font-weight: 600; text-decoration: none;">Go to Login</a>
+  {# --- Django Messages Block --- #}
+  {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+            <div class="message-box {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
     </div>
-  </div>
+    <script>
+        setTimeout(function() {
+            var messagesContainer = document.querySelector('.messages-container');
+            if (messagesContainer) {
+                messagesContainer.style.display = 'none';
+            }
+        }, 4000); // Hide messages after 4 seconds
+    </script>
+  {% endif %}
+
+  <!-- Global JS -->
+  <script src="{% static 'js/main.js' %}" defer></script>
+  {% block extra_js %}{% endblock %}
 
 </body>
 </html>
+

@@ -2609,3 +2609,540 @@ body {
   100% { transform: translate(-50%,-50%) scale(12); opacity: 0; }
 }
 /* end injection */
+
+/* ================================ AUTH AND DASHBOARD ================================ */
+
+/*
+==================================================
+ RCNB OFFICIAL STYLESHEET
+ Version: 3.0
+ Description: A complete UI overhaul based on the new design mockups.
+ This file replaces both style.css and ghost.css.
+==================================================
+*/
+
+/* -------------------
+   1. Global Resets & Variables
+   ------------------- */
+:root {
+    --bg-dark-primary: #11131E;
+    --bg-dark-secondary: #1A1D2D;
+    --bg-dark-tertiary: #2C2F48;
+    --accent-primary: #8A2BE2; /* A vibrant purple */
+    --accent-secondary: #4D45E8; /* A vibrant blue */
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0B3C2;
+    --text-verified: #39FF14;
+    --status-shipped: #39FF14;
+    --status-shipped-bg: rgba(57, 255, 20, 0.1);
+    --danger: #FF3B30;
+    --font-family: 'Poppins', sans-serif;
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 16px;
+    --border-color: #2C2F48;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-dark-primary);
+    font-family: var(--font-family);
+    color: var(--text-primary);
+}
+
+.dashboard-body {
+    padding-bottom: 80px; /* Space for mobile bottom nav */
+}
+
+
+a {
+    color: var(--accent-primary);
+    text-decoration: none;
+}
+
+/* -------------------
+   2. Authentication Pages (Login/Register)
+   ------------------- */
+.auth-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: var(--bg-dark-primary);
+    background-image: url('../images/20250704_111452.png');
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    background-size: 200px;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-logo {
+    width: 80px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.auth-header h1 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.auth-card {
+    background-color: var(--bg-dark-secondary);
+    padding: 2.5rem;
+    border-radius: var(--border-radius-lg);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.auth-card h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.auth-card .form-group {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.auth-card label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.auth-card .form-input {
+    width: 100%;
+    background-color: var(--bg-dark-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 12px;
+    border-radius: var(--border-radius-sm);
+    font-size: 1rem;
+}
+
+.auth-card .auth-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 50px;
+    background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+    color: white;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+}
+
+.auth-card .auth-link {
+    margin-top: 1.5rem;
+    color: var(--text-secondary);
+}
+
+/* -------------------
+   3. Dashboard Layout
+   ------------------- */
+.dashboard-page {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.dashboard-sidebar {
+    flex: 0 0 250px;
+    background-color: var(--bg-dark-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: 20px;
+    position: sticky;
+    top: 40px;
+    height: calc(100vh - 80px); /* Full height minus margin */
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 10px;
+    text-align: left;
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.dashboard-sidebar .nav-link:hover {
+    background-color: var(--bg-dark-tertiary);
+    color: var(--text-primary);
+}
+.dashboard-sidebar .nav-link.active {
+    background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+    color: var(--text-primary);
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+}
+.dashboard-sidebar .nav-link i {
+    width: 20px;
+    text-align: center;
+}
+.dashboard-sidebar .sidebar-footer {
+    margin-top: auto;
+}
+
+
+.dashboard-content {
+    flex: 1;
+    min-width: 0; /* Prevents flexbox overflow */
+}
+
+/* -------------------
+   4. Profile Page
+   ------------------- */
+.page-header {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.profile-card, .settings-card, .address-card {
+    background-color: var(--bg-dark-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+    position: relative;
+}
+.profile-avatar {
+    width: 60px; height: 60px; border-radius: 50%;
+    background-color: var(--bg-dark-tertiary);
+}
+.profile-name { font-size: 1.5rem; font-weight: 600; }
+.profile-email { color: var(--text-secondary); }
+.profile-verified {
+    color: var(--text-verified); border: 1px solid var(--text-verified);
+    padding: 2px 8px; border-radius: 20px; font-size: 0.8rem;
+    margin-top: 5px; display: inline-block;
+}
+.profile-status-dot {
+    width: 10px; height: 10px; background-color: var(--text-verified);
+    border-radius: 50%; position: absolute; top: 20px; right: 20px;
+}
+.profile-edit-icon {
+    position: absolute; bottom: 20px; right: 20px;
+    font-size: 1.2rem; cursor: pointer; color: var(--text-secondary);
+}
+
+.profile-details-form, .address-form {
+    margin-top: 2rem; display: grid; gap: 1.5rem;
+}
+.form-group {
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+.form-group label { color: var(--text-secondary); font-size: 0.9rem; }
+.form-group .form-input {
+    background: none; border: none; font-size: 1rem; padding: 5px 0 0 0;
+    color: var(--text-primary); width: 100%;
+}
+.form-group .form-input:focus { outline: none; }
+.form-group .form-input[disabled] { color: var(--text-secondary); cursor: not-allowed; }
+.form-group .profile-edit-icon { bottom: 1rem; }
+.form-submit-btn {
+    width: 100%; padding: 14px; border-radius: var(--border-radius-sm);
+    background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+    color: white; font-weight: 600; border: none; cursor: pointer;
+    margin-top: 1.5rem; font-size: 1rem;
+}
+
+.settings-card h3 { font-size: 1.5rem; font-weight: 600; }
+.settings-card ul { list-style: none; margin-top: 1.5rem; }
+.settings-card li a { display: block; padding: 10px 0; font-size: 1.1rem; }
+.settings-card li a.danger-link { color: var(--danger); }
+
+
+/* -------------------
+   5. General Dashboard Pages (Cart, Favs, Orders)
+   ------------------- */
+.find-bar {
+    display: block; width: 100%; max-width: 400px; margin: 0 auto 2rem;
+    padding: 12px 20px; border-radius: 20px; border: 1px solid var(--border-color);
+    background-color: var(--bg-dark-secondary); color: var(--text-primary); font-size: 1rem;
+}
+.item-list { display: grid; gap: 1.5rem; max-width: 800px; margin: 0 auto; }
+
+.list-card {
+    display: flex; gap: 1rem; background-color: var(--bg-dark-secondary);
+    border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 1rem;
+    align-items: center;
+}
+.list-card-img {
+    width: 100px; height: 100px; flex-shrink: 0;
+    background-color: var(--bg-dark-tertiary); border-radius: var(--border-radius-sm);
+}
+.list-card-details { flex-grow: 1; }
+.list-card-name { font-size: 1.2rem; font-weight: 500; }
+.list-card-price { font-size: 1.1rem; margin: 0.5rem 0; }
+.list-card-company {
+    background-color: var(--bg-dark-tertiary);
+    color: var(--text-secondary);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    display: inline-block;
+}
+.list-card-actions { display: flex; gap: 1rem; align-items: center; margin-top: 1rem;}
+.buy-btn {
+    background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+    color: white; padding: 8px 20px; border-radius: 20px; border: none; cursor: pointer;
+}
+.icon-btn {
+    width: 36px; height: 36px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; border: none; cursor: pointer; text-decoration: none;
+}
+.icon-btn.like { background-color: var(--bg-dark-tertiary); color: var(--danger); }
+.icon-btn.cart { background-color: var(--status-shipped-bg); color: var(--status-shipped); }
+.icon-btn.remove { background-color: rgba(255, 59, 48, 0.1); color: var(--danger); }
+.icon-btn.checkout-single {
+    background-color: var(--status-shipped-bg);
+    color: var(--status-shipped);
+    font-weight: bold;
+}
+
+
+/* Cart Specific */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+.quantity-controls span { font-size: 1.1rem; }
+.quantity-btn {
+    width: 24px; height: 24px;
+    background-color: var(--bg-dark-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 50%;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cart-total-card {
+    background-color: var(--bg-dark-secondary); border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md); padding: 1.5rem; margin: 2rem auto 0; max-width: 800px;
+}
+.cart-total-card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+
+/* Orders Specific */
+.order-card {
+    background-color: var(--bg-dark-secondary); border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md); padding: 1.5rem;
+}
+.order-card h4 { font-size: 1.2rem; margin-bottom: 1rem;}
+.order-card table { width: 100%; text-align: left; border-collapse: collapse;}
+.order-card th, .order-card td { padding: 8px 0; }
+.order-card th { color: var(--text-secondary); }
+.order-card .order-footer {
+    display: flex; justify-content: space-between; margin-top: 1rem;
+    padding-top: 1rem; border-top: 1px solid var(--border-color);
+}
+.status-tag {
+    padding: 4px 12px; border-radius: 20px; font-size: 0.8rem;
+    background-color: var(--status-shipped-bg); color: var(--status-shipped);
+    border: 1px solid var(--status-shipped);
+}
+.status-tag.canceled {
+    background-color: rgba(255, 59, 48, 0.1);
+    color: var(--danger);
+    border-color: var(--danger);
+}
+.cancel-btn {
+    background-color: transparent; border: 1px solid var(--danger); color: var(--danger);
+    padding: 4px 12px; border-radius: 20px; cursor: pointer;
+}
+
+/* -------------------
+   6. Mobile Navigation
+   ------------------- */
+.mobile-nav {
+    display: none; /* Hidden by default on desktop */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-dark-secondary);
+    border-top: 1px solid var(--border-color);
+    justify-content: space-around;
+    padding: 10px 0;
+    z-index: 1000;
+}
+.mobile-nav-item {
+    display: flex; flex-direction: column; align-items: center;
+    color: var(--text-secondary); font-size: 24px; padding: 5px 15px;
+    border-radius: var(--border-radius-lg);
+}
+.mobile-nav-item.active {
+    background: var(--accent-primary); color: var(--text-primary);
+}
+
+
+/* -------------------
+   7. Responsive Design & Misc
+   ------------------- */
+@media (max-width: 767px) {
+    .dashboard-sidebar { display: none; }
+    .mobile-nav { display: flex; }
+    .dashboard-page { padding: 0 15px; flex-direction: column; }
+    .page-header { font-size: 2rem; margin: 20px 0; }
+    .list-card { flex-direction: column; align-items: stretch; }
+    .list-card-img { width: 100%; height: 180px; }
+}
+
+/* Main Site Header (Copied from original style.css and adapted) */
+header {
+  background-color: #0f0f0f;
+  color: #E6E6E6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 5px;
+  padding-bottom: 50px;
+  width: 100%;
+}
+.logo-container{ display: flex; justify-content: center; }
+.rcn-logo { width: 500px; max-width: 90%; }
+.navbar { display: flex; justify-content: center; width: 100%; }
+.nav-menu { list-style: none; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;}
+.nav-menu li a { color: #E6E6E6; padding: 15px 20px; font-size: 14px; }
+
+/* Product Card from original style.css for Favorites page */
+.product-card {
+  position: relative; width: 270px; background: #fdfdfd;
+  border-radius: 10px; box-shadow: 0 4px 32px rgba(64, 32, 64, 0.15);
+  overflow: hidden; padding-bottom: 40px; color: #222;
+}
+.product-card .prod-img { width: 100%; height: 230px; background: #f9f9f9; }
+.product-card .prod-img img { width: 100%; height: 100%; object-fit: cover; }
+.product-card .prod-details { padding: 10px 20px; text-align: left; }
+.product-card .prod-name { font-weight: 700; font-size: 1rem; margin: 5px 0; color: #222; }
+.product-card .prod-price { font-weight: 800; font-size: 1.1rem; color: black; }
+.product-card .buy-now-btn {
+    position: absolute; bottom: 0; left: 0; right: 0; width: 100%;
+    background: linear-gradient(to right, #4a00e0, #8e2de2); color: #fff;
+    border: none; font-weight: 600; padding: 12px 0 15px; cursor: pointer;
+}
+.product-card .prod-icons {
+  position: absolute; top: 10px; right: 10px; display: flex; gap: 10px;
+}
+.product-card .prod-btn {
+    width: 36px; height: 36px; border-radius: 50%; border: none;
+    color: #f6f6f6; display: flex; align-items: center; justify-content: center;
+    font-size: 1.08rem; cursor: pointer;
+}
+.product-card .prod-btn.cart { background: #7ed957; }
+.product-card .prod-btn.like { background: #ff5757; }
+.product-card .prod-btn.like.active { background: #ffe4ee; color: #e75480; }
+
+
+/* -------------------
+   8. Messages & Alerts
+   ------------------- */
+.messages-container {
+    position: fixed;
+    bottom: 90px; /* Above mobile nav */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+@media (min-width: 768px) {
+    .messages-container {
+        bottom: 20px; /* Back to normal on desktop */
+    }
+}
+
+
+.message-box {
+    padding: 12px 25px;
+    border-radius: var(--border-radius-md);
+    font-family: var(--font-family);
+    color: var(--text-primary);
+    font-weight: 500;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    background-color: var(--bg-dark-secondary);
+    border: 1px solid var(--border-color);
+    animation: fadeInBottom 0.5s ease-out forwards;
+}
+
+.message-box.success {
+    background-color: #238636;
+    border-color: #3fb950;
+}
+.message-box.info {
+    background-color: var(--bg-dark-secondary);
+    border-color: var(--accent-secondary);
+}
+.message-box.warning {
+    background-color: #DAA520;
+    border-color: #F0E68C;
+}
+.message-box.error {
+    background-color: #da3633;
+    border-color: #f85149;
+}
+
+@keyframes fadeInBottom {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
