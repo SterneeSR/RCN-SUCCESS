@@ -96,13 +96,36 @@ def profile(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
         if user_form.is_valid():
-            user_form.save()
-            messages.success(request, 'Your profile details have been updated!')
-            return redirect('users:profile')
+            # Check if the email has been changed
+            if 'email' in user_form.changed_data:
+                user = user_form.save(commit=False)
+                user.is_active = False
+                user.profile.email_verified = False
+                user.save()
+
+                # Send verification email for the new address
+                current_site = get_current_site(request)
+                mail_subject = 'Verify Your New Email Address'
+                message = render_to_string('users/email_verification_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': default_token_generator.make_token(user),
+                })
+                send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
+
+                messages.warning(request, 'A verification link has been sent to your new email address. Please verify your new email to re-activate your account.')
+                return redirect('users:login')
+
+            else:
+                user_form.save()
+                messages.success(request, 'Your profile details have been updated!')
+                return redirect('users:profile')
     else:
         user_form = UserUpdateForm(instance=request.user)
 
     return render(request, 'users/profile.html', {'user_form': user_form})
+
 
 
 # ------------------- Address Book -------------------

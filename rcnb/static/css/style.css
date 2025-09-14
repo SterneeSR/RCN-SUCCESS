@@ -3158,108 +3158,199 @@ Cart Page Styles
 }
 
 
-/* ---
-Favorites Page Styles
---- */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-@media (min-width: 992px) {
-  .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
-  }
+/* --- FINAL RESPONSIVE & SCALING CSS --- */
+
+:root {
+    --text-light: #F9FAFB;
+    --text-muted: #9CA3AF;
+    --accent-red: #EF4444;
+    --accent-green: #22C55E;
+    --accent-green-dark: #16A34A;
+    --border-color: #4b5563;
 }
 
-.list-card.product-style {
-  width: 100%;
-  height: 180px;
-  display: flex;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-  overflow: hidden;
-  color: #000;
+.page-header {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
 }
 
-.list-card-img {
-  width: 180px;
-  height: 180px;
-  background: #d3d3d3;
-  flex-shrink: 0;
-}
-.list-card-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.list-card-details {
-  flex: 1;
-  padding: 15px 18px 20px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+/* MOBILE-FIRST LAYOUT:
+  On mobile, the layout is a simple vertical stack. Both the item
+  list and the invoice card are always visible, one after the other.
+  This fixes the "missing invoice" issue.
+*/
+.cart-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.list-card-company {
-  display: inline-block;
-  background: #e0e0ff;
-  color: #555;
-  font-size: 0.7rem;
-  padding: 2px 8px;
-  border-radius: 8px;
-  font-weight: 500;
-  width: fit-content;
-  margin-bottom: 4px;
+.item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
-.list-card-name {
-  font-size: 1.30rem;
-  font-weight: 500;
-  line-height: 1.2;
+/* PROPORTIONAL SCALING WITH CONTAINER QUERIES:
+  The card is defined as a "container". All font sizes and some spacing inside
+  it are now relative to the card's OWN width (using cqw units and clamp).
+  This makes everything inside shrink and grow as a group.
+*/
+.cart-item-card {
+    display: flex;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    border-radius: 1rem;
+    background-color: var(--bg-surface);
+    width: 100%;
+    /* This is the magic: it makes the card a reference for its children's styles */
+    container-type: inline-size; 
 }
 
-.list-card-price {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  font-size: 1.10rem;
-  font-weight: 600;
+.cart-image-container {
+    width: 30%; /* Set a simple percentage for the image container */
+    max-width: 176px; /* 11rem, prevents it from getting too big */
+    flex-shrink: 0;
+    background-color: #D1D5DB;
+    border-radius: 1rem 0 0 1rem;
+    aspect-ratio: 1 / 1;
 }
-.list-card-price del {
-  font-size: 0.85rem;
-  color: #888;
-}
-
-.list-card-actions {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+.cart-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1rem 0 0 1rem;
 }
 
-.icon-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.18);
-  margin-left: 8px;
+.cart-details-section {
+    flex-grow: 1;
+    padding: clamp(0.5rem, 3cqw, 1.5rem); /* Padding now scales with card width */
+    display: flex;
+    justify-content: space-between;
+    gap: clamp(0.5rem, 3cqw, 1rem);
 }
 
-.icon-btn.like { background: #ffe4ee; color: #e75480; }
-.icon-btn.like.active { background: #e75480; color: #fff; }
-.icon-btn.cart { background: #7ed957; color: #fff; }
+.product-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
-.icon-btn.like:hover { background: #ffb3c6; }
-.icon-btn.cart:hover { background: #5bc84d; }
+/* Using clamp() for fluid typography that scales with the card container */
+.product-info-wrapper h2 {
+    font-size: clamp(0.8rem, 4cqw, 1.25rem);
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0;
+}
+.product-info-wrapper .price {
+    font-size: clamp(1rem, 5cqw, 1.5rem);
+    font-weight: 500;
+    margin: 0.25rem 0;
+}
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.4rem, 2cqw, 0.75rem);
+    font-size: clamp(0.8rem, 3.5cqw, 1.125rem);
+    margin-top: 0.5rem;
+}
+.cart-total {
+    border-top: 2px dashed var(--border-color);
+    padding-top: clamp(0.25rem, 1.5cqw, 0.5rem);
+    margin-top: clamp(0.25rem, 1.5cqw, 0.5rem);
+}
+.cart-total p {
+    font-size: clamp(0.8rem, 3.5cqw, 1.125rem);
+    margin: 0;
+}
 
+.cart-action-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- Invoice / Total Card (Now always visible) --- */
+.cart-total-card {
+    background-color: var(--bg-surface);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    width: 100%;
+}
+.cart-total-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 1.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+.cart-total-card p {
+    font-size: 1.25rem;
+    margin: 0 0 0.5rem 0;
+}
+.vat-note { font-size: 0.9rem !important; color: var(--text-muted); }
+
+/* --- Buttons --- */
+.btn-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    width: 36px; height: 36px; border-radius: 50%;
+}
+.btn-circle-sm { width: 28px; height: 28px; }
+.btn-circle:active { transform: scale(0.95); }
+.btn-remove { background-color: var(--accent-red); font-size: 1.5rem; font-weight: 300; }
+.btn-pay { background-color: var(--accent-green); font-size: 1.5rem; font-weight: 300; }
+.btn-minus { background-color: var(--accent-red); }
+.btn-plus { background-color: var(--accent-green); }
+
+.buy-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 1.5rem;
+}
+
+.btn-gradient {
+    background-image: linear-gradient(45deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
+    background-size: 200% auto;
+    transition: background-position 0.3s ease-in-out;
+}
+.btn-gradient:hover {
+    background-position: right center;
+}
+
+/* --- Desktop Styles (Large Screens) --- */
+@media (min-width: 1024px) {
+    /* On desktop, switch back to a grid to place the invoice on the right */
+    .cart-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        align-items: flex-start; /* Aligns items to the top of their grid areas */
+    }
+}
 /* ---
 Orders Page Styles
 --- */

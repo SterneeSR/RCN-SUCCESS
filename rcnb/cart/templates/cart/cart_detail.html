@@ -1,36 +1,41 @@
 {% extends "users/dashboard.html" %}
 
 {% block dashboard_content %}
+
 <h1 class="page-header">Your Cart</h1>
 
 <div class="cart-layout">
     <div class="item-list">
         {% for item in cart.items.all %}
         <div class="cart-item-card">
-            <div class="cart-image-placeholder">
+            <div class="cart-image-container">
                 {% if item.product.image %}
                     <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 1rem 0 0 1rem;">
                 {% endif %}
             </div>
+            
             <div class="cart-details-section">
-                <div class="cart-product-info">
+                <div class="product-info-wrapper">
                     <h2>{{ item.product.name }}</h2>
-                    <p>₹{{ item.product.price|floatformat:2 }}</p>
+                    <p class="price">₹{{ item.product.price|floatformat:2 }}</p>
+                    
                     <div class="quantity-selector">
                         <a href="{% url 'cart:decrease_quantity' item.id %}" class="btn-circle btn-circle-sm btn-minus">-</a>
                         <span>{{ item.quantity }}</span>
                         <a href="{% url 'cart:increase_quantity' item.id %}" class="btn-circle btn-circle-sm btn-plus">+</a>
                     </div>
+
                     <div class="cart-total">
                         <p>Total: ₹{{ item.get_total_price|floatformat:2 }}</p>
                     </div>
                 </div>
+
                 <div class="cart-action-buttons">
-                    <form action="{% url 'cart:remove_from_cart' item.id %}" method="post">
+                    <form action="{% url 'cart:remove_from_cart' item.id %}" method="post" style="margin: 0;">
                         {% csrf_token %}
-                        <button type="submit" class="btn-circle btn-remove">×</button>
+                        <button type="submit" class="btn-circle btn-remove" style="font-size: 1.5rem; font-weight: 200;">×</button>
                     </form>
-                    <a href="{% url 'orders:create_order' %}" class="btn-circle btn-pay">₹</a>
+                    <a href="{% url 'orders:create_order' %}" class="btn-circle btn-pay" style="font-size: 1.5rem; font-weight: 200;">₹</a>
                 </div>
             </div>
         </div>

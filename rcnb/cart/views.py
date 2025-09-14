@@ -71,7 +71,7 @@ def increase_quantity(request, item_id):
         return JsonResponse({
             'success': True,
             'quantity': cart_item.quantity,
-            'total_price': cart_item.cart.total_price(),
+            'total_price': cart_item.cart.get_total_cost(),
         })
 
     return redirect('cart:cart_detail')
@@ -92,7 +92,7 @@ def decrease_quantity(request, item_id):
         return JsonResponse({
             'success': True,
             'quantity': cart_item.quantity if cart_item.id else 0,
-            'total_price': cart.total_price(),
+            'total_price': cart.get_total_cost(),
         })
 
     return redirect('cart:cart_detail')
