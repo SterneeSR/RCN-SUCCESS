@@ -1,1 +1,1 @@
-web: gunicorn rcnb.wsgi
+web: gunicorn rcnb.wsgi:application --workers 3 --threads 2 --timeout 60
