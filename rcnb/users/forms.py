@@ -6,6 +6,7 @@ from .models import Address, Profile # <-- Import both Address and Profile
 # This form is for user registration
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
 
     class Meta:
         model = User
@@ -16,6 +17,16 @@ class RegisterForm(forms.ModelForm):
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("Email already registered.")
         return email
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password2 = cleaned_data.get("password2")
+
+        if password and password2 and password != password2:
+            raise forms.ValidationError("Passwords don't match")
+
+        return cleaned_data
 
 # This form is for user login
 class LoginForm(forms.Form):

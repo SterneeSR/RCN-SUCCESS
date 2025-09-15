@@ -517,7 +517,7 @@ class MembershipPage {
 
 // Initialize membership page when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    if (document.body.classList.contains('membership-page')) {
+   if (document.body.classList.contains('membership-page')) {
         const membershipPage = new MembershipPage();
         
         // Handle resize events
