@@ -29,13 +29,17 @@ load_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # It's also good practice to ensure DEBUG is read from an environment variable
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+# DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-if not DEBUG:
-    CSRF_TRUSTED_ORIGINS = ['https://rcn-production-31b5.up.railway.app'] # Railway domain
+DEBUG = True
+
+# if not DEBUG:
+#     CSRF_TRUSTED_ORIGINS = ['https://rcn-production-31b5.up.railway.app'] # Railway domain
 
 ALLOWED_HOSTS = [
     'rcn-production-31b5.up.railway.app',
+    'localhost',
+    '127.0.0.1',
 ]
 
 
@@ -94,14 +98,25 @@ WSGI_APPLICATION = 'rcnb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import dj_database_url
+# import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'RAISE-DB',
+        'USER': 'postgres',
+        'PASSWORD': 'ANON77',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         conn_max_age=600,
+#         conn_health_checks=True,
+#     )
+# }
 
 
 # Password validation
