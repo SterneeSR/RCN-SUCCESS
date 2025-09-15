@@ -1,1 +1,1 @@
-web: gunicorn rcnb.wsgi --log-file -
+web: gunicorn rcnb.wsgi
