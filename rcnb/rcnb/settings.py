@@ -31,7 +31,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # It's also good practice to ensure DEBUG is read from an environment variable
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['*']
+if not DEBUG:
+    CSRF_TRUSTED_ORIGINS = ['https://rcn-production-31b5.up.railway.app'] # Railway domain
+
+ALLOWED_HOSTS = [
+    'rcn-production-31b5.up.railway.app',
+]
 
 
 # Application definition
@@ -140,6 +145,9 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # for collectstatic in prod
+
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
