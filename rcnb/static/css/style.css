@@ -4626,3 +4626,303 @@ Address Page Styles (Based on New Code)
   background-color: var(--accent-red);
   color: #fff;
 }
+
+
+/* =================================================================== */
+/* SURGICAL CSS OVERLAY FOR WEBSITE FIXES                */
+/* =================================================================== */
+
+/*
+ * Instructions:
+ * 1. Create a new CSS file (e.g., 'fixes.css').
+ * 2. Copy and paste all the code below into this new file.
+ * 3. Link this new file in your HTML pages *after* your original stylesheet.
+ * Example: <link rel="stylesheet" href="path/to/your/fixes.css">
+ */
+
+/* --- Global Fixes --- */
+
+/* Removes the global side padding from the main content area.
+   This allows full-width sections to correctly span the entire viewport
+   while sections with their own padding remain unaffected. */
+main {
+  padding-inline: 0 !important;
+}
+
+/* =================================================================== */
+/* HOME PAGE (MOBILE)                         */
+/* =================================================================== */
+
+@media (max-width: 768px) {
+  /* Re-aligns the 'Our Core Values' section content to the left on mobile */
+  .mission-vision .centered-values {
+    text-align: left;
+    max-width: 100%;
+    padding: 0 20px; /* Add some padding for mobile */
+  }
+
+  /* Increases paragraph font size for better readability on mobile */
+  .mission-vision .centered-values p {
+    font-size: 14px; /* Increased from 11.5px */
+    text-align: left; /* Ensure left alignment */
+  }
+
+  /* Adjusts heading size for mobile */
+  .mission-vision .centered-values h3 {
+    font-size: 20px; /* Slightly smaller than desktop 22px */
+  }
+}
+
+/* =================================================================== */
+/* TEAMS PAGE (MOBILE)                        */
+/* =================================================================== */
+
+/* == Rathinam Experts Section == */
+@media (max-width: 768px) {
+  /* Stacks the expert cards vertically on mobile instead of shrinking them. */
+  .team-containerr {
+    flex-direction: column;
+    align-items: center; /* Center the stacked cards */
+    gap: 30px; /* Increase gap for vertical stacking */
+  }
+
+  /* Ensures each card maintains a consistent and readable width on mobile. */
+  .team-cardd {
+    width: 90%;
+    max-width: 340px; /* Set a max-width to avoid stretching on tablets */
+  }
+}
+
+/* == Vice President / AVP Profile Section == */
+@media (max-width: 768px) {
+  /* Adjusts padding for a cleaner look on smaller screens */
+  .profile-section, .profile-section2 {
+    padding: 40px 25px;
+  }
+
+  /* Stacks the profile picture and biography vertically */
+  .top-section {
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start */
+  }
+
+  /* Ensures the profile picture fits well within the new layout */
+  .profile-pic {
+    width: 100%;
+    max-width: 300px; /* Cap the max size */
+    margin-bottom: 25px;
+    padding-left: 0;
+  }
+
+  /* Aligns bio content to the left and adjusts font sizes for mobile readability */
+  .bio {
+    text-align: left;
+    width: 100%;
+  }
+
+  .bio h2 {
+    font-size: 22px; /* Slightly smaller heading */
+    text-align: left;
+  }
+
+  .bio p {
+    font-size: 14px; /* Larger paragraph text */
+    text-align: justify;
+  }
+
+  /* Stacks the columns in the bottom section and aligns content left */
+  .bottom-section {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .column {
+    text-align: left;
+  }
+
+  .column li {
+    font-size: 14px;
+  }
+}
+
+
+/* =================================================================== */
+/* MEMBERSHIP PAGE (MOBILE)                      */
+/* =================================================================== */
+
+@media (max-width: 768px) {
+  /* Reduces padding in the hero section for a more compact mobile layout */
+  .hero-section {
+    padding: 4rem 1.5rem;
+  }
+
+  /* Adjusts hero title size to prevent overflow on small screens */
+  .hero-title {
+    font-size: 2.25rem; /* Reduced from 3rem */
+    line-height: 1.2;
+  }
+
+  /* Optimizes hero description text for mobile reading */
+  .hero-description p {
+    font-size: 1rem;
+  }
+
+  /* Standardizes padding on various content sections for mobile consistency */
+  .networking-section, .development-section, .knowledge-section, .membership-fee-section {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  /* Ensures networking cards are centered when they stack on top of each other */
+  .networking-grid {
+      justify-items: center;
+  }
+
+  /* Prevents networking cards from exceeding the screen width */
+  .networking-card {
+      width: 100%;
+      max-width: 320px;
+  }
+
+  /* Makes the image in the development section fully responsive */
+  .development-image img {
+      max-width: 100%;
+  }
+
+  /* Improves mobile fee card readability */
+  .fee-card .card-header h3 {
+      font-size: 1.1rem;
+  }
+}
+
+/* =================================================================== */
+/* SURGICAL CSS OVERLAY: TEAMS PAGE                */
+/* =================================================================== */
+
+/*
+ * This file contains targeted style fixes for the "Our Team" page.
+ */
+
+
+/* --- Main "OUR TEAM" Heading --- */
+
+/* Adds prominent styling to the main page heading */
+.team-page-heading {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #E6E6E6;
+  padding: 60px 40px  ;
+  background-color: #0F0F0F;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+
+/* --- Core Team & Rathinam Experts Cards --- */
+
+/* Ensures the container centers the cards and wraps them on smaller screens */
+.team-container, .team-containerr {
+  justify-content: center;
+  gap: 25px; /* Provides consistent spacing */
+}
+
+/* Sets a fixed, constant width for the 'Our Team' cards */
+.team-card {
+  width: 180px;
+  flex-shrink: 0; /* Prevents the card from shrinking in the flex container */
+}
+
+/* Sets a fixed, constant width for the 'Rathinam Experts' cards, overriding the previous percentage-based width */
+.team-cardd {
+  width: 220px;
+  flex-shrink: 0; /* Prevents shrinking */
+}
+
+
+/* --- Advisors / Mentors Carousel --- */
+
+/* Sets a constant width for mentor cards to prevent them from resizing */
+.tcarousel-1 .card {
+    width: 300px;
+    flex-shrink: 0;
+}
+
+/* Overrides the original responsive column calculation to use the card's new fixed width */
+.tcarousel-div .tcarousel-1 {
+    grid-auto-columns: 300px;
+}
+
+
+/* --- Mobile & Tablet Responsive Layout --- */
+
+@media (max-width: 992px) {
+
+  /* == Vice President & Centre Head Profiles == */
+
+  /* Stacks the profile picture and biography vertically for better readability */
+  .profile-section .top-section, .profile-section2 .top-section {
+    flex-direction: column;
+    align-items: flex-start; /* Aligns content to the left */
+  }
+
+  /* Ensures the profile picture fits well in the stacked layout */
+  .profile-pic {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 25px;
+    padding-left: 0;
+  }
+
+  .bio {
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Adjusts font sizes and alignment for mobile */
+  .bio h2 {
+    font-size: 24px;
+    text-align: left;
+  }
+
+  .bio p {
+    font-size: 14px;
+    text-align: justify; /* Provides a clean, block-like text alignment */
+  }
+
+  /* Stacks the bottom columns and aligns text left */
+  .bottom-section {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .column {
+    text-align: left;
+  }
+
+  .column li {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Adjusts main heading for smaller phone screens */
+  .team-page-heading {
+    font-size: 2.2rem;
+    padding-top: 80px; /* Adds more space below the fixed header */
+  }
+
+  /* Adjusts profile section padding for smaller devices */
+  .profile-section, .profile-section2 {
+    padding: 40px 25px;
+  }
+  
+  /* On smaller mobile screens, the mentor carousel cards can shrink slightly */
+  .tcarousel-1 .card {
+      width: 280px;
+  }
+  .tcarousel-div .tcarousel-1 {
+      grid-auto-columns: 280px;
+  }
+}
+

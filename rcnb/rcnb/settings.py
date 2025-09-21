@@ -13,47 +13,48 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import dj_database_url
 
+# --- Path Configuration ---
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-CSRF_TRUSTED_ORIGINS = ['https://rcn-production-31b5.up.railway.app']
-
+# --- Environment Variables ---
 # Load environment variables from .env file
 load_dotenv()
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# rcnb/rcnb/settings.py
-
+# --- Security and Deployment Settings ---
+# SECRET_KEY is used for cryptographic signing.
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# It's also good practice to ensure DEBUG is read from an environment variable
+# DEBUG mode is for development. Should be False in production.
+# The value is read from the environment variable 'DEBUG'.
+# A default of 'False' is used if the variable isn't set.
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-# DEBUG = True
 
-if not DEBUG:
-    CSRF_TRUSTED_ORIGINS = ['https://rcn-production-31b5.up.railway.app'] # Railway domain
-
+# ALLOWED_HOSTS is a list of trusted hostnames for the Django project.
 ALLOWED_HOSTS = [
-    'rcn-production-31b5.up.railway.app',
+    'raise-nanobiotech.up.railway.app',
     'localhost',
     '127.0.0.1',
 ]
+# CSRF_TRUSTED_ORIGINS is a list of trusted origins for CSRF protection.
+CSRF_TRUSTED_ORIGINS = [
+    'https://raise-nanobiotech.up.railway.app',
+    'http://raise-nanobiotech.up.railway.app'
+]
 
-
-# Application definition
-
+# --- Application and Middleware ---
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # 'cloudinary_storage',
     'django.contrib.staticfiles',
+    # 'cloudinary',
     'home',
     'startups',
     'products',
@@ -77,10 +78,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'rcnb.urls'
 
+# --- Template Configuration ---
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -96,34 +98,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rcnb.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-import dj_database_url
-
+# --- Database Configuration ---
+# Use dj_database_url to configure the database from the DATABASE_URL environment variable.
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'RAISE-DB',
-#         'USER': 'postgres',
-#         'PASSWORD': 'ANON77',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
+#     "default": dj_database_url.config(
+#         default=os.environ.get("DATABASE_URL"),
+#         conn_max_age=600,
+#         conn_health_checks=True,
+#         ssl_require=not DEBUG,
+#     )
 # }
 
 DATABASES = {
-    'default': dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'USER': 'postgres',
+        'NAME': 'RAISE-DB',
+        'PASSWORD': 'ANON77'
+    }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
-
+# --- Password Validation ---
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -139,48 +136,25 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
+# --- Internationalization ---
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-
+# --- Static and Media Files ---
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # for your dev assets
-]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # for collectstatic in prod
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 if not DEBUG:
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-TEMPLATES[0]["DIRS"] = [BASE_DIR / "templates"]
-
-STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]        # for your dev assets
-STATIC_ROOT = BASE_DIR / "staticfiles"          # for collectstatic in prod
-
+# Media files (user-uploaded files)
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # --- Email Settings ---
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -191,14 +165,31 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_USER')
 
-
-# Authentication settings
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # default
-]
-
-# Use email as login field
+# --- Authentication and Authorization ---
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 AUTH_USER_MODEL = 'auth.User'
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'products:product_list'
 LOGOUT_REDIRECT_URL = 'users:login'
+
+# --- Cloudinary Settings ---
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+#     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+#     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+# }
+
+# --- Default Primary Key Field Type ---
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG" if DEBUG else "INFO",
+    },
+}

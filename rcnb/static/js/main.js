@@ -601,3 +601,125 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+document.head.appendChild(style);
+
+/* ================ Carousel ================ */
+
+/* ================ Generic Carousel Initializer ================ */
+
+function initializeCarousel(carouselElement, arrowButtons) {
+    // Return early if the carousel or its cards are not found
+    if (!carouselElement || !carouselElement.querySelector(".card, .image-card")) {
+        console.error("Carousel element or its cards not found.", carouselElement);
+        return;
+    }
+
+    const firstCard = carouselElement.querySelector(".card, .image-card");
+    // Add a fallback in case offsetWidth is 0 for some reason
+    const firstCardWidth = firstCard.offsetWidth > 0 ? firstCard.offsetWidth : 250; 
+    const carouselChildrens = [...carouselElement.children];
+
+    let isDragging = false, isAutoPlay = true, startX, startScrollLeft, timeoutId;
+
+    // Get the number of cards to clone for a seamless loop effect
+    const cardsToClone = Math.round(carouselElement.offsetWidth / firstCardWidth);
+
+    // Clone first few cards and add to the end
+    if (carouselChildrens.length > cardsToClone) {
+        carouselChildrens.slice(0, cardsToClone).forEach(card => {
+            carouselElement.insertAdjacentHTML("beforeend", card.outerHTML);
+        });
+
+        // Clone last few cards and add to the beginning
+        carouselChildrens.slice(-cardsToClone).forEach(card => {
+            carouselElement.insertAdjacentHTML("afterbegin", card.outerHTML);
+        });
+    }
+
+
+    // Add event listeners for the arrow buttons
+    arrowButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            // *** FIX: Check for class instead of ID for more robust arrow logic ***
+            // This works even if IDs are duplicated across carousels.
+            if (btn.classList.contains("fa-angle-left")) {
+                carouselElement.scrollLeft -= firstCardWidth;
+            } else {
+                carouselElement.scrollLeft += firstCardWidth;
+            }
+        });
+    });
+
+    const dragStart = (e) => {
+        isDragging = true;
+        carouselElement.classList.add("dragging");
+        startX = e.pageX;
+        startScrollLeft = carouselElement.scrollLeft;
+    }
+
+    const dragging = (e) => {
+        if (!isDragging) return;
+        carouselElement.scrollLeft = startScrollLeft - (e.pageX - startX);
+    }
+
+    const dragStop = () => {
+        isDragging = false;
+        carouselElement.classList.remove("dragging");
+    }
+
+    const infiniteScroll = () => {
+        if (carouselElement.scrollLeft === 0) {
+            carouselElement.classList.add("no-transition");
+            carouselElement.scrollLeft = carouselElement.scrollWidth - (2 * carouselElement.offsetWidth);
+            carouselElement.classList.remove("no-transition");
+        }
+        else if (Math.ceil(carouselElement.scrollLeft) >= carouselElement.scrollWidth - carouselElement.offsetWidth) {
+            carouselElement.classList.add("no-transition");
+            carouselElement.scrollLeft = carouselElement.offsetWidth;
+            carouselElement.classList.remove("no-transition");
+        }
+
+        clearTimeout(timeoutId);
+        if (!carouselElement.matches(":hover")) autoPlay();
+    }
+
+    const autoPlay = () => {
+        // Autoplay is disabled on screens smaller than 800px or when user is hovering
+        if (window.innerWidth < 800) return;
+        
+        // *** CHANGE: Reduced timeout from 2500ms to 2000ms for faster autoplay ***
+        timeoutId = setTimeout(() => carouselElement.scrollLeft += firstCardWidth, 2000);
+    }
+    
+    autoPlay(); // Start the autoplay
+
+    carouselElement.addEventListener("mousedown", dragStart);
+    carouselElement.addEventListener("mousemove", dragging);
+    document.addEventListener("mouseup", dragStop);
+    carouselElement.addEventListener("scroll", infiniteScroll);
+    carouselElement.addEventListener("mouseenter", () => clearTimeout(timeoutId));
+    carouselElement.addEventListener("mouseleave", autoPlay);
+}
+
+// ==================================================================================
+//  Initialize ALL carousels on the site when the page loads
+// ==================================================================================
+document.addEventListener("DOMContentLoaded", () => {
+    const carouselContainers = document.querySelectorAll(".wrapper, .image-carousel-wrapper");
+
+    carouselContainers.forEach(container => {
+        const carousel = container.querySelector(".tcarousel-1, .image-carousel");
+        // This selector correctly finds the Font Awesome icons used as buttons
+        const arrowBtns = container.querySelectorAll(".fa-solid.fa-angle-left, .fa-solid.fa-angle-right");
+
+        if (carousel && arrowBtns.length > 0) {
+            initializeCarousel(carousel, arrowBtns);
+        } else {
+            console.warn("A carousel container was found, but it is missing the carousel list or arrow buttons.", container);
+        }
+    });
+});
+
+
+
