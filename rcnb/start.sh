@@ -9,7 +9,7 @@ python manage.py makemigrations
 python manage.py migrate
 
 # Create the superuser if it doesn't exist
-python manage.py create_superuser_with_password
+python manage.py createsuperuser
 
 # Start the Gunicorn server which runs your Django app
 gunicorn rcnb.wsgi:application --workers 3 --threads 2 --timeout 60 --log-file -
