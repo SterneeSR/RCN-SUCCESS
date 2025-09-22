@@ -1,3 +1,4 @@
+
 # rcnb/users/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
@@ -17,18 +18,19 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
 import logging
+from asgiref.sync import sync_to_async  # Import sync_to_async
 
 logger = logging.getLogger(__name__)
 
 
 # ------------------- Register -------------------
-def register(request):
+async def register(request):  # Make the view async
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            
+
             # Temporarily store user data in the session
             request.session['unverified_user'] = {
                 'email': email,
@@ -37,7 +39,7 @@ def register(request):
 
             # Create a temporary user object to generate the token
             temp_user = User(username=email, email=email)
-            
+
             # Send verification email
             current_site = get_current_site(request)
             mail_subject = 'Activate Your Account'
@@ -48,16 +50,16 @@ def register(request):
             })
 
             try:
-                send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+                # Use sync_to_async to call the blocking send_mail function
+                await sync_to_async(send_mail)(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
                 return render(request, 'users/email_verification_sent.html')
             except Exception as e:
                 logger.error(f"Error sending verification email: {e}")
                 messages.error(request, "Could not send verification email. Please try again later.")
-                
+
     else:
         form = RegisterForm()
     return render(request, 'users/register.html', {'form': form})
-
 
 # ------------------- Email Verification -------------------
 def verify_email(request, uidb64, token):
