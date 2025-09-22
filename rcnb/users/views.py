@@ -42,7 +42,7 @@ def acreate_user(username, email, password):
 @sync_to_async
 def alogin(request, user):
     login(request, user)
-    
+
 @sync_to_async
 def aget_user(email):
     try:
@@ -62,23 +62,25 @@ def aget_user_from_session(request):
 def aclear_session(request):
     if 'unverified_user' in request.session:
         del request.session['unverified_user']
-
-# rcnb/users/views.py
-
-# ... (imports and other functions)
+        
+@sync_to_async
+def set_session(request, key, value):
+    request.session[key] = value
 
 # ------------------- Register -------------------
 async def register(request):
     if request.method == 'POST':
-        form = await sync_to_async(RegisterForm)(request.POST)
+        form = RegisterForm(request.POST)
         if await sync_to_async(form.is_valid)():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
 
-            request.session['unverified_user'] = {
+            user_data = {
                 'email': email,
                 'password': make_password(password),
             }
+            await set_session(request, 'unverified_user', user_data)
+            
             temp_user = User(username=email, email=email)
             current_site = await aget_current_site(request)
             mail_subject = 'Activate Your Account'
@@ -130,8 +132,8 @@ async def verify_email(request, uidb64, token):
 # ------------------- Email Login -------------------
 async def email_login(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
+        form = await sync_to_async(LoginForm)(request.POST)
+        if await sync_to_async(form.is_valid)():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             
@@ -214,7 +216,7 @@ def edit_address(request, address_id):
             return redirect('users:address_book')
     else:
         form = AddressForm(instance=address)
-    return render(request, 'users/address_form.html', {'form': form})
+    return render(request, 'users/edit_address.html', {'form': form, 'address_id': address_id})
 
 
 @login_required
