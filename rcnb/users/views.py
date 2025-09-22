@@ -63,11 +63,15 @@ def aclear_session(request):
     if 'unverified_user' in request.session:
         del request.session['unverified_user']
 
+# rcnb/users/views.py
+
+# ... (imports and other functions)
+
 # ------------------- Register -------------------
-def register(request):
+async def register(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
+        form = await sync_to_async(RegisterForm)(request.POST)
+        if await sync_to_async(form.is_valid)():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
 
@@ -76,23 +80,23 @@ def register(request):
                 'password': make_password(password),
             }
             temp_user = User(username=email, email=email)
-            current_site = get_current_site(request)
+            current_site = await aget_current_site(request)
             mail_subject = 'Activate Your Account'
-            message = render_to_string('users/email_verification_email.html', {
+            message = await arender_to_string('users/email_verification_email.html', {
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(email)),
                 'token': default_token_generator.make_token(temp_user),
             })
 
             try:
-                send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
-                return render(request, 'users/email_verification_sent.html')
+                await asend_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+                return await sync_to_async(render)(request, 'users/email_verification_sent.html')
             except Exception as e:
                 logger.error(f"Error sending verification email: {e}")
                 messages.error(request, "Could not send verification email. Please try again later.")
     else:
         form = RegisterForm()
-    return render(request, 'users/register.html', {'form': form})
+    return await sync_to_async(render)(request, 'users/register.html', {'form': form})
 
 # ------------------- Email Verification -------------------
 async def verify_email(request, uidb64, token):
