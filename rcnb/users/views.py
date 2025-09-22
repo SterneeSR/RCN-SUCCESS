@@ -100,7 +100,7 @@ async def verify_email(request, uidb64, token):
         email = force_str(urlsafe_base64_decode(uidb64))
         temp_user = User(username=email, email=email)
     except (TypeError, ValueError, OverflowError):
-        return render(request, 'users/email_verification_invalid.html')
+        return await sync_to_async(render)(request, 'users/email_verification_invalid.html')
 
     if default_token_generator.check_token(temp_user, token):
         user_data = await aget_user_from_session(request)
@@ -120,7 +120,7 @@ async def verify_email(request, uidb64, token):
         messages.success(request, 'Your email has been verified and your account is created! You are now logged in.')
         return redirect('products:product_list')
     else:
-        return render(request, 'users/email_verification_invalid.html')
+        return await sync_to_async(render)(request, 'users/email_verification_invalid.html')
 
 
 # ------------------- Email Login -------------------
@@ -143,7 +143,7 @@ async def email_login(request):
                 messages.error(request, "User does not exist.")
     else:
         form = LoginForm()
-    return render(request, 'users/login.html', {'form': form})
+    return await sync_to_async(render)(request, 'users/login.html', {'form': form})
 
 
 # ------------------- Profile Page -------------------
@@ -177,7 +177,7 @@ async def profile(request):
                 return redirect('users:profile')
     else:
         user_form = await sync_to_async(lambda: UserUpdateForm(instance=user))()
-    return render(request, 'users/profile.html', {'user_form': user_form})
+    return await sync_to_async(render)(request, 'users/profile.html', {'user_form': user_form})
 
 
 # ------------------- Address Book -------------------
