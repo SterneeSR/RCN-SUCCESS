@@ -2,6 +2,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Address, Profile
+from asgiref.sync import sync_to_async
 
 # This form is for user registration
 class RegisterForm(forms.ModelForm):
