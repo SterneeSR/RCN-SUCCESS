@@ -24,23 +24,39 @@ def register(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            
-            user = User.objects.create_user(username=email, email=email, password=password)
-            user.is_active = False
-            user.save()
 
-            # Send verification email
-            current_site = get_current_site(request)
-            mail_subject = 'Activate Your Account'
-            message = render_to_string('users/email_verification_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
-            })
-            send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
-            
-            return render(request, 'users/email_verification_sent.html')
+            # Check if user already exists
+            try:
+                user = User.objects.get(email=email)
+                if not user.is_active:
+                    # Resend verification email for inactive user
+                    current_site = get_current_site(request)
+                    mail_subject = 'Activate Your Account'
+                    message = render_to_string('users/email_verification_email.html', {
+                        'user': user,
+                        'domain': current_site.domain,
+                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token': default_token_generator.make_token(user),
+                    })
+                    send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+                    return render(request, 'users/email_verification_sent.html')
+            except User.DoesNotExist:
+                # Create a new user if one doesn't exist
+                user = User.objects.create_user(username=email, email=email, password=password)
+                user.is_active = False
+                user.save()
+
+                # Send verification email for new user
+                current_site = get_current_site(request)
+                mail_subject = 'Activate Your Account'
+                message = render_to_string('users/email_verification_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': default_token_generator.make_token(user),
+                })
+                send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+                return render(request, 'users/email_verification_sent.html')
     else:
         form = RegisterForm()
     return render(request, 'users/register.html', {'form': form})
@@ -76,7 +92,7 @@ def email_login(request):
                 if not user_obj.is_active:
                     messages.error(request, "Your account is not active. Please check your email for a verification link.")
                     return redirect('users:login')
-                
+
                 user = authenticate(request, username=user_obj.username, password=password)
                 if user:
                     login(request, user)
