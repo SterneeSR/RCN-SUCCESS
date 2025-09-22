@@ -10,4 +10,4 @@ pip install -r requirements.txt
 python manage.py collectstatic --no-input
 
 # Create superuser if it doesn't exist
-python manage.py create_superuser_with_password
+python manage.py createsuperuser
