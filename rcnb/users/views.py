@@ -15,7 +15,9 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
+import logging
 
+logger = logging.getLogger(__name__)
 
 # ------------------- Register -------------------
 def register(request):
@@ -25,7 +27,6 @@ def register(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
 
-            # Check if user already exists
             try:
                 user = User.objects.get(email=email)
                 if not user.is_active:
@@ -38,8 +39,13 @@ def register(request):
                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                         'token': default_token_generator.make_token(user),
                     })
-                    send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
-                    return render(request, 'users/email_verification_sent.html')
+                    try:
+                        send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+                        return render(request, 'users/email_verification_sent.html')
+                    except Exception as e:
+                        logger.error(f"Error sending verification email: {e}")
+                        messages.error(request, "Could not send verification email. Please try again later.")
+
             except User.DoesNotExist:
                 # Create a new user if one doesn't exist
                 user = User.objects.create_user(username=email, email=email, password=password)
@@ -55,12 +61,15 @@ def register(request):
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     'token': default_token_generator.make_token(user),
                 })
-                send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
-                return render(request, 'users/email_verification_sent.html')
+                try:
+                    send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+                    return render(request, 'users/email_verification_sent.html')
+                except Exception as e:
+                    logger.error(f"Error sending verification email: {e}")
+                    messages.error(request, "Could not send verification email. Please try again later.")
     else:
         form = RegisterForm()
     return render(request, 'users/register.html', {'form': form})
-
 
 # ------------------- Email Verification -------------------
 def verify_email(request, uidb64, token):
