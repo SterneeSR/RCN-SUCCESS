@@ -159,7 +159,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # --- Email Settings ---
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
-DEFAULT_FROM_EMAIL = "your_verified_email@example.com"  # Make sure this is a verified sender
+DEFAULT_FROM_EMAIL = "sterneesr@gmail.com"  # Make sure this is a verified sender
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
 # --- Authentication and Authorization ---
