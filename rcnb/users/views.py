@@ -23,35 +23,66 @@ from asgiref.sync import sync_to_async  # Import sync_to_async
 logger = logging.getLogger(__name__)
 
 
+# ------------------- Helper Functions for Async Operations -------------------
+# It's good practice to create async versions of common sync functions
+
+@sync_to_async
+def aget_current_site(request):
+    return get_current_site(request)
+
+@sync_to_async
+def arender_to_string(template_name, context):
+    return render_to_string(template_name, context)
+
+@sync_to_async
+def asend_mail(subject, message, from_email, recipient_list):
+    send_mail(subject, message, from_email, recipient_list)
+
+@sync_to_async
+def acreate_user(username, email, password):
+    return User.objects.create_user(username=username, email=email, password=password)
+
+@sync_to_async
+def alogin(request, user):
+    login(request, user)
+
+@sync_to_async
+def aget_user_from_session(request):
+    return request.session.get('unverified_user')
+
+@sync_to_async
+def aclear_session(request):
+    if 'unverified_user' in request.session:
+        del request.session['unverified_user']
+
 # ------------------- Register -------------------
-async def register(request):  # Make the view async
+async def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
 
-            # Temporarily store user data in the session
+            # Temporarily store user data in the session (this is synchronous, but we'll manage it)
             request.session['unverified_user'] = {
                 'email': email,
-                'password': make_password(password),  # Store hashed password
+                'password': make_password(password),
             }
 
             # Create a temporary user object to generate the token
             temp_user = User(username=email, email=email)
 
             # Send verification email
-            current_site = get_current_site(request)
+            current_site = await aget_current_site(request)
             mail_subject = 'Activate Your Account'
-            message = render_to_string('users/email_verification_email.html', {
+            message = await arender_to_string('users/email_verification_email.html', {
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(email)),
                 'token': default_token_generator.make_token(temp_user),
             })
 
             try:
-                # Use sync_to_async to call the blocking send_mail function
-                await sync_to_async(send_mail)(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+                await asend_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
                 return render(request, 'users/email_verification_sent.html')
             except Exception as e:
                 logger.error(f"Error sending verification email: {e}")
@@ -60,6 +91,40 @@ async def register(request):  # Make the view async
     else:
         form = RegisterForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+# ------------------- Email Verification -------------------
+async def verify_email(request, uidb64, token):
+    try:
+        email = force_str(urlsafe_base64_decode(uidb64))
+        temp_user = User(username=email, email=email)
+    except (TypeError, ValueError, OverflowError):
+        return render(request, 'users/email_verification_invalid.html')
+
+    if default_token_generator.check_token(temp_user, token):
+        user_data = await aget_user_from_session(request)
+        if not user_data or user_data.get('email') != email:
+            messages.error(request, "Verification link is invalid or has expired. Please register again.")
+            return redirect('users:register')
+
+        # Create the user now that the email is verified
+        user = await acreate_user(
+            username=user_data['email'],
+            email=user_data['email'],
+            password=user_data['password'] # This is already hashed
+        )
+        user.is_active = True
+        await sync_to_async(user.save)() # Save the user asynchronously
+
+        # Clean up session
+        await aclear_session(request)
+
+        # Log the user in
+        await alogin(request, user)
+        messages.success(request, 'Your email has been verified and your account is created! You are now logged in.')
+        return redirect('products:product_list')
+    else:
+        return render(request, 'users/email_verification_invalid.html')
 
 # ------------------- Email Verification -------------------
 def verify_email(request, uidb64, token):
