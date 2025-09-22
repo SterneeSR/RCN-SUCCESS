@@ -1,7 +1,8 @@
 # rcnb/users/forms.py
 from django import forms
 from django.contrib.auth.models import User
-from .models import Address, Profile # <-- Import both Address and Profile
+from .models import Address, Profile
+from asgiref.sync import sync_to_async
 
 # This form is for user registration
 class RegisterForm(forms.ModelForm):
@@ -12,9 +13,9 @@ class RegisterForm(forms.ModelForm):
         model = User
         fields = ['email', 'password']
 
-    def clean_email(self):
+    async def clean_email(self):
         email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
+        if await sync_to_async(User.objects.filter(email=email).exists)():
             raise forms.ValidationError("Email already registered.")
         return email
 
