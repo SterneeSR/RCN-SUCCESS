@@ -158,13 +158,9 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # --- Email Settings ---
 # --- Email Settings ---
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.sendgrid.net"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "apikey"  # This is correct for SendGrid
-EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_API_KEY")
-DEFAULT_FROM_EMAIL = "sterneesr@gmail.com" # Change this to your verified sender email
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
+DEFAULT_FROM_EMAIL = "sterneesr@gmail.com"
 
 
 # --- Authentication and Authorization ---
