@@ -152,14 +152,14 @@ async def email_login(request):
 # ------------------- Profile Page -------------------
 @login_required
 async def profile(request):
+    user = await sync_to_async(lambda: request.user)()
+    
     if request.method == 'POST':
-        user_form = UserUpdateForm(request.POST, instance=request.user)
-        if user_form.is_valid():
+        user_form = await sync_to_async(lambda: UserUpdateForm(request.POST, instance=user))()
+        if await sync_to_async(user_form.is_valid)():
             if 'email' in user_form.changed_data:
                 user = await sync_to_async(user_form.save)(commit=False)
                 user.is_active = False
-                # Assuming you have a related profile model
-                # user.profile.email_verified = False 
                 await sync_to_async(user.save)()
 
                 current_site = await aget_current_site(request)
@@ -179,11 +179,8 @@ async def profile(request):
                 messages.success(request, 'Your profile details have been updated!')
                 return redirect('users:profile')
     else:
-        user_form = UserUpdateForm(instance=request.user)
+        user_form = await sync_to_async(lambda: UserUpdateForm(instance=user))()
     return render(request, 'users/profile.html', {'user_form': user_form})
-
-# Note: The remaining views (address_book, etc.) are still synchronous.
-# For a fully non-blocking app, you should convert them using the same patterns as above.
 
 
 # ------------------- Address Book -------------------
