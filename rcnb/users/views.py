@@ -1,4 +1,5 @@
 # rcnb/users/views.py
+# rcnb/users/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -32,7 +33,7 @@ def register(request):
                 if not user.is_active:
                     # Resend verification email for inactive user
                     current_site = get_current_site(request)
-                    mail_subject = 'Activate Your Account'
+                    subject = 'Activate Your Account'
                     message = render_to_string('users/email_verification_email.html', {
                         'user': user,
                         'domain': current_site.domain,
@@ -40,7 +41,7 @@ def register(request):
                         'token': default_token_generator.make_token(user),
                     })
                     try:
-                        send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+                        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
                         return render(request, 'users/email_verification_sent.html')
                     except Exception as e:
                         logger.error(f"Error sending verification email: {e}")
@@ -54,7 +55,7 @@ def register(request):
 
                 # Send verification email for new user
                 current_site = get_current_site(request)
-                mail_subject = 'Activate Your Account'
+                subject = 'Activate Your Account'
                 message = render_to_string('users/email_verification_email.html', {
                     'user': user,
                     'domain': current_site.domain,
@@ -62,7 +63,7 @@ def register(request):
                     'token': default_token_generator.make_token(user),
                 })
                 try:
-                    send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+                    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
                     return render(request, 'users/email_verification_sent.html')
                 except Exception as e:
                     logger.error(f"Error sending verification email: {e}")
