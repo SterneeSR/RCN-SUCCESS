@@ -126,40 +126,6 @@ async def verify_email(request, uidb64, token):
     else:
         return render(request, 'users/email_verification_invalid.html')
 
-# ------------------- Email Verification -------------------
-def verify_email(request, uidb64, token):
-    try:
-        email = force_str(urlsafe_base64_decode(uidb64))
-        temp_user = User(username=email, email=email)
-    except (TypeError, ValueError, OverflowError):
-        return render(request, 'users/email_verification_invalid.html')
-
-    if default_token_generator.check_token(temp_user, token):
-        user_data = request.session.get('unverified_user')
-        if not user_data or user_data.get('email') != email:
-            messages.error(request, "Verification link is invalid or has expired. Please register again.")
-            return redirect('users:register')
-
-        # Create the user now that the email is verified
-        user = User.objects.create_user(
-            username=user_data['email'],
-            email=user_data['email'],
-            password=user_data['password'] # This is already hashed
-        )
-        user.is_active = True
-        user.save()
-        
-        # Clean up session
-        del request.session['unverified_user']
-
-        # Log the user in
-        login(request, user)
-        messages.success(request, 'Your email has been verified and your account is created! You are now logged in.')
-        return redirect('products:product_list')
-    else:
-        return render(request, 'users/email_verification_invalid.html')
-
-# (The rest of your views.py file remains the same)
 # ------------------- Email Login -------------------
 def email_login(request):
     if request.method == 'POST':
