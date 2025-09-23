@@ -33,7 +33,7 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 # ALLOWED_HOSTS is a list of trusted hostnames for the Django project.
 # In production, set this to your domain(s) in your environment variables.
 # Example: 'raise-nanobiotech.up.railway.app,localhost,127.0.0.1'
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,raise-nanobiotech.up.railway.app').split(',')
 
 # CSRF_TRUSTED_ORIGINS is a list of trusted origins for CSRF protection.
 # This should include your full production domain(s).
