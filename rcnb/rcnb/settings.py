@@ -20,30 +20,28 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # --- Environment Variables ---
-# Load environment variables from .env file
+# Load environment variables from .env file for local development
 load_dotenv()
 
 # --- Security and Deployment Settings ---
-# SECRET_KEY is used for cryptographic signing.
-SECRET_KEY = os.environ.get('SECRET_KEY')
+# SECRET_KEY is used for cryptographic signing. Fallback to an insecure key for local dev only.
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-a-default-secret-key-for-development')
 
-# DEBUG mode is for development. Should be False in production.
-# The value is read from the environment variable 'DEBUG'.
-# A default of 'False' is used if the variable isn't set.
+# DEBUG mode should be False in production. It defaults to 'False' if the env var is not set.
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-
 # ALLOWED_HOSTS is a list of trusted hostnames for the Django project.
-ALLOWED_HOSTS = [
-    'raise-nanobiotech.up.railway.app',
-    'localhost',
-    '127.0.0.1',
-]
+# In production, set this to your domain(s) in your environment variables.
+# Example: 'raise-nanobiotech.up.railway.app,localhost,127.0.0.1'
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+
 # CSRF_TRUSTED_ORIGINS is a list of trusted origins for CSRF protection.
+# This should include your full production domain(s).
 CSRF_TRUSTED_ORIGINS = [
     'https://raise-nanobiotech.up.railway.app',
-    'http://raise-nanobiotech.up.railway.app'
+    'http://raise-nanobiotech.up.railway.app' # If you ever use http
 ]
+
 
 # --- Application and Middleware ---
 INSTALLED_APPS = [
@@ -52,9 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',
     'django.contrib.staticfiles',
-    'cloudinary',
     'home',
     'startups',
     'products',
@@ -63,10 +59,14 @@ INSTALLED_APPS = [
     'favorites',
     'cart',
     'users',
+    'cloudinary_storage',
+    'cloudinary',
+    'sendgrid_backend',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # Whitenoise middleware should be placed right after SecurityMiddleware
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -99,41 +99,34 @@ TEMPLATES = [
 WSGI_APPLICATION = 'rcnb.wsgi.application'
 
 # --- Database Configuration ---
-# Use dj_database_url to configure the database from the DATABASE_URL environment variable.
-DATABASES = {
-    "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=not DEBUG,
-    )
-}
+# Use dj_database_url to configure from the DATABASE_URL environment variable.
+# Fallback to a local SQLite database if DATABASE_URL is not set (for easy local setup).
+if os.environ.get("DATABASE_URL"):
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.environ.get("DATABASE_URL"),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'raise_db', 
+            'HOST': 'localhost',
+            'PORT': '5432',     
+            'PASSWORD': 'ANON77',
+        }
+    }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#         'USER': 'postgres',
-#         'NAME': 'RAISE-DB',
-#         'PASSWORD': 'ANON77'
-#     }
-# }
 
 # --- Password Validation ---
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # --- Internationalization ---
@@ -143,30 +136,42 @@ USE_I18N = True
 USE_TZ = True
 
 # --- Static and Media Files ---
+
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-if not DEBUG:
-    STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
-
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-        'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-        'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
-    }
-
 # Media files (user-uploaded files)
-MEDIA_URL = "media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# *** KEY FIX FOR BUILD ERROR AND DEPLOYMENT ***
+# This section separates storage settings for development and production.
+
+if DEBUG:
+    # In development, use the local filesystem for both static and media files.
+    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+else:
+    # In production, use Whitenoise for static files and Cloudinary for media files.
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+# --- Cloudinary Settings ---
+# These are loaded from your environment variables in production.
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
 
 # --- Email Settings ---
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
-DEFAULT_FROM_EMAIL = "sterneesr@gmail.com"  # Make sure this is a verified sender
-SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "default@example.com")
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False # Set to True to test email sending without actually sending emails
 
 # --- Authentication and Authorization ---
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
@@ -175,16 +180,10 @@ LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'products:product_list'
 LOGOUT_REDIRECT_URL = 'users:login'
 
-# --- Cloudinary Settings ---
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
-}
-
 # --- Default Primary Key Field Type ---
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# --- Logging ---
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
