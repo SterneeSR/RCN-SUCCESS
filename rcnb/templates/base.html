@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}RCNB{% endblock title %}</title>
+    <title>{% block title %}RCN{% endblock title %}</title>
     <link rel="icon" href="{% static 'images/20250704_111421.png' %}" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -116,12 +116,13 @@
     </div>
     {% endif %}
 
+    {% block extra_js %}
     <script>
         // Pass static path for mobile footer logo to JavaScript
         const mobileFooterLogoUrl = "{% static 'images/RCN-Logo-2.png' %}";
     </script>
     <script src="{% static 'js/main.js' %}"></script>
-    {% block extra_js %}{% endblock %}
+    {% endblock %}
 
 </body>
 </html>
