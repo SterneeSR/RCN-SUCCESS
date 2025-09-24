@@ -16,7 +16,9 @@
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 </head>
-<body class="{% if 'users/' in request.path or 'cart/' in request.path or 'favorites/' in request.path or 'orders/' in request.path %}dashboard-body{% endif %}">
+{% block body_class %}{% endblock %}
+
+<body class="{% if body_class %}{{ body_class }}{% else %}default-body{% endif %}">
 
     {% if 'users/' not in request.path and 'cart/' not in request.path and 'favorites/' not in request.path and 'orders/' not in request.path %}
     <header id="main-header">
