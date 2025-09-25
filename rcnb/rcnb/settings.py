@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'events',
     'favorites',
     'cart',
-    'users',
+    'users.apps.UsersConfig',
     'cloudinary_storage',
     'cloudinary',
     'sendgrid_backend',
