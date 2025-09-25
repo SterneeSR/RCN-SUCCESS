@@ -112,7 +112,7 @@ USE_I18N = True
 USE_TZ = True
 
 # --- Static Files (and WhiteNoise) ---
-STATIC_URL = '/static/'
+STATIC_URL = 'https://raise-nanobiotech.up.railway.app/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"  
 
 STATICFILES_DIRS = [
