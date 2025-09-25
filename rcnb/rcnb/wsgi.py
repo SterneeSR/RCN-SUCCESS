@@ -6,15 +6,14 @@ from django.core.management import call_command
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rcnb.settings')
 
-# --- TEMPORARY CODE TO CHECK CLOUDINARY ---
-# This will run the check_cloudinary command every time the app starts.
-# The output will be in your Railway deployment logs.
-print("--- RUNNING CLOUDINARY CHECK ---")
+# --- TEMPORARY CODE TO TEST COMMANDS ---
+print("--- RUNNING TEST COMMAND ---")
 try:
-    call_command('check_cloudinary')
+    # Call the new, simple test command
+    call_command('test_command')
 except Exception as e:
-    print(f"Error running check_cloudinary: {e}")
-print("--- CLOUDINARY CHECK COMPLETE ---")
+    print(f"Error running test_command: {e}")
+print("--- TEST COMMAND COMPLETE ---")
 # --- REMOVE THIS CODE AFTER DEBUGGING ---
 
 application = get_wsgi_application()
