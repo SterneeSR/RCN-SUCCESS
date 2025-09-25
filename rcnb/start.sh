@@ -4,4 +4,4 @@ set -o errexit
 python manage.py migrate
 python manage.py create_superuser_with_password
 
-gunicorn rcnb.wsgi:application --workers 3 --threads 2 --timeout 60 --log-file -
+gunicorn rcnb.wsgi:application --workers 3 --threads 2 --timeout 60 --log-file
