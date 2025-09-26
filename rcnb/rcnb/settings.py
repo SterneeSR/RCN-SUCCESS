@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'events',
     'favorites',
     'cart',
-    'events',
     'users.apps.UsersConfig',
     'cloudinary_storage',
     'cloudinary',
