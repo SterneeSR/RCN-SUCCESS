@@ -92,3 +92,13 @@ def popular_searches(request):
     """
     return JsonResponse({"popular_searches": []})
 
+import logging
+logger = logging.getLogger(__name__)
+
+def debug_cloudinary_upload(file):
+    import cloudinary.uploader
+    try:
+        result = cloudinary.uploader.upload(file)
+        logger.warning(f"Cloudinary Upload Success: {result.get('secure_url')}")
+    except Exception as e:
+        logger.error(f"Cloudinary Upload Failed: {e}")
