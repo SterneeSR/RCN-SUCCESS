@@ -141,7 +141,6 @@ if os.environ.get("CLOUDINARY_CLOUD_NAME") and os.environ.get("CLOUDINARY_API_KE
         'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
     }
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    MEDIA_URL = "/media/"
 else:
     # Development settings
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
