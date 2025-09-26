@@ -91,3 +91,4 @@ def popular_searches(request):
     Placeholder view for popular searches.
     """
     return JsonResponse({"popular_searches": []})
+

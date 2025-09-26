@@ -166,26 +166,37 @@ LOGOUT_REDIRECT_URL = 'users:login'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # --- Logging ---
+# --- Logging ---
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
         },
     },
     'loggers': {
-        'django.request': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        # --- ADD THESE TWO LOGGERS ---
+        'cloudinary': {
             'handlers': ['console'],
             'level': 'DEBUG',
+            'propagate': True,
         },
-        'django.security': {
+        'cloudinary_storage': {
             'handlers': ['console'],
             'level': 'DEBUG',
+            'propagate': True,
         },
-        'django.server': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-    }
+    },
 }
