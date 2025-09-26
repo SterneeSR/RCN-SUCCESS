@@ -1,4 +1,7 @@
+# rcnb/products/views.py
+
 from django.db.models import Q
+from django.http import JsonResponse  # <-- Import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from .models import Product
 from favorites.models import Favorite
@@ -7,6 +10,9 @@ import re
 
 def product_detail(request, slug):
     p = get_object_or_404(Product.objects.select_related("startup"), slug=slug)
+    # The TemplateDoesNotExist error comes from here.
+    # Make sure this template exists at:
+    # rcnb/products/templates/products/product_detail.html
     return render(request, "products/product_detail.html", {"p": p})
 
 PAGE_SIZE = 12
@@ -22,7 +28,6 @@ def product_list(request):
         qs = qs.filter(startup__category=category)
 
     if q:
-        # ... (your search logic is fine and remains unchanged) ...
         normalized_q = re.sub(r'[-\s]', '', q.lower())
         query = Q()
         query |= Q(name__icontains=q)
@@ -38,22 +43,18 @@ def product_list(request):
                     query |= Q(pk=product.pk)
         qs = qs.filter(query)
 
-
     if sort == 'price_asc':
         qs = qs.order_by('price__isnull', 'price', '-created_at')
     elif sort == 'price_desc':
         qs = qs.order_by('price__isnull', '-price', '-created_at')
     else:
         qs = qs.order_by('-created_at')
-        
+
     favorited_ids = set()
     show_profile_prompt = False
-    
+
     if request.user.is_authenticated:
         favorited_ids = set(Favorite.objects.filter(user=request.user).values_list('product_id', flat=True))
-        
-        # --- THIS IS THE CORRECTED LOGIC ---
-        # Instead of checking the profile, we check if the user has any saved addresses.
         if not request.user.addresses.exists():
             show_profile_prompt = True
 
@@ -72,16 +73,21 @@ def product_list(request):
         "has_next": qs.count() > end,
         "categories": category_choices,
         "selected_category": category,
-        "show_profile_prompt": show_profile_prompt, # <-- This is now correct
+        "show_profile_prompt": show_profile_prompt,
     }
     return render(request, "products/product_list.html", ctx)
 
-# --- ADDING THESE MISSING FUNCTIONS BACK ---
+# --- FIX ---
+# Both functions now return a valid, empty JSON response.
 def product_suggest(request):
-    # Your suggestion logic will go here in the future
-    pass
+    """
+    Placeholder view for product suggestions.
+    """
+    return JsonResponse({"suggestions": []})
 
+# --- FIX ---
 def popular_searches(request):
-    # Your popular searches logic will go here in the future
-    pass
-
+    """
+    Placeholder view for popular searches.
+    """
+    return JsonResponse({"popular_searches": []})
