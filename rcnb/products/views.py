@@ -8,6 +8,9 @@ from favorites.models import Favorite
 from startups.models import Startup
 import re
 
+from django.http import JsonResponse
+import cloudinary.uploader
+
 def product_detail(request, slug):
     p = get_object_or_404(Product.objects.select_related("startup"), slug=slug)
     # The TemplateDoesNotExist error comes from here.
@@ -92,13 +95,28 @@ def popular_searches(request):
     """
     return JsonResponse({"popular_searches": []})
 
-import logging
-logger = logging.getLogger(__name__)
+# --- NEW ---
 
-def debug_cloudinary_upload(file):
-    import cloudinary.uploader
+def test_cloudinary_upload(request):
     try:
-        result = cloudinary.uploader.upload(file)
-        logger.warning(f"Cloudinary Upload Success: {result.get('secure_url')}")
+        # Create a small test file in memory
+        from io import BytesIO
+        from PIL import Image
+
+        image = Image.new('RGB', (100, 100), color='red')
+        buffer = BytesIO()
+        image.save(buffer, format="JPEG")
+        buffer.seek(0)
+
+        # Upload to Cloudinary directly
+        res = cloudinary.uploader.upload(buffer, public_id="test_upload_image")
+
+        return JsonResponse({
+            "status": "success",
+            "cloudinary_url": res.get("secure_url"),
+        })
     except Exception as e:
-        logger.error(f"Cloudinary Upload Failed: {e}")
+        return JsonResponse({
+            "status": "error",
+            "message": str(e)
+        }, status=500)
