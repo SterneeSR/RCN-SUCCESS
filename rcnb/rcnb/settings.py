@@ -134,8 +134,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # --- Media Files (Cloudinary) ---
-# --- Media Files (Cloudinary) ---
-if not DEBUG:
+if os.environ.get('DJANGO_ENV') == 'production':
     # Production settings (Railway)
     CLOUDINARY_STORAGE = {
         'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
