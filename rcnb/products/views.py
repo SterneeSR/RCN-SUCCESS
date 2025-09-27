@@ -120,3 +120,24 @@ def test_cloudinary_upload(request):
             "status": "error",
             "message": str(e)
         }, status=500)
+    
+# rcnb/products/views.py
+
+# ... (keep all your existing imports)
+from django.http import JsonResponse
+from django.core.files.storage import default_storage # <-- Add this import
+
+# ... (keep your other views like product_list, test_cloudinary_upload, etc.)
+
+
+# --- ADD THIS NEW VIEW ---
+def check_storage(request):
+    """
+    A diagnostic view to check the current default storage backend.
+    """
+    storage_class = default_storage.__class__.__name__
+    return JsonResponse({
+        "status": "success",
+        "default_storage_backend": storage_class,
+        "is_cloudinary": "cloudinary" in storage_class.lower()
+    })
