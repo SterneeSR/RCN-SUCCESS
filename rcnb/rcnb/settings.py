@@ -124,6 +124,8 @@ USE_TZ = True
 
 # ... (other settings) ...
 
+# --- Media Files (Cloudinary) ---
+
 # --- Static Files (and WhiteNoise) ---
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -133,13 +135,29 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# --- Media Files (Cloudinary) ---
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
-}
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# --- DIAGNOSTIC PRINTS (REMOVE LATER) ---
+print("--- SETTINGS.PY DIAGNOSTICS ---")
+print(f"DJANGO_ENV variable is: {os.environ.get('DJANGO_ENV')}")
+print(f"DEBUG variable is: {DEBUG}")
+print("--- END DIAGNOSTICS ---")
+
+
+if os.environ.get('DJANGO_ENV') == 'production':
+    # Production settings (Railway)
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+        'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+        'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+    }
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+else:
+    # Development settings (local)
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
+
+# --- DIAGNOSTIC PRINT FOR STORAGE ---
+print(f"FINAL DEFAULT_FILE_STORAGE is: {DEFAULT_FILE_STORAGE}")
 
 # --- Email (SendGrid) ---
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
