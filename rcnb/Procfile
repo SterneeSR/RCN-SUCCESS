@@ -1,2 +1,1 @@
-# rcnb/Procfile
-web: gunicorn rcnb.wsgi --forwarded-allow-ips="*"
+web: python manage.py migrate && gunicorn rcnb.wsgi --forwarded-allow-ips="*"
