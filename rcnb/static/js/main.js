@@ -7,7 +7,8 @@
     return match ? match.pop() : '';
   }
 
-  // animation for like/cart button clicks //
+// animation for like/cart button clicks //
+
   function makeRadialOverlay(card, x, y, type) {
     if (!card) return;
     card.querySelectorAll('.swipe-overlay').forEach(el => el.remove());
