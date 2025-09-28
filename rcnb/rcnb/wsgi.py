@@ -14,3 +14,7 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rcnb.settings')
 
 application = get_wsgi_application()
+
+from django.core.files.storage import default_storage
+from cloudinary_storage.storage import MediaCloudinaryStorage
+default_storage._wrapped = MediaCloudinaryStorage()
