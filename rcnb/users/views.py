@@ -18,8 +18,24 @@ from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
 import logging
 from asgiref.sync import sync_to_async
+from django.core.signing import Signer, BadSignature, SignatureExpired
+from django.urls import reverse
 
+signer = Signer()
 logger = logging.getLogger(__name__)
+
+from django.contrib.auth import logout
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+
+# ------------------- Custom Logout View -------------------
+
+@login_required
+def custom_logout(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect('users:login')
 
 
 # ------------------- Helper Functions for Async Operations -------------------
@@ -67,7 +83,9 @@ def aclear_session(request):
 def set_session(request, key, value):
     request.session[key] = value
 
+
 # ------------------- Register -------------------
+
 async def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -80,14 +98,15 @@ async def register(request):
                 'password': make_password(password),
             }
             await set_session(request, 'unverified_user', user_data)
-            
-            temp_user = User(username=email, email=email)
+
+            # Create a signed token for email verification
+            token = signer.sign(email)
+            verification_link = request.build_absolute_uri(reverse('users:verify_email', kwargs={'token': token}))
+
             current_site = await aget_current_site(request)
             mail_subject = 'Activate Your Account'
             message = await arender_to_string('users/email_verification_email.html', {
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(email)),
-                'token': default_token_generator.make_token(temp_user),
+                'verification_link': verification_link,
             })
 
             try:
@@ -100,36 +119,36 @@ async def register(request):
         form = RegisterForm()
     return await sync_to_async(render)(request, 'users/register.html', {'form': form})
 
+
 # ------------------- Email Verification -------------------
-async def verify_email(request, uidb64, token):
+
+async def verify_email(request, token):
     try:
-        email = force_str(urlsafe_base64_decode(uidb64))
-        temp_user = User(username=email, email=email)
-    except (TypeError, ValueError, OverflowError):
+        # Unsign the token to get the email
+        email = signer.unsign(token, max_age=86400)  # Token expires in 1 day (86400 seconds)
+    except (BadSignature, SignatureExpired):
         return await sync_to_async(render)(request, 'users/email_verification_invalid.html')
 
-    if default_token_generator.check_token(temp_user, token):
-        user_data = await aget_user_from_session(request)
-        if not user_data or user_data.get('email') != email:
-            messages.error(request, "Verification link is invalid or has expired. Please register again.")
-            return redirect('users:register')
+    user_data = await aget_user_from_session(request)
+    if not user_data or user_data.get('email') != email:
+        messages.error(request, "Verification link is invalid or has expired. Please register again.")
+        return redirect('users:register')
 
-        user = await acreate_user(
-            username=user_data['email'],
-            email=user_data['email'],
-            password=user_data['password']
-        )
-        user.is_active = True
-        await sync_to_async(user.save)()
-        await aclear_session(request)
-        await alogin(request, user)
-        messages.success(request, 'Your email has been verified and your account is created! You are now logged in.')
-        return redirect('products:product_list')
-    else:
-        return await sync_to_async(render)(request, 'users/email_verification_invalid.html')
+    user = await acreate_user(
+        username=user_data['email'],
+        email=user_data['email'],
+        password=user_data['password']
+    )
+    user.is_active = True
+    await sync_to_async(user.save)()
+    await aclear_session(request)
+    await alogin(request, user)
+    messages.success(request, 'Your email has been verified and your account is created! You are now logged in.')
+    return redirect('products:product_list')
 
 
 # ------------------- Email Login -------------------
+
 async def email_login(request):
     if request.method == 'POST':
         form = await sync_to_async(LoginForm)(request.POST)
@@ -152,7 +171,9 @@ async def email_login(request):
     return await sync_to_async(render)(request, 'users/login.html', {'form': form})
 
 
+
 # ------------------- Profile Page -------------------
+
 @login_required
 async def profile(request):
     user = await sync_to_async(lambda: request.user)()
@@ -187,6 +208,7 @@ async def profile(request):
 
 
 # ------------------- Address Book -------------------
+
 @login_required
 def address_book(request):
     addresses = Address.objects.filter(user=request.user)
@@ -236,5 +258,10 @@ def reset_password(request):
 
 @login_required
 def delete_account(request):
-    messages.info(request, "This feature is not yet implemented.")
-    return redirect('users:profile')
+    if request.method == 'POST':
+        user = request.user
+        user.delete()
+        logout(request)
+        messages.success(request, "Your account has been deleted successfully.")
+        return redirect('home:home')  # Redirect to the home page after deletion
+    return render(request, 'users/delete_account_confirm.html')
