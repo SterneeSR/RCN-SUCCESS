@@ -2,12 +2,9 @@
 # Exit on error
 set -o errexit
 
-# Install dependencies
-pip install -r requirements.txt
+# Collect static files into the STATIC_ROOT directory.
+python manage.py collectstatic --no-input --clear
 
-# Collect static files
-python manage.py collectstatic --no-input
-
-# Create and apply database migrations for ALL apps
+# Create database migrations based on model changes.
+# This command does NOT need a database connection.
 python manage.py makemigrations --no-input
-python manage.py migrate
