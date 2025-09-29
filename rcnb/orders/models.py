@@ -37,6 +37,7 @@ class Order(models.Model):
     shipping_address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
     payment_screenshot = models.ImageField(upload_to='payment_proofs/', blank=True, null=True)
+    
 
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
