@@ -1,4 +1,3 @@
-# rcnb/orders/admin.py
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import Order, OrderItem
@@ -15,6 +14,13 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ('status',)
     search_fields = ('user__username', 'id')
     inlines = [OrderItemInline]
+
+    def total_amount(self, obj):
+        """Calculates the total amount from related order items."""
+        # Note: This assumes the related_name on your OrderItem's ForeignKey
+        # to Order is 'items'. If not, use 'orderitem_set'.
+        return sum(item.quantity * item.price for item in obj.items.all())
+    total_amount.short_description = 'Total Amount' # Sets the column header in the admin
 
     def display_screenshot(self, obj):
         if obj.payment_screenshot:
