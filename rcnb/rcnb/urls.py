@@ -28,7 +28,9 @@ urlpatterns = [
     path("startups/", include(("startups.urls", "startups"), namespace="startups")),
     path("favorites/", include(("favorites.urls", "favorites"), namespace="favorites")),
     path("cart/", include(("cart.urls", "cart"), namespace="cart")),
-    path("orders/", include(("orders.urls", "orders"), namespace="orders"))
+    path("orders/", include(("orders.urls", "orders"), namespace="orders")),
+    path("events/", include(("events.urls", "events"), namespace="events")),
+    path("core/", include(("core.urls", "core"), namespace="core")),
 ]
 
 if settings.DEBUG:

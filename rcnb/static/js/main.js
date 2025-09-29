@@ -720,3 +720,38 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+/* ================ Events JS ================ */
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Logic for "Read More" links
+    document.querySelectorAll('.read-more-trigger').forEach(trigger => {
+        trigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            const container = this.closest('.card-description-container');
+            if (container) {
+                const shortDescription = container.querySelector('.description-short');
+                const fullDescription = container.querySelector('.description-full');
+                if (shortDescription && fullDescription) {
+                    shortDescription.style.display = 'none';
+                    fullDescription.style.maxHeight = fullDescription.scrollHeight + 'px';
+                }
+            }
+        });
+    });
+
+    // Logic for "View All" buttons
+    document.querySelectorAll('.view-all-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const sectionId = this.dataset.section;
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.querySelectorAll('.hidden-card').forEach(card => {
+                    card.style.display = 'flex'; // Use flex as the card is a flex container
+                    card.classList.remove('hidden-card');
+                });
+                this.style.display = 'none'; // Hide the button after clicking
+            }
+        });
+    });
+});

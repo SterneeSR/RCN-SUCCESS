@@ -1,164 +1,118 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
-{% block title %}Events & Updates{% endblock %}
 
 {% block content %}
-<style>
-    /* ... (all the existing styles from the previous step are fine) ... */
-    .events-page-container {
-        max-width: 1200px;
-        margin: 40px auto;
-        padding: 0 20px;
-        color: #e6e6e6;
-    }
-    .events-header {
-        margin-bottom: 2rem;
-    }
-    .events-header h1 {
-        font-size: 2.5rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-    .events-header p {
-        color: #8b949e;
-        margin-top: 0.5rem;
-    }
-    .event-card {
-        background-color: #161b22;
-        border-radius: 1rem;
-        border: 1px solid #30363d;
-        display: flex;
-        gap: 1.5rem;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        transition: background-color 0.3s;
-    }
-    .event-card:hover {
-        background-color: #21262d;
-    }
-    .event-date-box {
-        flex-shrink: 0;
-        text-align: center;
-    }
-    .event-date-box .month {
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        color: #8b949e;
-    }
-    .event-date-box .day {
-        font-size: 1.875rem;
-        font-weight: 600;
-        color: #e6e6e6;
-    }
-    .event-image {
-        width: 200px;
-        height: 120px;
-        background-color: #30363d;
-        border-radius: 0.5rem;
-        flex-shrink: 0;
-    }
-    .event-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 0.5rem;
-    }
-    .event-details h3 {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #c084fc; /* Purple accent */
-        margin-bottom: 0.5rem;
-    }
-    .event-meta {
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        font-size: 0.875rem;
-        color: #8b949e;
-        margin-bottom: 1rem;
-    }
-    .event-tags {
-        display: flex;
-        gap: 0.5rem;
-        margin-top: 1rem;
-    }
-    .tag {
-        background-color: #30363d;
-        color: #8b949e;
-        padding: 0.25rem 0.75rem;
-        border-radius: 9999px;
-        font-size: 0.75rem;
-    }
-    .event-action {
-        margin-left: auto;
-        align-self: center;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    .view-btn {
-        background-color: #238636;
-        color: white;
-        text-decoration: none;
-        padding: 0.6rem 1.2rem;
-        border-radius: 0.5rem;
-        font-weight: 500;
-        transition: background-color 0.3s;
-        text-align: center;
-    }
-    .view-btn.pdf {
-        background-color: #da3633;
-    }
-    .view-btn:hover {
-        opacity: 0.8;
-    }
-</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <title>Explore News</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'events/css/events.css' %}">
+</head>
+<body class="events-page-container">
 
-<div class="events-page-container">
-    <div class="events-header">
-        <h1><i class="fa fa-calendar-alt"></i> Events & Updates</h1>
-        <p>Discover upcoming events and connect with us on LinkedIn</p>
-    </div>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-3xl md:text-4xl font-bold text-center mb-8 tracking-wider">EXPLORE NEWS</h1>
 
-    <div class="events-list">
-        {% for event in events %}
-        <div class="event-card">
-            <div class="event-date-box">
-                <div class="month">{{ event.event_date|date:"M" }}</div>
-                <div class="day">{{ event.event_date|date:"d" }}</div>
-            </div>
-            <div class="event-image">
-                {% if event.image %}
-                    <img src="{{ event.image.url }}" alt="{{ event.title }}">
-                {% endif %}
-            </div>
-            <div class="event-details">
-                <h3>{{ event.title }}</h3>
-                <div class="event-meta">
-                    <span><i class="fa fa-clock"></i> {{ event.event_date|date:"D, F j, Y" }} at {{ event.event_date|time:"g:i A" }}</span>
-                    <span><i class="fa fa-map-marker-alt"></i> {{ event.location }}</span>
-                </div>
-                <p>{{ event.description }}</p>
-                <div class="event-tags">
-                    {% for tag in event.get_tags_as_list %}
-                        <span class="tag">{{ tag }}</span>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="event-action">
-                {% if event.link %}
-                    <a href="{{ event.link }}" class="view-btn" target="_blank" rel="noopener noreferrer">View on LinkedIn</a>
-                {% endif %}
-                {% if event.details_pdf %}
-                    <a href="{{ event.details_pdf.url }}" class="view-btn pdf" target="_blank">Download PDF</a>
-                {% endif %}
-            </div>
+        <div class="flex flex-wrap justify-center gap-3 md:gap-4 mb-12" id="filters">
+            <a href="#events" class="filter-btn btn-events">Events</a>
+            <a href="#upcoming" class="filter-btn btn-upcoming">Upcoming Events</a>
+            <a href="#updates" class="filter-btn btn-updates">Updates</a>
         </div>
-        {% empty %}
-        <p>No events scheduled at the moment. Please check back later!</p>
-        {% endfor %}
+
+        <div class="space-y-16">
+            <section id="events" class="news-section">
+                <h2 class="text-2xl font-bold mb-6 text-center md:text-left">EVENTS</h2>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <img src="https://placehold.co/600x400/a3a3a3/ffffff?text=Event" alt="Event Image" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">Event Title</h3>
+                            <p class="card-date">02/09/2025</p>
+                            <div class="card-description-container">
+                                <p class="description-short">
+                                    Fvyiyh jw eweu cejwbweo jv ewfbu;ofej jvweu;ohepi ejweibefbve evbqeqhfeqn... <a href="#" class="read-more-trigger">Read more</a>
+                                </p>
+                                <p class="description-full">
+                                    This is the full expanded text. It provides much more detail about the event, its purpose, and what attendees can expect.
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                               <div class="linkedin-icon">
+                                    <a href="#">
+                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path>
+                                        </svg>
+                                    </a>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-card hidden-card">
+                        <img src="https://placehold.co/600x400/a3a3a3/ffffff?text=Event" alt="Event Image" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">Another Event</h3>
+                            <p class="card-date">10/10/2025</p>
+                            <div class="card-description-container">
+                                <p class="description-short">This is another event card that was initially hidden... <a href="#" class="read-more-trigger">Read more</a></p>
+                                <p class="description-full">Full details for the other event which is now visible after clicking the view all button.</p>
+                            </div>
+                             <div class="card-footer">
+                               <div class="linkedin-icon">
+                                    <a href="#">
+                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path>
+                                        </svg>
+                                    </a>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <button class="view-all-btn" data-section="events">
+                        View All
+                    </button>
+                </div>
+            </section>
+             <section id="upcoming" class="news-section">
+                <h2 class="text-2xl font-bold mb-6 text-center md:text-left">UPCOMING EVENTS</h2>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <img src="https://placehold.co/600x400/a3a3a3/ffffff?text=Upcoming" alt="Event Image" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">Upcoming Event Title</h3>
+                            <p class="card-date">12/10/2025</p>
+                            <div class="card-description-container">
+                                <p class="description-short">
+                                   A brief look at our next major event happening soon. Get ready for an amazing experience... <a href="#" class="read-more-trigger">Read more</a>
+                                </p>
+                                <p class="description-full">
+                                    This is the full expanded text for the upcoming event. Join us for a day of learning, networking, and innovation. We have a packed schedule with industry leaders and hands-on workshops.
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <p class="posted-on-text">Posted On: 8/09/2025</p>
+                                <div class="linkedin-icon">
+                                    <a href="#">
+                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="text-center mt-8">
+                    <button class="view-all-btn" data-section="upcoming">
+                        View All
+                    </button>
+                </div>
+            </section>
+        </div>
     </div>
-</div>
+
+    <script src="{% static 'events/js/events.js' %}"></script>
+</body>
 {% endblock %}
