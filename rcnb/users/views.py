@@ -1,4 +1,3 @@
-# rcnb/users/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -93,15 +92,20 @@ async def register(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
 
+            # Temporarily store user data in the session
             user_data = {
                 'email': email,
-                'password': make_password(password),
+                'password': make_password(password), 
             }
             await set_session(request, 'unverified_user', user_data)
 
-            # Create a signed token for email verification
-            token = signer.sign(email)
-            verification_link = request.build_absolute_uri(reverse('users:verify_email', kwargs={'token': token}))
+            # Create a temporary, inactive user to generate a token
+            user = User(username=email, email=email)
+            token = default_token_generator.make_token(user)
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+            
+            # This is the corrected line:
+            verification_link = request.build_absolute_uri(reverse('users:verify_email', kwargs={'uidb64': uidb64, 'token': token}))
 
             current_site = await aget_current_site(request)
             mail_subject = 'Activate Your Account'
@@ -122,29 +126,34 @@ async def register(request):
 
 # ------------------- Email Verification -------------------
 
-async def verify_email(request, token):
+async def verify_email(request, uidb64, token):
     try:
-        # Unsign the token to get the email
-        email = signer.unsign(token, max_age=86400)  # Token expires in 1 day (86400 seconds)
-    except (BadSignature, SignatureExpired):
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user_data = await aget_user_from_session(request)
+
+        if not user_data:
+            messages.error(request, "Verification session expired. Please register again.")
+            return redirect('users:register')
+
+        temp_user = User(pk=uid, username=user_data['email'], email=user_data['email'])
+
+        if default_token_generator.check_token(temp_user, token):
+            user = await acreate_user(
+                username=user_data['email'],
+                email=user_data['email'],
+                password=user_data['password']
+            )
+            user.is_active = True
+            await sync_to_async(user.save)()
+            await aclear_session(request)
+            await alogin(request, user)
+            messages.success(request, 'Your email has been verified and your account is created! You are now logged in.')
+            return redirect('products:product_list')
+        else:
+            return await sync_to_async(render)(request, 'users/email_verification_invalid.html')
+
+    except (TypeError, ValueError, OverflowError, BadSignature, SignatureExpired):
         return await sync_to_async(render)(request, 'users/email_verification_invalid.html')
-
-    user_data = await aget_user_from_session(request)
-    if not user_data or user_data.get('email') != email:
-        messages.error(request, "Verification link is invalid or has expired. Please register again.")
-        return redirect('users:register')
-
-    user = await acreate_user(
-        username=user_data['email'],
-        email=user_data['email'],
-        password=user_data['password']
-    )
-    user.is_active = True
-    await sync_to_async(user.save)()
-    await aclear_session(request)
-    await alogin(request, user)
-    messages.success(request, 'Your email has been verified and your account is created! You are now logged in.')
-    return redirect('products:product_list')
 
 
 # ------------------- Email Login -------------------
