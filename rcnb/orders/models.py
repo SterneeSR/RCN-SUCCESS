@@ -6,12 +6,20 @@ from products.models import Product
 from users.models import Address
 
 def generate_unique_order_id():
+    """
+    Generates a 6-character unique ID for an order, ensuring it doesn't already exist.
+    """
     while True:
         new_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+        # Checks the database to ensure the generated ID is unique before returning it
         if not Order.objects.filter(id=new_id).exists():
             return new_id
 
 class Order(models.Model):
+    """
+    Represents a customer's order, including payment status, shipping details,
+    and the overall status of the order.
+    """
     STATUS_CHOICES = (
         ('Pending', 'Pending'),
         ('Processing', 'Processing'),
@@ -34,6 +42,9 @@ class Order(models.Model):
         return f"Order {self.id} by {self.user.username}"
 
     def get_status_color(self):
+        """
+        Returns a color name based on the order status for use in templates.
+        """
         return {
             'Pending': 'warning',
             'Processing': 'info',
@@ -44,6 +55,10 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    """
+    Represents a single item within an order, linking a product to an order
+    with a specific quantity and price.
+    """
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
