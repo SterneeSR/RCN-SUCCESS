@@ -974,6 +974,57 @@ main {
   font-weight: 350;
 }
 
+/* Responsive */
+@media (max-width: 768px) {
+  .footer {
+    /* Adjust padding for a better fit on small screens */
+    padding: 50px 20px;
+  }
+
+  .footer-container {
+    /* Stack the columns vertically */
+    flex-direction: column;
+    /* Center the columns horizontally */
+    align-items: center;
+    /* Center the text content within each column */
+    text-align: center;
+  }
+
+  .footer-col {
+    /* Add some extra space between the stacked items */
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 350px; /* Prevents text from stretching too wide on tablets */
+  }
+
+  .footer-logo {
+    /* Ensure the logo is properly centered */
+    padding-right: 0;
+    margin: 0 auto 15px;
+  }
+
+  /* This is the key change: */
+  .footer-col ul {
+    /* This makes the list itself centered... */
+    display: inline-block;
+    /* ...but keeps the text inside the list neatly left-aligned. */
+    text-align: left;
+    margin-top: 10px;
+  }
+
+  .contact-info p {
+    /* Ensures contact info is also left-aligned for consistency */
+    text-align: left;
+    display: flex;
+    align-items: center;
+  }
+
+  .contact-info p i {
+    /* Adds a bit of space between the icon and the text */
+    margin-right: 12px;
+  }
+}
+
 /* ========================== MEMBERSHIP ================== */
 
 /* Membership Page Specific Styles */
