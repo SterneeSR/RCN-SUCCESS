@@ -856,6 +856,123 @@ main {
   font-weight: 350;
 }
 
+/* --- Footer & Copyright --- */
+/* Add your existing footer styles here */
+
+.footer {
+  position: relative;
+  background-color: #0F0F0F;
+  color: #E6E6E6;
+  padding: 60px 100px;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+
+.footer::after {
+  content: "";
+  position: absolute;
+  bottom: -60px; 
+  right: -60px;  
+  width: 400px;
+  height: 400px;
+  background-image: url(../images/rcn-logo-bd.png); 
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom right;
+  opacity: 0.10; 
+  z-index: 0;
+  pointer-events: none;
+}
+
+
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1300px;
+  margin: auto;
+  position: relative;
+  z-index: 1;
+  color: #E6E6E6;
+  font-family: 'Poppins', sans-serif;
+
+}
+
+.footer-col {
+  flex: 1 1 200px;
+  min-width: 180px;
+}
+
+.footer-logo {
+  width: 250px;
+  margin-bottom: 15px;
+  padding-right: 45px;
+}
+
+.footer-col h4 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+  text-decoration: none;
+  color: #E6E6E6;
+  font-size: 13px;
+}
+
+.footer-col ul li a:hover {
+  color: #bbbbbb;
+}
+
+.footer-col p {
+  font-size: 9px;
+  font-weight: 100;
+  margin-bottom: 10px;
+}
+
+.footer-col i {
+  margin-right: 8px;
+  color: #E6E6E6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center; /* Horizontally center the columns */
+  }
+
+.footer-col {
+    text-align: center; /* Center the text inside each column */
+    margin-bottom: 20px; /* Add some space between the stacked columns */
+  }
+
+.footer-logo {
+    padding-right: 0; /* Remove the right padding on the logo for mobile */
+    margin: 0 auto 15px; /* Center the logo */
+  }
+}
+
+.copyright {
+  padding: 25px 50px;
+  background: #222222;
+  color: #666262;
+  text-align: center;
+  font-weight: 350;
+}
 
 /* ========================== MEMBERSHIP ================== */
 
