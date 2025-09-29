@@ -9,5 +9,5 @@ pip install -r requirements.txt
 python manage.py collectstatic --no-input
 
 # Create and apply database migrations for ALL apps
-python manage.py makemigrations
+python manage.py makemigrations --no-input
 python manage.py migrate
