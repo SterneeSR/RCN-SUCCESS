@@ -4,113 +4,147 @@
 {% block content %}
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore News</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'events/css/events.css' %}">
 </head>
 <body class="events-page-container">
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 class="text-3xl md:text-4xl font-bold text-center mb-8 tracking-wider">EXPLORE NEWS</h1>
+    <div class="events-container">
+        <h1 class="events-main-title">EXPLORE NEWS</h1>
 
-        <div class="flex flex-wrap justify-center gap-3 md:gap-4 mb-12" id="filters">
+        <div class="filters-wrapper" id="filters">
             <a href="#events" class="filter-btn btn-events">Events</a>
             <a href="#upcoming" class="filter-btn btn-upcoming">Upcoming Events</a>
             <a href="#updates" class="filter-btn btn-updates">Updates</a>
         </div>
 
-        <div class="space-y-16">
-            <section id="events" class="news-section">
-                <h2 class="text-2xl font-bold mb-6 text-center md:text-left">EVENTS</h2>
+        <section id="events" class="news-section">
+            <h2 class="section-title">EVENTS</h2>
+            {% if events %}
                 <div class="events-grid">
+                    {% for event in events %}
                     <div class="event-card">
-                        <img src="https://placehold.co/600x400/a3a3a3/ffffff?text=Event" alt="Event Image" class="card-image">
+                        {% if event.image %}
+                            <img src="{{ event.image.url }}" alt="{{ event.title }} Image" class="card-image">
+                        {% endif %}
                         <div class="card-content">
-                            <h3 class="card-title">Event Title</h3>
-                            <p class="card-date">02/09/2025</p>
+                            <h3 class="card-title">{{ event.title }}</h3>
+                            <p class="card-date">{{ event.date|date:"d/m/Y" }}</p>
                             <div class="card-description-container">
                                 <p class="description-short">
-                                    Fvyiyh jw eweu cejwbweo jv ewfbu;ofej jvweu;ohepi ejweibefbve evbqeqhfeqn... <a href="#" class="read-more-trigger">Read more</a>
+                                    {{ event.short_description }}
+                                    <a href="#" class="read-more-trigger">Read more</a>
                                 </p>
                                 <p class="description-full">
-                                    This is the full expanded text. It provides much more detail about the event, its purpose, and what attendees can expect.
+                                    {{ event.full_description }}
                                 </p>
                             </div>
                             <div class="card-footer">
-                               <div class="linkedin-icon">
-                                    <a href="#">
-                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path>
-                                        </svg>
-                                    </a>
-                               </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="event-card hidden-card">
-                        <img src="https://placehold.co/600x400/a3a3a3/ffffff?text=Event" alt="Event Image" class="card-image">
-                        <div class="card-content">
-                            <h3 class="card-title">Another Event</h3>
-                            <p class="card-date">10/10/2025</p>
-                            <div class="card-description-container">
-                                <p class="description-short">This is another event card that was initially hidden... <a href="#" class="read-more-trigger">Read more</a></p>
-                                <p class="description-full">Full details for the other event which is now visible after clicking the view all button.</p>
-                            </div>
-                             <div class="card-footer">
-                               <div class="linkedin-icon">
-                                    <a href="#">
-                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path>
-                                        </svg>
-                                    </a>
-                               </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center mt-8">
-                    <button class="view-all-btn" data-section="events">
-                        View All
-                    </button>
-                </div>
-            </section>
-             <section id="upcoming" class="news-section">
-                <h2 class="text-2xl font-bold mb-6 text-center md:text-left">UPCOMING EVENTS</h2>
-                <div class="events-grid">
-                    <div class="event-card">
-                        <img src="https://placehold.co/600x400/a3a3a3/ffffff?text=Upcoming" alt="Event Image" class="card-image">
-                        <div class="card-content">
-                            <h3 class="card-title">Upcoming Event Title</h3>
-                            <p class="card-date">12/10/2025</p>
-                            <div class="card-description-container">
-                                <p class="description-short">
-                                   A brief look at our next major event happening soon. Get ready for an amazing experience... <a href="#" class="read-more-trigger">Read more</a>
-                                </p>
-                                <p class="description-full">
-                                    This is the full expanded text for the upcoming event. Join us for a day of learning, networking, and innovation. We have a packed schedule with industry leaders and hands-on workshops.
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <p class="posted-on-text">Posted On: 8/09/2025</p>
+                                {% if event.linkedin_url %}
                                 <div class="linkedin-icon">
-                                    <a href="#">
+                                    <a href="{{ event.linkedin_url }}" target="_blank" rel="noopener noreferrer">
                                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path>
                                         </svg>
                                     </a>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                 <div class="text-center mt-8">
-                    <button class="view-all-btn" data-section="upcoming">
-                        View All
-                    </button>
+            {% else %}
+                <p class="no-events-message">No events to display at the moment. Please check back later!</p>
+            {% endif %}
+        </section>
+
+        <section id="upcoming" class="news-section">
+            <h2 class="section-title">UPCOMING EVENTS</h2>
+            {% if upcoming_events %}
+                <div class="events-grid">
+                    {% for event in upcoming_events %}
+                    <div class="event-card">
+                         {% if event.image %}
+                            <img src="{{ event.image.url }}" alt="{{ event.title }} Image" class="card-image">
+                        {% endif %}
+                        <div class="card-content">
+                            <h3 class="card-title">{{ event.title }}</h3>
+                            <p class="card-date">{{ event.date|date:"d/m/Y" }}</p>
+                            <div class="card-description-container">
+                                <p class="description-short">
+                                    {{ event.short_description }}
+                                    <a href="#" class="read-more-trigger">Read more</a>
+                                </p>
+                                <p class="description-full">
+                                   {{ event.full_description }}
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <p class="posted-on-text">Posted On: {{ event.posted_on|date:"d/m/Y" }}</p>
+                                {% if event.linkedin_url %}
+                                <div class="linkedin-icon">
+                                    <a href="{{ event.linkedin_url }}" target="_blank" rel="noopener noreferrer">
+                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
-            </section>
-        </div>
+            {% else %}
+                 <p class="no-events-message">No upcoming events scheduled. Stay tuned!</p>
+            {% endif %}
+        </section>
+
+         <section id="updates" class="news-section">
+            <h2 class="section-title">UPDATES</h2>
+             {% if updates %}
+                <div class="events-grid">
+                    {% for event in updates %}
+                    <div class="event-card">
+                         {% if event.image %}
+                            <img src="{{ event.image.url }}" alt="{{ event.title }} Image" class="card-image">
+                        {% endif %}
+                        <div class="card-content">
+                            <h3 class="card-title">{{ event.title }}</h3>
+                            <p class="card-date">{{ event.date|date:"d/m/Y" }}</p>
+                            <div class="card-description-container">
+                                <p class="description-short">
+                                    {{ event.short_description }}
+                                    <a href="#" class="read-more-trigger">Read more</a>
+                                </p>
+                                <p class="description-full">
+                                   {{ event.full_description }}
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <p class="posted-on-text">Posted On: {{ event.posted_on|date:"d/m/Y" }}</p>
+                                {% if event.linkedin_url %}
+                                <div class="linkedin-icon">
+                                    <a href="{{ event.linkedin_url }}" target="_blank" rel="noopener noreferrer">
+                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                 <p class="no-events-message">No new updates right now.</p>
+            {% endif %}
+        </section>
+
     </div>
 
     <script src="{% static 'events/js/events.js' %}"></script>
