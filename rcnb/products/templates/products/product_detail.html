@@ -2,139 +2,187 @@
 
 {% block content %}
 <style>
-    /* Basic styling for responsiveness and modern look */
+    body {
+        background-color: #0f0f0f !important; /* Ensuring the entire page background is dark */
+    }
     .product-detail-container {
         padding-top: 4rem;
         padding-bottom: 4rem;
-        color: #333;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        color: #e5e7eb; /* Light text for dark background */
+        font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
-    .product-card {
-        background-color: #fff;
+    .product-card-dark {
+        background-color: #0f0f0f; /* Main card background */
         border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        padding: 2.5rem;
         overflow: hidden;
+        border: 1px solid #2c2c2c;
     }
     .product-image-wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #f8f9fa;
+        background-color: #0f0f0f; /* Match card background */
         border-radius: 10px;
         padding: 1rem;
+        height: 100%;
     }
     .product-image {
         max-width: 100%;
         height: auto;
         border-radius: 8px;
+        object-fit: cover;
     }
     .product-info h1 {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
         font-weight: 700;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
+        color: #ffffff;
     }
     .product-startup {
-        font-size: 1.2rem;
-        color: #555;
+        font-size: 1.1rem;
+        color: #a0a0a0;
         margin-bottom: 1.5rem;
     }
-    .product-price {
-        font-size: 2rem;
+    .product-startup strong {
+        color: #c0c0c0;
         font-weight: 600;
-        color: #007bff;
+    }
+    .product-price {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #7c3aed; /* Accent color */
         margin-bottom: 1.5rem;
     }
     .product-description {
-        background-color: #f8f9fa;
+        background-color: #1a1a1a; /* Slightly lighter dark for contrast */
         padding: 1.5rem;
         border-radius: 8px;
         margin-bottom: 2rem;
-        line-height: 1.6;
+        line-height: 1.7;
+        color: #b0b3c2;
+        border: 1px solid #2c2c2c;
     }
+    .product-description h4 {
+        color: #e5e7eb;
+        font-weight: 600;
+    }
+
+    /* Dark theme for form elements */
+    .cart-form-container form label {
+        display: none; /* Hide default django form labels */
+    }
+    .cart-form-container form select, 
+    .cart-form-container form input[type="number"] {
+        background-color: #1a1a1a;
+        color: #e5e7eb;
+        border: 1px solid #333;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        width: 100px;
+        margin-bottom: 1.5rem;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
     .add-to-cart-btn {
-        background-color: #28a745;
+        background-color: #7c3aed; /* Button color */
         color: #fff;
         border: none;
-        padding: 0.8rem 2rem;
+        padding: 1rem 2.5rem;
         font-size: 1.1rem;
         font-weight: 600;
-        border-radius: 50px;
+        border-radius: 8px;
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
         text-transform: uppercase;
         letter-spacing: 1px;
+        width: 100%;
+        display: block;
+        text-align: center;
     }
     .add-to-cart-btn:hover {
-        background-color: #218838;
-        transform: translateY(-2px);
+        background-color: #6d28d9;
+        transform: translateY(-3px);
     }
     .error-message {
-        color: #dc3545;
+        color: #ff8a8a;
         font-weight: 500;
+        background-color: rgba(255, 0, 0, 0.1);
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid #dc3545;
     }
     /* Responsive grid layout */
-    .row {
+    .product-grid {
         display: flex;
         flex-wrap: wrap;
-        margin-right: -15px;
-        margin-left: -15px;
+        margin: -15px;
     }
-    .col-md-6 {
+    .product-col {
         position: relative;
         width: 100%;
-        padding-right: 15px;
-        padding-left: 15px;
+        padding: 15px;
     }
     @media (min-width: 768px) {
-        .col-md-6 {
+        .product-col {
             flex: 0 0 50%;
             max-width: 50%;
         }
-        .product-info {
+        .product-info-wrapper {
             padding-left: 2rem;
         }
     }
 </style>
 
-<div class="container product-detail-container">
+<div class="container mx-auto px-4 product-detail-container">
     {% if p %}
-        <div class="product-card">
-            <div class="row">
-                <div class="col-md-6">
+        <div class="product-card-dark">
+            <div class="product-grid">
+                <!-- Product Image Column -->
+                <div class="product-col">
                     <div class="product-image-wrapper">
                         {% if p.image %}
                             <img src="{{ p.image.url }}" alt="Image for {{ p.name }}" class="product-image">
                         {% else %}
-                            <div style="width:100%; height:300px; background-color:#e9ecef; display:flex; align-items:center; justify-content:center; border-radius:8px;">
+                            <div style="width:100%; height:400px; display:flex; align-items:center; justify-content:center; border-radius:8px;">
                                 <span style="color:#6c757d;">No Image Available</span>
                             </div>
                         {% endif %}
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="product-info">
+                <!-- Product Details Column -->
+                <div class="product-col">
+                    <div class="product-info-wrapper">
                         <h1>{{ p.name }}</h1>
                         <p class="product-startup">By: <strong>{{ p.startup.name }}</strong></p>
-                        <p class="product-price">₹{{ p.price }}</p>
                         
                         <div class="product-description">
                             <h4 style="margin-bottom: 0.5rem;">Description</h4>
                             <p>{{ p.description|linebreaks }}</p>
                         </div>
 
-                        <button class="add-to-cart-btn">
-                            Add to Cart
-                        </button>
+                        <p class="product-price">₹{{ p.price }}</p>
+
+                        <form action="{% url 'cart:cart_add' p.id %}" method="post" class="cart-form-container">
+                            {% csrf_token %}
+                            {{ cart_product_form }}
+                            <button type="submit" class="add-to-cart-btn">
+                                Add to Cart
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     {% else %}
-        <div class="alert alert-danger" role="alert">
-            <p class="error-message"><strong>Error:</strong> The product context ('p') was not provided to the template.</p>
+        <div role="alert">
+            <p class="error-message"><strong>Error:</strong> The product you are looking for is not available.</p>
         </div>
     {% endif %}
 </div>
 {% endblock %}
+
