@@ -40,7 +40,7 @@
                     <li><a href="{% url 'home:contact' %}">Contact Us</a></li>
                     <li class="profile-item-desktop">
                         {% if user.is_authenticated %}
-                            <a href="{% url 'users:dashboard' %}" aria-label="Dashboard">
+                            <a href="{% url 'users:profile' %}" aria-label="Dashboard">
                                 <i data-lucide="user-round"></i>
                             </a>
                         {% else %}
