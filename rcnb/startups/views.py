@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Startup, CATEGORY_CHOICES
+from .models import Startup  # Import only the Startup model
 from django.db.models import Q
 
 def startups(request):
@@ -26,7 +26,7 @@ def startups(request):
     # Prepare the context to be passed to the template
     context = {
         'startups': queryset,
-        'categories': CATEGORY_CHOICES,
+        'categories': Startup.CATEGORY_CHOICES,  # Access CATEGORY_CHOICES via the Startup model
         'selected_category': selected_category,
         'q': query,
     }
