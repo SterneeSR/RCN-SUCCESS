@@ -5,6 +5,39 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+<style>
+    .filter-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    .filter-select, .search-input {
+        background-color: #21262d;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 6px;
+        border: 1px solid #30363d;
+        font-size: 1rem;
+    }
+    .search-container {
+        position: relative;
+        flex-grow: 1;
+        max-width: 600px;
+    }
+    .search-icon {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        color: #8b949e;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -12,19 +45,30 @@
     <h1>OUR STARTUPS</h1>
 </header>
 
-<form method="get" action="{% url 'startups:startups' %}" class="filter-form">
+<form method="get" action="{% url 'startups:startups' %}" autocomplete="off" class="filter-container">
     <div class="search-container">
-        <input type="text" id="startup-search" name="q" placeholder="Search startups..." value="{{ q }}">
+        <input
+            type="text"
+            id="startup-search"
+            name="q"
+            class="search-input"
+            value="{{ q }}"
+            placeholder="Search startups..."
+            style="width: 100%;"
+        >
         <button type="submit" class="search-icon"><i class="fa fa-search"></i></button>
     </div>
-    <div class="StartupsNav">
+
+    <select name="category" class="filter-select" onchange="this.form.submit()">
+        <option value="">All Categories</option>
         {% for cat in categories %}
-            <a href="?category={{ cat.value }}&q={{ q }}" class="st-nav-item {% if cat.value == selected_category %}active{% endif %}" data-category="{{ cat.value }}">
+            <option value="{{ cat.value }}" {% if cat.value == selected_category %}selected{% endif %}>
                 {{ cat.label }}
-            </a>
+            </option>
         {% endfor %}
-    </div>
+    </select>
 </form>
+
 
 <section class="startup-container" id="startup-container">
     {% for startup in startups %}

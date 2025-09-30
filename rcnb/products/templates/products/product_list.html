@@ -33,6 +33,9 @@
         right: 15px;
         transform: translateY(-50%);
         color: #8b949e;
+        background: none;
+        border: none;
+        cursor: pointer;
     }
 </style>
 
@@ -48,7 +51,7 @@
                 placeholder="Search products or startups..."
                 style="width: 100%;"
             >
-            <div class="search-icon"><i class="fa fa-search"></i></div>
+            <button type="submit" class="search-icon"><i class="fa fa-search"></i></button>
         </div>
 
         <select name="category" class="filter-select" onchange="this.form.submit()">
