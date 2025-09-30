@@ -54,7 +54,7 @@
         </div>
     </header>
 
-    <a href="{% if user.is_authenticated %}{% url 'users:dashboard' %}{% else %}{% url 'users:login' %}{% endif %}" class="profile-icon-mobile" aria-label="Profile or Login">
+    <a href="{% if user.is_authenticated %}{% url 'users:profile' %}{% else %}{% url 'users:login' %}{% endif %}" class="profile-icon-mobile" aria-label="Profile or Login">
         <i data-lucide="user-round"></i>
     </a>
     <div id="circleToggle" class="circle-toggle" role="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Toggle Menu">
