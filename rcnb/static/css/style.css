@@ -5551,3 +5551,80 @@ main {
   80%  { transform: translate(-50%,-50%) scale(7.5); opacity: 0.45; }
   100% { transform: translate(-50%,-50%) scale(12); opacity: 0; }
 }
+
+/* ================================
+   NEW STYLES FOR SEARCH AND FILTERS
+   ================================ */
+
+/* Container for the entire filter section */
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background-color: #161b22;
+}
+
+/* Search input container */
+.search-container {
+    position: relative;
+    flex-grow: 1;
+    max-width: 600px;
+}
+
+/* Search input field */
+.search-input {
+    width: 100%;
+    padding: 12px 45px 12px 20px;
+    border-radius: 25px; /* Rounded edges */
+    border: 1px solid #30363d;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: #8b949e;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #a855f7;
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+}
+
+/* Search icon inside the input */
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    color: #8b949e;
+    pointer-events: none; /* Allows clicks to pass through to the input */
+}
+
+/* Filter dropdowns (select elements) */
+.filter-select {
+    padding: 12px 20px;
+    border-radius: 25px; /* Consistent rounded edges */
+    border: 1px solid #30363d;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    font-size: 1rem;
+    cursor: pointer;
+    -webkit-appearance: none; /* Removes default OS styling */
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238b949e' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem; /* Space for the arrow */
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #a855f7;
+}
