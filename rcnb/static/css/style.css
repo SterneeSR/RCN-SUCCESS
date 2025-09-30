@@ -3215,329 +3215,6 @@ button:hover {
     opacity: 1; /* Make the icon fully visible on hover */
 }
 
-/* ================================ PRODUCTS ================================ */
-
-/* Reset and base styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-html {
-  scroll-behavior: smooth;
-}
-body {
-  font-family: "Poppins", sans-serif;
-  background-color: #0d1117;
-  color: white;
-  min-height: 100vh;
-  line-height: 1.5;
-}
-
-/* Navbar container */
-.product-navbar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 10px 25px;
-  background-color: #161b22;
-  position: relative;
-}
-
-/* Logo section */
-.nanocart-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 1.6rem;
-  color: #a855f7;
-  cursor: pointer;
-  user-select: none;
-}
-
-/* If using an image logo, style it */
-.nanocart-logo img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-}
-
-/* Search form & input */
-.product-navbar form {
-  position: relative;
-  flex-grow: 1;
-  max-width: 600px;
-}
-
-#product-search {
-  width: 100%;
-  padding: 10px 40px 10px 18px;
-  border-radius: 6px;
-  border: none;
-  outline: none;
-  background-color: #21262d;
-  color: white;
-  font-size: 1rem;
-  cursor: text;
-  transition: box-shadow 0.3s;
-}
-
-#product-search::placeholder {
-  color: #8a8a8a;
-}
-
-/* Search icon inside input */
-.search-icon {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #888;
-  pointer-events: none;
-  font-size: 1.2rem;
-}
-
-/* Suggestions box */
-#suggestions-box {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  width: 100%;
-  background: #161b22;
-  border: 1px solid #444;
-  border-radius: 6px;
-  max-height: 250px;
-  overflow-y: auto;
-  z-index: 1000;
-  display: none;
-  box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
-}
-
-.suggestion-item {
-  padding: 8px 14px;
-  cursor: pointer;
-  color: #ddd;
-  font-size: 0.9rem;
-  transition: background-color 0.2s;
-}
-
-.suggestion-item:hover {
-  background-color: #a855f7;
-  color: white;
-}
-
-/* New Arrivals section */
-.new-arrivals {
-  text-align: center;
-  padding: 30px 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.new-arrivals h1 {
-  font-size: 2rem;
-  margin-bottom: 30px;
-  font-weight: 600;
-}
-
-/* Cards container */
-.cards-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-/* Product card */
-.product-card {
-  position: relative;
-  width: 270px;
-  background: #fdfdfd;
-  border-radius: 10px;
-  box-shadow: 0 4px 32px rgba(64, 32, 64, 0.15);
-  overflow: hidden;
-  padding-bottom: 40px;
-  transition: box-shadow 0.2s ease-in-out;
-  cursor: default;
-}
-
-.product-card:hover {
-  box-shadow: 0 8px 48px rgba(64, 32, 64, 0.3);
-}
-
-/* Icons */
-.prod-icons {
-  position: absolute;
-  top: 22px;
-  right: 22px;
-  display: flex;
-  gap: 12px;
-}
-
-.prod-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: none;
-  color: #f6f6f6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.08rem;
-  cursor: pointer;
-  outline: none;
-  box-shadow: 0 2px 8px #0001;
-  transition: background 0.12s, color 0.12s;
-}
-
-.prod-btn.cart {
-  background: #7ed957;
-}
-
-.prod-btn.like {
-  background: #ff5757;
-}
-
-.prod-btn.cart:hover {
-  background: #e8f7e8;
-  color: #30b450;
-}
-
-.prod-btn.like:hover {
-  background: #ffe4ee;
-  color: #e75480;
-}
-
-/* Product image */
-.prod-img {
-  width: 100%;
-  height: 230px;
-  background: #f9f9f9;
-  border-radius: 22px 22px 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.prod-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 10px 10px 0 0;
-}
-
-/* Product details */
-.prod-details {
-  padding: 10px 20px;
-  text-align: left;
-}
-
-.prod-tag {
-  display: inline-block;
-  background: #e0e0ff;
-  color: #555;
-  font-size: 0.7rem;
-  padding: 4px 8px;
-  border-radius: 10px;
-  margin-bottom: 5px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.prod-name {
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 5px 0;
-  color: #222;
-}
-
-.prod-price {
-  color: black;
-  font-size: 1.1rem;
-  font-weight: 800;
-}
-
-.old-price {
-  text-decoration: line-through;
-  font-size: 0.9rem;
-  margin-left: 6px;
-  color: gray;
-}
-
-/* Buy now button */
-.buy-now-btn {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  border-radius: 0 0 10px 10px;
-  background: linear-gradient(to right, #4a00e0, #8e2de2);
-  color: #fff;
-  border: none;
-  font-weight: 600;
-  font-size: 1.12rem;
-  padding: 12px 0 15px 0;
-  cursor: pointer;
-  letter-spacing: 1px;
-  text-align: center;
-  transition: background 0.3s ease;
-  display: block;
-  text-decoration: none;
-}
-
-.buy-now-btn:hover {
-  background: linear-gradient(to right, #5f00ff, #a23cf3);
-}
-
-/* Pagination */
-.pagination {
-  text-align: center;
-  margin: 30px 0 50px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-}
-
-.pagination a {
-  color: white;
-  padding: 8px 16px;
-  margin: 0 8px;
-  background-color: #4a00e0;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
-
-.pagination a:hover {
-  background-color: #7f3ff2;
-}
-
-.pagination span {
-  padding: 8px 16px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  #product-search {
-    max-width: 100%;
-  }
-  .product-navbar {
-    flex-direction: column;
-    gap: 15px;
-  }
-  .cards-container {
-    justify-content: center;
-    gap: 15px;
-  }
-  .product-card {
-    width: 90vw;
-    max-width: 350px;
-  }
-}
 
 /* Existing styles... */
 
@@ -5503,4 +5180,374 @@ main {
     justify-content: center;
     align-items: center;
     min-height: 80vh;
+}
+
+/* Fixes for Dashboard, Product Cards, Search, and Filters */
+
+/* 1. Add Gutter to Dashboard Content */
+.dashboard-content {
+  padding: 1.5rem; /* You can adjust this value as needed */
+}
+
+/* 2. Remove White Background from Dashboard Addresses Section */
+.address-card-wrapper {
+    background-color: transparent; /* Removes the white background */
+    box-shadow: none; /* Optional: removes the shadow for a flatter look */
+}
+
+.saved-address-item {
+    background-color: var(--bg-surface); /* Ensures items have a background */
+}
+
+/* 3. Fix Broken Product Card Layout */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.prod-details {
+    flex-grow: 1; /* Allows this section to take up available space */
+}
+
+.buy-now-btn {
+    position: relative; /* Changed from absolute */
+    width: 100%;
+    margin-top: auto; /* Pushes the button to the bottom */
+}
+
+/* 4. New Styles for Search Bar and Filters */
+.search-and-filter-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+}
+
+.search-bar {
+    flex-grow: 1;
+    position: relative;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface-light);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3);
+}
+
+.filter-dropdown select {
+    padding: 0.75rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface-light);
+    color: var(--text-primary);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Navbar container */
+.product-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px 25px;
+  background-color: #161b22;
+  position: relative;
+}
+
+/* Logo section */
+.nanocart-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: #a855f7;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* If using an image logo, style it */
+.nanocart-logo img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* New Arrivals section */
+.new-arrivals {
+  text-align: center;
+  padding: 30px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.new-arrivals h1 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+/* Cards container */
+.cards-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Product card - FIXED */
+.product-card {
+  position: relative;
+  width: 270px;
+  background: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0 4px 32px rgba(64, 32, 64, 0.15);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+  cursor: default;
+  display: flex;
+  flex-direction: column; /* This is key for the fix */
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 48px rgba(64, 32, 64, 0.3);
+}
+
+/* Icons */
+.prod-icons {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  display: flex;
+  gap: 12px;
+  z-index: 2;
+}
+
+.prod-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  color: #f6f6f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.08rem;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 2px 8px #0001;
+  transition: background 0.12s, color 0.12s;
+}
+
+.prod-btn.cart {
+  background: #7ed957;
+}
+
+.prod-btn.like {
+  background: #ff5757;
+}
+
+.prod-btn.cart:hover {
+  background: #e8f7e8;
+  color: #30b450;
+}
+
+.prod-btn.like:hover {
+  background: #ffe4ee;
+  color: #e75480;
+}
+
+/* Product image */
+.prod-img {
+  width: 100%;
+  height: 230px;
+  background: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.prod-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Product details */
+.prod-details {
+  padding: 10px 20px;
+  text-align: left;
+  flex-grow: 1; /* Allows this section to expand */
+}
+
+.prod-tag {
+  display: inline-block;
+  background: #e0e0ff;
+  color: #555;
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.prod-name {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 5px 0;
+  color: #222;
+}
+
+.prod-price {
+  color: black;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.old-price {
+  text-decoration: line-through;
+  font-size: 0.9rem;
+  margin-left: 6px;
+  color: gray;
+}
+
+/* Buy now button */
+.buy-now-btn {
+  background: linear-gradient(to right, #4a00e0, #8e2de2);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  font-size: 1.12rem;
+  padding: 12px 0 15px 0;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-align: center;
+  transition: background 0.3s ease;
+  display: block;
+  text-decoration: none;
+  margin-top: auto; /* Pushes button to the bottom */
+}
+
+.buy-now-btn:hover {
+  background: linear-gradient(to right, #5f00ff, #a23cf3);
+}
+
+/* Pagination */
+.pagination {
+  text-align: center;
+  margin: 30px 0 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.pagination a {
+  color: white;
+  padding: 8px 16px;
+  margin: 0 8px;
+  background-color: #4a00e0;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.pagination a:hover {
+  background-color: #7f3ff2;
+}
+
+.pagination span {
+  padding: 8px 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .product-navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .cards-container {
+    justify-content: center;
+    gap: 15px;
+  }
+  .product-card {
+    width: 90vw;
+    max-width: 350px;
+  }
+}
+
+/* Toasts and Messages */
+.message-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+.message-box.success { background-color: #4CAF50; }
+.message-box.info { background-color: #2196F3; }
+.message-box.error { background-color: #f44336; }
+
+@keyframes fadein {
+    from { top: 0; opacity: 0; }
+    to { top: 20px; opacity: 1; }
+}
+@keyframes fadeout {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Ripple effect styles */
+.prod-btn.like.active {
+  background: #ffe4ee !important;
+  color: #e75480 !important;
+  transform: scale(1.04);
+  box-shadow: 0 6px 18px rgba(231,84,128,0.12);
+}
+.prod-btn.like.active i,
+.prod-btn.like.active svg { color: currentColor !important; }
+
+.swipe-overlay {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.95;
+  transform: translate(-50%,-50%) scale(0);
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+.swipe-overlay.radial {
+  width: 60px;
+  height: 60px;
+  animation: spawn-swipe-circle 0.65s cubic-bezier(.59,.09,.52,1.07) forwards;
+}
+.swipe-like { background: rgba(231,84,128,0.92); }
+.swipe-cart { background: rgba(48,180,80,0.92); }
+@keyframes spawn-swipe-circle {
+  0%   { transform: translate(-50%,-50%) scale(0); opacity: 0.95; }
+  40%  { transform: translate(-50%,-50%) scale(1.2); opacity: 0.98; }
+  80%  { transform: translate(-50%,-50%) scale(7.5); opacity: 0.45; }
+  100% { transform: translate(-50%,-50%) scale(12); opacity: 0; }
 }

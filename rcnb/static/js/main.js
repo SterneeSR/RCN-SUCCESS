@@ -721,6 +721,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+
 /* ================ Events JS ================ */
 
 document.addEventListener('DOMContentLoaded', function () {
