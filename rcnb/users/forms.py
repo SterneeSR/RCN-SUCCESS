@@ -56,3 +56,20 @@ class AddressForm(forms.ModelForm):
             'state': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'State'}),
             'pincode': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Pin Code'}),
         }
+        
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField(label="Your email")
+
+class SetNewPasswordForm(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput, label="New password")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm new password")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password2 = cleaned_data.get("password2")
+
+        if password and password2 and password != password2:
+            raise forms.ValidationError("Passwords don't match")
+
+        return cleaned_data

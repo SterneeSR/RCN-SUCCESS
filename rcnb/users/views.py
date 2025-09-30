@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm, LoginForm, UserUpdateForm, AddressForm
+from .forms import RegisterForm, LoginForm, UserUpdateForm, AddressForm, PasswordResetRequestForm, SetNewPasswordForm
 from .models import Address
 from django.contrib.auth.hashers import make_password
 
@@ -105,7 +105,7 @@ async def register(request):
             # Temporarily store user data in the session
             user_data = {
                 'email': email,
-                'password': make_password(password), 
+                'password': password, 
             }
             await set_session(request, 'unverified_user', user_data)
 
@@ -271,8 +271,50 @@ def delete_address(request, address_id):
 
 @login_required
 def reset_password(request):
-    messages.info(request, "This feature is not yet implemented.")
-    return redirect('users:profile')
+    if request.method == 'POST':
+        form = PasswordResetRequestForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                user = User.objects.get(email=email)
+                token = default_token_generator.make_token(user)
+                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                verification_link = request.build_absolute_uri(reverse('users:password_reset_confirm', kwargs={'uidb64': uidb64, 'token': token}))
+                mail_subject = 'Reset your password'
+                html_message = render_to_string('users/password_reset_email.html', {
+                    'reset_link': verification_link,
+                })
+                plain_message = f"Please reset your password by clicking on this link: {verification_link}"
+                send_mail(mail_subject, plain_message, settings.DEFAULT_FROM_EMAIL, [email], html_message=html_message)
+                messages.success(request, "A password reset link has been sent to your email.")
+                return redirect('users:login')
+            except User.DoesNotExist:
+                messages.error(request, "User with this email does not exist.")
+    else:
+        form = PasswordResetRequestForm()
+    return render(request, 'users/password_reset_request.html', {'form': form})
+
+def password_reset_confirm(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            form = SetNewPasswordForm(request.POST)
+            if form.is_valid():
+                user.set_password(form.cleaned_data['password'])
+                user.save()
+                messages.success(request, "Your password has been reset successfully. You can now log in.")
+                return redirect('users:login')
+        else:
+            form = SetNewPasswordForm()
+        return render(request, 'users/password_reset_confirm.html', {'form': form})
+    else:
+        messages.error(request, "The reset link is invalid or has expired.")
+        return redirect('users:reset_password')
 
 
 @login_required
