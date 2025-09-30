@@ -17,11 +17,13 @@
     .auth-btn:hover { opacity: 0.8; }
     .auth-link { margin-top: 1.5rem; font-size: 0.875rem; color: #8b949e; }
     .auth-link a { color: #58a6ff; text-decoration: none; font-weight: 500; }
+    /* Added style for better spacing on the links */
+    .auth-link p { margin: 0.5rem 0 0; }
 </style>
 
 <div class="auth-container">
     <div class="auth-card">
-        <img src="{% static 'images/RCN-Logo-2.jpg' %}" alt="RCN Logo" class="auth-logo">
+        <img src="{% static 'images/RCN.png' %}" alt="RCN Logo" class="auth-logo">
         <h2>LOGIN</h2>
         <form method="post">
             {% csrf_token %}
@@ -36,7 +38,9 @@
             <button type="submit" class="auth-btn">Login</button>
         </form>
         <div class="auth-link">
-            Don't have an account? <a href="{% url 'users:register' %}">Register</a>
+            <p><a href="{% url 'users:reset_password' %}">Forgot Password?</a></p>
+
+            <p>Don't have an account? <a href="{% url 'users:register' %}">Register</a></p>
         </div>
     </div>
 </div>

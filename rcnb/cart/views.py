@@ -7,6 +7,7 @@ from .models import Cart, CartItem
 from products.models import Product
 
 
+
 def cart_detail(request):
     cart = None
     if request.user.is_authenticated:
