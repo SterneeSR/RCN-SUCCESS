@@ -6531,3 +6531,21 @@ h1, h2 {
   background-color: #985dff;
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
+
+/* === Surgical Overlay: Remove white background from address book section === */
+.address-book {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+/* Add horizontal padding for templates extending dashboard.html (excluding profile section) */
+.dashboard-body main:not(.profile-section) {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard-body main:not(.profile-section) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
