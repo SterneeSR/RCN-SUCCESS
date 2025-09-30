@@ -47,8 +47,18 @@ def arender_to_string(template_name, context):
     return render_to_string(template_name, context)
 
 @sync_to_async
-def asend_mail(subject, message, from_email, recipient_list):
-    send_mail(subject, message, from_email, recipient_list)
+def asend_mail(subject, message, from_email, recipient_list, html_message=None):
+    """
+    Sends an email. If html_message is provided, it will be sent as an HTML email.
+    """
+    send_mail(
+        subject,
+        message,  # Plain text message
+        from_email,
+        recipient_list,
+        html_message=html_message,
+        fail_silently=False,
+    )
 
 @sync_to_async
 def acreate_user(username, email, password):
@@ -104,17 +114,17 @@ async def register(request):
             token = default_token_generator.make_token(user)
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
             
-            # This is the corrected line:
             verification_link = request.build_absolute_uri(reverse('users:verify_email', kwargs={'uidb64': uidb64, 'token': token}))
 
-            current_site = await aget_current_site(request)
             mail_subject = 'Activate Your Account'
-            message = await arender_to_string('users/email_verification_email.html', {
+            html_message = await arender_to_string('users/email_verification_email.html', {
                 'verification_link': verification_link,
             })
+            plain_message = f"Please verify your email by clicking on this link: {verification_link}"
+
 
             try:
-                await asend_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+                await asend_mail(mail_subject, plain_message, settings.DEFAULT_FROM_EMAIL, [email], html_message=html_message)
                 return await sync_to_async(render)(request, 'users/email_verification_sent.html')
             except Exception as e:
                 logger.error(f"Error sending verification email: {e}")
