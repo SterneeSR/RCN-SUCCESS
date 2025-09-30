@@ -1,37 +1,35 @@
-# startups/views.py
-
 from django.shortcuts import render
-from .models import Startup
+from .models import Startup, CATEGORY_CHOICES
 from django.db.models import Q
-import re
 
 def startups(request):
+    """
+    Displays a list of startups with optional filtering by category and search query.
+    """
     # Get all startups from the database
-    all_startups = Startup.objects.all()
+    queryset = Startup.objects.all()
 
-    # Get distinct categories for the filter buttons
-    categories = Startup.objects.values_list('category', flat=True).distinct()
+    # Get the selected category and search query from the request's GET parameters
+    selected_category = request.GET.get('category', '')
+    query = request.GET.get('q', '').strip()
 
-    # Get the selected category from the request's GET parameters
-    selected_category = request.GET.get('category')
-    
-    # Get the search query from the request's GET parameters
-    q = (request.GET.get('q') or '').strip()
-
+    # If a category is selected, filter the queryset
     if selected_category:
-        # Filter startups by the selected category
-        all_startups = all_startups.filter(category=selected_category)
+        queryset = queryset.filter(category=selected_category)
     
-    if q:
-        # Further filter by the search query
-        query = Q(name__icontains=q) | Q(description__icontains=q)
-        all_startups = all_startups.filter(query)
+    # If a search query is provided, further filter the queryset
+    if query:
+        # Create a Q object to search in both name and description fields
+        search_query = Q(name__icontains=query) | Q(description__icontains=query)
+        queryset = queryset.filter(search_query)
 
-
+    # Prepare the context to be passed to the template
     context = {
-        'startups': all_startups,
-        'categories': Startup.CATEGORY_CHOICES,
+        'startups': queryset,
+        'categories': CATEGORY_CHOICES,
         'selected_category': selected_category,
-        'q': q,
+        'q': query,
     }
+
+    # Render the startups.html template with the context
     return render(request, 'startups/startups.html', context)

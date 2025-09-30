@@ -4,7 +4,6 @@
 <div class="profile-container">
     <h1>Profile</h1>
     <div class="card">
-      <div class="avatar"></div>
       <div class="info">
         <h2>{{ user.get_full_name|default:user.username }}</h2>
         <p>{{ user.email }}</p>
@@ -12,7 +11,6 @@
             <div class="verified">Verified</div>
         {% endif %}
       </div>
-      <div class="status-dot"></div>
       </div>
 
     <div class="mobile-profile-actions">
@@ -37,12 +35,9 @@
                 <span>Name:</span>
                 <div class="detail-value">{{ user_form.first_name }}</div>
             </div>
-            <div class="detail-row">
-                <span>Phone:</span>
-                <div class="detail-value"><input type="text" name="phone" placeholder="Add phone number" value="{{ user.profile.phone_number|default:'' }}"></div>
-            </div>
             <button type="submit" class="save-btn" style="margin-top: 20px;">Save Changes</button>
         </form>
     </div>
 </div>
 {% endblock %}
+
