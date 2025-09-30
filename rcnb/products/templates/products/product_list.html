@@ -4,69 +4,35 @@
 {% block title %}Our Products{% endblock %}
 
 {% block content %}
-<style>
-    /* You can keep your existing styles. These are just for context. */
-    .filter-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-    .filter-select, .search-input {
-        background-color: #21262d;
-        color: white;
-        padding: 10px 18px;
-        border-radius: 6px;
-        border: 1px solid #30363d;
-        font-size: 1rem;
-    }
-    .search-container {
-        position: relative;
-        flex-grow: 1;
-        max-width: 600px;
-    }
-    .search-icon {
-        position: absolute;
-        top: 50%;
-        right: 15px;
-        transform: translateY(-50%);
-        color: #8b949e;
-        background: none;
-        border: none;
-        cursor: pointer;
-    }
-</style>
-
 <section class="product-navbar">
-    <form method="get" action="{% url 'products:product_list' %}" autocomplete="off" class="filter-container">
-        <div class="search-container">
-            <input
-                type="text"
-                id="product-search"
-                name="q"
-                class="search-input"
-                value="{{ q }}"
-                placeholder="Search products or startups..."
-                style="width: 100%;"
-            >
-            <button type="submit" class="search-icon"><i class="fa fa-search"></i></button>
-        </div>
+    <div class="filter-container">
+        <form method="get" action="{% url 'products:product_list' %}" autocomplete="off" class="search-and-filter-form">
+            <div class="search-container">
+                <input
+                    type="text"
+                    id="product-search"
+                    name="q"
+                    class="search-input"
+                    value="{{ q }}"
+                    placeholder="Search products or startups..."
+                >
+                <button type="submit" class="search-icon"><i class="fa fa-search"></i></button>
+            </div>
 
-        <select name="category" class="filter-select" onchange="this.form.submit()">
-            <option value="">All Categories</option>
-            {% for value, label in categories %}
-                <option value="{{ value }}" {% if value == selected_category %}selected{% endif %}>{{ label }}</option>
-            {% endfor %}
-        </select>
+            <select name="category" class="filter-select" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                {% for value, label in categories %}
+                    <option value="{{ value }}" {% if value == selected_category %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
 
-        <select name="sort" class="filter-select" onchange="this.form.submit()">
-            <option value="">Sort By</option>
-            <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
-            <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
-        </select>
-    </form>
+            <select name="sort" class="filter-select" onchange="this.form.submit()">
+                <option value="">Sort By</option>
+                <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+            </select>
+        </form>
+    </div>
 </section>
 
 <section class="new-arrivals">

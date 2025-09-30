@@ -5,54 +5,6 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-<style>
-    .filter-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-    .search-container {
-        position: relative;
-        flex-grow: 1;
-        max-width: 600px;
-    }
-    .search-input, .filter-select {
-        background-color: #21262d;
-        color: white;
-        padding: 10px 18px;
-        border-radius: 6px;
-        border: 1px solid #30363d;
-        font-size: 1rem;
-        width: 100%;
-    }
-    .search-icon {
-        position: absolute;
-        top: 50%;
-        right: 15px;
-        transform: translateY(-50%);
-        color: #8b949e;
-        background: none;
-        border: none;
-        cursor: pointer;
-    }
-    .filter-select {
-        flex-grow: 1;
-        max-width: 200px;
-    }
-    /* Responsive layout for mobile */
-    @media (max-width: 768px) {
-        .filter-container {
-            flex-direction: column;
-        }
-        .search-container, .filter-select {
-            width: 100%;
-            max-width: none;
-        }
-    }
-</style>
 {% endblock %}
 
 {% block content %}
@@ -60,28 +12,31 @@
     <h1>OUR STARTUPS</h1>
 </header>
 
-<form method="get" action="{% url 'startups:startups' %}" autocomplete="off" class="filter-container">
-    <div class="search-container">
-        <input
-            type="text"
-            id="startup-search"
-            name="q"
-            class="search-input"
-            value="{{ q }}"
-            placeholder="Search startups..."
-        >
-        <button type="submit" class="search-icon"><i class="fa fa-search"></i></button>
-    </div>
+<div class="filter-container">
+    <form method="get" action="{% url 'startups:startups' %}" autocomplete="off" class="search-and-filter-form">
+        <div class="search-container">
+            <input
+                type="text"
+                id="startup-search"
+                name="q"
+                class="search-input"
+                value="{{ q }}"
+                placeholder="Search startups..."
+            >
+            <button type="submit" class="search-icon"><i class="fa fa-search"></i></button>
+        </div>
 
-    <select name="category" class="filter-select" onchange="this.form.submit()">
-        <option value="">All Categories</option>
-        {% for value, label in categories %}
-            <option value="{{ value }}" {% if value == selected_category %}selected{% endif %}>
-                {{ label }}
-            </option>
-        {% endfor %}
-    </select>
-</form>
+        <select name="category" class="filter-select" onchange="this.form.submit()">
+            <option value="">All Categories</option>
+            {% for value, label in categories %}
+                <option value="{{ value }}" {% if value == selected_category %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+</div>
+
 
 <section class="startup-container" id="startup-container">
     {% for startup in startups %}

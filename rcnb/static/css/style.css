@@ -5112,7 +5112,6 @@ main {
 
 /* =================================================================== */
 
-/* Add this to your existing style.css file */
 
 /* Search Bar */
 .search-bar {
@@ -5814,3 +5813,126 @@ main {
   color: var(--text-secondary);
   margin-top: 4px;
 }
+
+/* sterneesr/raise-nano/RAISE-NANO-8818019c9daf31185706a6cf7e59d48d94e987fb/rcnb/static/css/style.css */
+
+/* New Styles for Search Bar and Filters */
+.search-and-filter-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    justify-content: center; /* Center items */
+    padding: 1rem;
+}
+
+.search-bar {
+    flex-grow: 1;
+    position: relative;
+    max-width: 600px; /* Max width for the search bar */
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface-light);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3);
+}
+
+.filter-dropdown {
+    display: flex;
+    gap: 1rem;
+}
+
+.filter-dropdown select {
+    padding: 0.75rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface-light);
+    color: var(--text-primary);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .search-and-filter-container {
+        flex-direction: column;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+}
+
+.dashboard-body .dashboard-content {
+    padding: 1.5rem;
+}
+
+
+
+.filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.search-and-filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.search-container {
+    position: relative;
+    flex-grow: 1;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid #333;
+    background-color: #222;
+    color: #fff;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+}
+
+.filter-select {
+    padding: 0.75rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid #333;
+    background-color: #222;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .search-and-filter-form {
+        flex-direction: column;
+    }
+}
+
