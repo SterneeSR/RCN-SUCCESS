@@ -62,7 +62,8 @@ def asend_mail(subject, message, from_email, recipient_list, html_message=None):
 
 @sync_to_async
 def acreate_user(username, email, password):
-    return User.objects.create_user(username=username, email=email, password=password)
+    first_name, last_name = username.split(" ", 1) if " " in username else (username, "")
+    return User.objects.create_user(username=email, email=email, password=password, first_name=first_name, last_name=last_name)
 
 @sync_to_async
 def alogin(request, user):
@@ -101,11 +102,14 @@ async def register(request):
         if await sync_to_async(form.is_valid)():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
+            username = form.cleaned_data['username']
+
 
             # Temporarily store user data in the session
             user_data = {
                 'email': email,
                 'password': password, 
+                'username': username
             }
             await set_session(request, 'unverified_user', user_data)
 
@@ -149,7 +153,7 @@ async def verify_email(request, uidb64, token):
 
         if default_token_generator.check_token(temp_user, token):
             user = await acreate_user(
-                username=user_data['email'],
+                username=user_data['username'],
                 email=user_data['email'],
                 password=user_data['password']
             )

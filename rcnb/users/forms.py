@@ -6,12 +6,13 @@ from asgiref.sync import sync_to_async
 
 # This form is for user registration
 class RegisterForm(forms.ModelForm):
+    username = forms.CharField(label="Full Name", max_length=150, required=True)
     password = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ['email', 'password']
+        fields = ['username', 'email', 'password']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
