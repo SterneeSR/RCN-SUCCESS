@@ -1,3 +1,10 @@
+/* =================================================================== */
+/* RCN DASHBOARD STYLES                           */
+/* This file contains styles for all user-facing dashboard pages,      */
+/* including Profile, Cart, Orders, and Address Management.          */
+/* =================================================================== */
+
+
 /* ---
 Root Variables & Base Styles
 --- */
@@ -16,6 +23,12 @@ Root Variables & Base Styles
   --accent-green-light: #4ade80;
   --accent-red: #ef4444;
   --font-family: 'Poppins', 'Inter', sans-serif;
+
+  /* Variables for Address Section */
+  --primary-purple: #6A38D4;
+  --input-bg: #3D3D3D;
+  --card-address-bg: #212121;
+  --border-address-color: #444444;
 }
 
 * {
@@ -24,36 +37,57 @@ Root Variables & Base Styles
   padding: 0;
 }
 
-body.dashboard-body {
+/* Base body styles for dashboard pages */
+.dashboard-body {
   font-family: var(--font-family);
   background-color: var(--bg-dark);
   color: var(--text-primary);
+  padding-bottom: 5rem; /* Height of the mobile nav */
 }
 
-a {
+.dashboard-body a {
   text-decoration: none;
   color: inherit;
 }
 
-h1, h2, h3, h4 {
+.dashboard-body h1,
+.dashboard-body h2,
+.dashboard-body h3,
+.dashboard-body h4 {
   color: #ffffff;
 }
+
+/* Ensure main content area has no unwanted padding from global styles */
+.dashboard-body main {
+  padding-top: 0;
+  padding-inline: 0 !important;
+}
+
+/* Add horizontal padding for templates extending dashboard.html */
+.dashboard-body main:not(.profile-section) {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard-body main:not(.profile-section) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
 
 /* ---
 Dashboard Layout & Navigation
 --- */
-.dashboard-body {
-  padding-bottom: 5rem; /* Height of the mobile nav */
-}
-
 .dashboard-nav-responsive {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 5rem;
-  background-color: var(--bg-dark); /* Changed */
-  border-top: 1px solid var(--border-color); /* Added for contrast */
+  background-color: var(--bg-dark);
+  border-top: 1px solid var(--border-color);
   z-index: 1000;
 }
 
@@ -105,18 +139,49 @@ Dashboard Layout & Navigation
   display: none; /* Hidden on mobile */
 }
 
+
 /* ---
-Main Content Area
+Main Content Area & General Components
 --- */
 .dashboard-content {
   padding: 1.5rem;
 }
 
 .page-header {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #333;
+  padding-bottom: 0.5rem;
+}
+
+.card {
+  background-color: var(--bg-surface);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.btn-circle {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+  border: none;
+  text-decoration: none;
+}
+.btn-circle-sm {
+  width: 28px;
+  height: 28px;
+}
+.btn-circle:active {
+  transform: scale(0.95);
 }
 
 /* ---
@@ -234,6 +299,7 @@ Desktop Styles (min-width: 768px)
   }
 }
 
+
 /* ---
 Profile Page Styles
 --- */
@@ -263,6 +329,10 @@ Profile Page Styles
   border: 4px solid var(--bg-dark);
 }
 
+.profile-container .info {
+  flex: 1;
+}
+
 .profile-container .info h2 {
   font-size: 1.8rem;
   font-weight: 600;
@@ -274,6 +344,7 @@ Profile Page Styles
   font-size: 1rem;
   color: var(--text-secondary);
   margin-top: 4px;
+  word-break: break-all;
 }
 
 .profile-container .verified {
@@ -305,7 +376,7 @@ Profile Page Styles
 .profile-container .detail-row span {
   font-size: 1rem;
   color: var(--text-secondary);
-  width: 80px; /* Align labels */
+  width: 80px;
 }
 
 .detail-value input {
@@ -317,132 +388,293 @@ Profile Page Styles
   width: 100%;
   padding: 4px 0;
 }
+
 .detail-value input:focus {
   outline: none;
   border-bottom: 2px solid var(--accent-primary);
 }
 
+.save-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 1rem;
+}
+
+.save-btn:hover {
+  background-color: var(--accent-primary-light);
+}
+
+/* Mobile-only action buttons for profile page */
+.mobile-profile-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.mobile-profile-actions a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+}
+.mobile-profile-actions a.home-btn {
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+}
+.mobile-profile-actions a.logout-btn {
+    background-color: var(--bg-surface);
+    color: var(--accent-red);
+}
+.mobile-profile-actions svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+@media (min-width: 768px) {
+    .mobile-profile-actions {
+        display: none;
+    }
+}
+
+
 /* ---
 Cart Page Styles
 --- */
 .cart-layout {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
   gap: 2rem;
-}
-@media (min-width: 1024px) {
-  .cart-layout {
-    grid-template-columns: 2fr 1fr;
-  }
+  align-items: flex-start;
 }
 
 .item-list {
+  flex: 3;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.cart-item-card {
-  display: flex;
-  background-color: var(--bg-surface);
-  border-radius: 1rem;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+.cart-total-card {
+  flex: 1;
+  position: sticky;
+  top: 20px;
+  background-color: #1c1c1c;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.18);
+  padding: 1.5rem;
+}
+
+@media (max-width: 992px) {
+  .cart-layout {
+    flex-direction: column;
+  }
+  .cart-total-card {
+    width: 100%;
+    position: static;
+  }
+}
+
+.cart-card {
+  background-color: #1c1c1c;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.18);
   overflow: hidden;
-  max-width: 600px;
-  width: 100%;
-  transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.cart-item-card:hover {
+.cart-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
 }
 
-.cart-image-container {
-  width: 140px;
+.cart-card-top {
+  display: flex;
+}
+
+.cart-image {
   flex-shrink: 0;
-  background-color: #333;
+  width: 140px;
+  height: 140px;
+  padding: 10px;
+  background: #333;
 }
 
-.cart-image-container img {
+.cart-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 8px;
 }
 
-.cart-details-section {
-  padding: 1.5rem;
-  display: flex;
+.cart-details {
   flex-grow: 1;
+  padding: 1rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 
-.product-info-wrapper h2 {
-  font-size: 1.4rem;
+.cart-details h2 {
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #fff;
+  margin: 0 0 0.5rem 0;
+  color: #e5e7eb;
+}
+
+.cart-details .price {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #b0b3c2;
   margin: 0;
 }
 
-.product-info-wrapper .price {
-  font-size: 1.2rem;
-  color: var(--accent-primary-light);
-  font-weight: 500;
-  margin: 0.5rem 0;
-}
-
-.quantity-selector {
+.cart-controls {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin: 1rem 0;
+  gap: 0.75rem;
+  margin-top: 1rem;
 }
 
-.quantity-selector span {
+.qty-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  line-height: 1;
+  transition: background-color 0.2s;
+  user-select: none;
+}
+.qty-btn.red { background-color: #e74c3c; }
+.qty-btn.red:hover { background-color: #c0392b; }
+.qty-btn.green { background-color: #22c55e; }
+.qty-btn.green:hover { background-color: #16a34a; }
+
+.qty {
   font-size: 1.2rem;
   font-weight: 600;
   min-width: 25px;
   text-align: center;
 }
 
-.cart-total p {
-  font-size: 1rem;
-  color: var(--text-secondary);
+.remove-form {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
-.cart-action-buttons {
+.remove-btn {
+  background: #333;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1.2rem;
+  color: #b0b3c2;
+  cursor: pointer;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, color 0.2s;
 }
 
-.btn-remove {
-  background-color: transparent;
-  border: 1px solid var(--accent-red);
-  color: var(--accent-red);
-}
-.btn-remove:hover {
-  background-color: var(--accent-red);
+.remove-btn:hover {
+  background-color: #e74c3c;
   color: #fff;
 }
 
-.cart-total-card {
-  background-color: var(--bg-surface); /* Changed */
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  align-self: flex-start;
+.cart-card-footer {
+  background-color: #222;
+  border-top: 1px solid #333;
+  padding: 0.75rem 1.5rem;
+  text-align: right;
 }
+.cart-card-footer p {
+  margin: 0;
+  font-size: 1rem;
+  color: #e5e7eb;
+}
+.cart-card-footer span {
+  color: #b0b3c2;
+}
+.cart-card-footer strong {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
 .cart-total-card h3 {
   font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #e5e7eb;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.75rem;
 }
+
+.cart-total-card p {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+  display: flex;
+  justify-content: space-between;
+  color: #e5e7eb;
+}
+.cart-total-card p strong {
+  font-weight: 700;
+}
+
+.cart-total-card .note {
+  font-size: 0.8rem;
+  color: #b0b3c2;
+  margin-top: 1rem;
+  text-align: center;
+  display: block;
+}
+
+.checkout-btn {
+  display: block;
+  width: 100%;
+  background-color: #7c3aed;
+  color: #fff;
+  text-align: center;
+  padding: 0.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.checkout-btn:hover {
+  background-color: #985dff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
 
 /* ---
 Orders Page Styles
 --- */
 .order-card {
-  background-color: var(--bg-surface); /* Changed */
+  background-color: var(--bg-surface);
   border-radius: 0.1rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   padding: 2rem;
@@ -476,8 +708,6 @@ Orders Page Styles
   padding-top: 1rem;
   border-top: 1px solid var(--border-color);
   font-size: 0.875rem;
-  
-  /* CHANGE: Responsive stacking for footer */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -493,8 +723,13 @@ Orders Page Styles
   font-weight: 500;
   margin-left: 0.5rem;
 }
+.status-pending { color: #ffc107; border-color: #ffc107;}
+.status-processing { color: #17a2b8; border-color: #17a2b8;}
+.status-shipped { color: #007bff; border-color: #007bff;}
+.status-delivered { color: #28a745; border-color: #28a745;}
+.status-cancelled { color: #dc3545; border-color: #dc3545;}
 
-/* On larger screens, put footer items back in a row */
+
 @media(min-width: 576px) {
     .order-footer {
         flex-direction: row;
@@ -508,24 +743,16 @@ Orders Page Styles
 /* ---
 Address Page Styles
 --- */
-:root {
-  --primary-purple: #6A38D4;
-  --input-bg: #3D3D3D;
-  --card-address-bg: #212121;
-  --border-address-color: #444444;
-}
-
-.main-content h1 {
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 32px;
+.address-book {
+  background-color: transparent !important;
+  box-shadow: none !important;
 }
 
 .address-card-wrapper {
-    background-color: var(--card-address-bg);
+    background-color: transparent;
     border-radius: 10px;
     padding: 32px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: none;
 }
 
 .address-card-wrapper h2 {
@@ -534,7 +761,6 @@ Address Page Styles
     font-weight: 600;
 }
 
-/* --- Saved Address List --- */
 .address-list {
     display: flex;
     flex-direction: column;
@@ -543,14 +769,12 @@ Address Page Styles
     overflow-y: auto;
     padding-right: 15px;
 }
-
-/* Custom Scrollbar */
 .address-list::-webkit-scrollbar { width: 6px; }
 .address-list::-webkit-scrollbar-track { background: transparent; }
 .address-list::-webkit-scrollbar-thumb { background: var(--input-bg); border-radius: 10px; }
 
 .saved-address-item {
-    background-color: var(--bg-dark);
+    background-color: var(--bg-surface);
     border: 1px solid var(--border-address-color);
     border-radius: 10px;
     overflow: hidden;
@@ -607,7 +831,6 @@ Address Page Styles
     margin-top: 12px;
 }
 
-/* --- New Address Form & Buttons --- */
 .btn-primary {
     background-color: var(--primary-purple);
     color: var(--text-primary);
@@ -649,14 +872,12 @@ Address Page Styles
     box-shadow: 0 0 0 2px rgba(106, 56, 212, 0.3);
 }
 .form-input::placeholder, .form-textarea::placeholder {
-    color: var(--text-muted);
-    font-weight: 400;
+    color: var(--text-secondary);
 }
 .form-textarea { resize: vertical; min-height: 90px; }
 .form-row { display: flex; gap: 16px; }
 .form-row > * { flex: 1; }
 
-/* --- Confirmation Delete Card --- */
 .confirm-card {
     background-color: var(--card-address-bg);
     border-radius: 10px;
@@ -674,12 +895,34 @@ Address Page Styles
 .cancel-btn { background-color: var(--input-bg); color: var(--text-primary); }
 
 
-/* --- Utility --- */
+/* ---
+Favorites / Wishlist Styles
+--- */
+.prod-btn.like.active {
+  background: #ffe4ee !important;
+  color: #e75480 !important;
+  transform: scale(1.04);
+  box-shadow: 0 6px 18px rgba(231,84,128,0.12);
+}
+.prod-btn.like.active i,
+.prod-btn.like.active svg { color: currentColor !important; }
+
+
+/* ---
+Utility & Messages
+--- */
 .hidden { display: none !important; }
 
-/* Favorites Page */
-.favorites-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    z-index: 1000;
+    display: none;
 }
+.notification.success { background-color: #28a745; }
+.notification.error { background-color: #dc3545; }
