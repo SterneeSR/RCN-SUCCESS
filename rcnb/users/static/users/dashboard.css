@@ -1,9 +1,9 @@
-/* sterneesr/raise-nano/RAISE-NANO-13ac132478b5d44617aa0ab9d08cf57b4691a5bc/rcnb/users/static/users/dashboard.css */
 /* =================================================================== */
 /* RCN DASHBOARD STYLES                           */
 /* This file contains styles for all user-facing dashboard pages,      */
 /* including Profile, Cart, Orders, and Address Management.          */
 /* =================================================================== */
+
 
 /* ---
 Root Variables & Base Styles
@@ -76,6 +76,7 @@ Root Variables & Base Styles
   }
 }
 
+
 /* ---
 Dashboard Layout & Navigation
 --- */
@@ -138,6 +139,7 @@ Dashboard Layout & Navigation
   display: none; /* Hidden on mobile */
 }
 
+
 /* ---
 Main Content Area & General Components
 --- */
@@ -192,7 +194,7 @@ Desktop Styles (min-width: 768px)
   }
 
   .dashboard-content {
-    padding: 2rem;
+      padding: 2rem;
   }
 
   .dashboard-nav-responsive {
@@ -300,6 +302,7 @@ Desktop Styles (min-width: 768px)
     margin: 0 auto;
   }
 }
+
 
 /* ---
 Profile Page Styles
@@ -524,10 +527,13 @@ Cart Page Styles
 }
 
 @media (max-width: 768px) {
-  .cart-card,
-  .order-card {
-    transform: scale(0.95);
-  }
+    .cart-card, .order-card, .product-card {
+        transform: scale(0.95);
+        margin-inline: auto;
+    }
+    .dashboard-content-container {
+        padding: 0 1rem;
+    }
 }
 
 .cart-card {
