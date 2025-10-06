@@ -1158,3 +1158,64 @@ Utility & Messages
 }
 .notification.success { background-color: #28a745; }
 .notification.error { background-color: #dc3545; }
+
+/* =========================================================
+   ALIGN DASHBOARD PAGES WITH PROFILE SPACING & PADDING
+   ========================================================= */
+
+/* 1. General page padding fix for all dashboard pages except profile */
+.dashboard-content {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* 2. Adjust for desktop sticky sidebar (same margin as profile style) */
+@media (min-width: 768px) {
+  .dashboard-content {
+    margin-left: 0;
+    padding: 2rem 2rem 2rem 2rem;
+  }
+}
+
+/* 3. Card scaling for non-profile pages (Cart, Orders, Address, Favorites) */
+.cart-card,
+.order-card,
+.saved-address-item,
+.product-card {
+  transform: scale(0.98);
+  transform-origin: center;
+}
+
+@media (max-width: 768px) {
+  .cart-card,
+  .order-card,
+  .saved-address-item,
+  .product-card {
+    transform: scale(0.95);
+    margin-inline: auto;
+  }
+}
+
+/* 4. Favorites container spacing mimic profile layout */
+.cards-container,
+.favorites-container {
+  justify-content: center;
+  padding: 2rem 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* 5. Ensure cards don’t touch screen edges on small screens */
+@media (max-width: 640px) {
+  .cards-container,
+  .favorites-container {
+    padding: 1rem;
+    gap: 15px;
+  }
+
+  .product-card {
+    width: 90vw;
+    max-width: 350px;
+  }
+}
