@@ -1,9 +1,9 @@
+/* sterneesr/raise-nano/RAISE-NANO-13ac132478b5d44617aa0ab9d08cf57b4691a5bc/rcnb/users/static/users/dashboard.css */
 /* =================================================================== */
 /* RCN DASHBOARD STYLES                           */
 /* This file contains styles for all user-facing dashboard pages,      */
 /* including Profile, Cart, Orders, and Address Management.          */
 /* =================================================================== */
-
 
 /* ---
 Root Variables & Base Styles
@@ -76,7 +76,6 @@ Root Variables & Base Styles
   }
 }
 
-
 /* ---
 Dashboard Layout & Navigation
 --- */
@@ -139,7 +138,6 @@ Dashboard Layout & Navigation
   display: none; /* Hidden on mobile */
 }
 
-
 /* ---
 Main Content Area & General Components
 --- */
@@ -191,6 +189,10 @@ Desktop Styles (min-width: 768px)
   .dashboard-body {
     padding-bottom: 0;
     padding-left: 16rem; /* Width of the desktop nav */
+  }
+
+  .dashboard-content {
+    padding: 2rem;
   }
 
   .dashboard-nav-responsive {
@@ -298,7 +300,6 @@ Desktop Styles (min-width: 768px)
     margin: 0 auto;
   }
 }
-
 
 /* ---
 Profile Page Styles
@@ -413,6 +414,43 @@ Profile Page Styles
   background-color: var(--accent-primary-light);
 }
 
+.delete-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--accent-red);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.delete-btn:hover {
+  background-color: #ff6b6b;
+}
+
+.profile-container .status-dot {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 10px;
+  height: 10px;
+  background: var(--accent-green);
+  border-radius: 50%;
+  box-shadow: 0 0 0 rgba(0, 200, 83, 0.7);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 200, 83, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 200, 83, 0); }
+}
+
 /* Mobile-only action buttons for profile page */
 .mobile-profile-actions {
     display: flex;
@@ -482,6 +520,13 @@ Cart Page Styles
   .cart-total-card {
     width: 100%;
     position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart-card,
+  .order-card {
+    transform: scale(0.95);
   }
 }
 
