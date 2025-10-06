@@ -378,6 +378,10 @@ Profile Page Styles
   border-radius: 0.75rem;
 }
 
+.profile-container .detail-row:not(:first-child) {
+    margin-top: 1rem;
+}
+
 .profile-container .detail-row span {
   font-size: 1rem;
   color: var(--text-secondary);
@@ -964,10 +968,9 @@ Favorites / Wishlist Styles
   }
 }
 
-/* Reusing the product card for favorites */
 .product-card {
   position: relative;
-  width: 100%;
+  width: 270px;
   background: #fdfdfd;
   border-radius: 10px;
   box-shadow: 0 4px 32px rgba(64, 32, 64, 0.15);
@@ -983,6 +986,7 @@ Favorites / Wishlist Styles
   box-shadow: 0 8px 48px rgba(64, 32, 64, 0.3);
 }
 
+/* Icons */
 .prod-icons {
   position: absolute;
   top: 22px;
@@ -1026,6 +1030,7 @@ Favorites / Wishlist Styles
   color: #e75480;
 }
 
+/* Product image */
 .prod-img {
   width: 100%;
   height: 230px;
@@ -1042,6 +1047,7 @@ Favorites / Wishlist Styles
   object-fit: cover;
 }
 
+/* Product details */
 .prod-details {
   padding: 10px 20px;
   text-align: left;
@@ -1080,6 +1086,7 @@ Favorites / Wishlist Styles
   color: gray;
 }
 
+/* Buy now button */
 .buy-now-btn {
   background: linear-gradient(to right, #4a00e0, #8e2de2);
   color: #fff;
@@ -1108,6 +1115,29 @@ Favorites / Wishlist Styles
 }
 .prod-btn.like.active i,
 .prod-btn.like.active svg { color: currentColor !important; }
+
+.swipe-overlay {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.95;
+  transform: translate(-50%,-50%) scale(0);
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+.swipe-overlay.radial {
+  width: 60px;
+  height: 60px;
+  animation: spawn-swipe-circle 0.65s cubic-bezier(.59,.09,.52,1.07) forwards;
+}
+.swipe-like { background: rgba(231,84,128,0.92); }
+.swipe-cart { background: rgba(48,180,80,0.92); }
+@keyframes spawn-swipe-circle {
+  0%   { transform: translate(-50%,-50%) scale(0); opacity: 0.95; }
+  40%  { transform: translate(-50%,-50%) scale(1.2); opacity: 0.98; }
+  80%  { transform: translate(-50%,-50%) scale(7.5); opacity: 0.45; }
+  100% { transform: translate(-50%,-50%) scale(12); opacity: 0; }
+}
 
 
 /* ---
