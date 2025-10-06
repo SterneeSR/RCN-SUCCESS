@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, LoginForm, UserUpdateForm, AddressForm, PasswordResetRequestForm, SetNewPasswordForm
+from django.contrib.auth.forms import PasswordResetForm
 from .models import Address
 from django.contrib.auth.hashers import make_password
 
@@ -27,6 +28,10 @@ from django.contrib.auth import logout
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+
+from django.template.loader import render_to_string
+from django.urls import reverse
+
 
 # ------------------- Custom Logout View -------------------
 
@@ -273,6 +278,7 @@ def delete_address(request, address_id):
         return redirect('users:address_book')
     return render(request, 'users/address_delete_confirm.html', {'address': address})
 
+
 @login_required
 def reset_password(request):
     if request.method == 'POST':
@@ -283,13 +289,23 @@ def reset_password(request):
                 user = User.objects.get(email=email)
                 token = default_token_generator.make_token(user)
                 uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-                verification_link = request.build_absolute_uri(reverse('users:password_reset_confirm', kwargs={'uidb64': uidb64, 'token': token}))
+                
+                # Correctly build the reset link
+                reset_link = request.build_absolute_uri(
+                    reverse('users:password_reset_confirm', kwargs={'uidb64': uidb64, 'token': token})
+                )
+
                 mail_subject = 'Reset your password'
+                
+                # Use the new password reset template
                 html_message = render_to_string('users/password_reset_email.html', {
-                    'reset_link': verification_link,
+                    'user': user,
+                    'reset_link': reset_link,
                 })
-                plain_message = f"Please reset your password by clicking on this link: {verification_link}"
+                
+                plain_message = f"Please reset your password by clicking on this link: {reset_link}"
                 send_mail(mail_subject, plain_message, settings.DEFAULT_FROM_EMAIL, [email], html_message=html_message)
+                
                 messages.success(request, "A password reset link has been sent to your email.")
                 return redirect('users:login')
             except User.DoesNotExist:
@@ -297,6 +313,7 @@ def reset_password(request):
     else:
         form = PasswordResetRequestForm()
     return render(request, 'users/password_reset_request.html', {'form': form})
+
 
 def password_reset_confirm(request, uidb64, token):
     try:
