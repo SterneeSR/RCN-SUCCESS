@@ -1219,3 +1219,112 @@ Utility & Messages
     max-width: 350px;
   }
 }
+
+/* =========================================================
+   DASHBOARD PAGE FIXES: PADDING, SCALING, AND FAVORITES FIX
+   ========================================================= */
+
+/* General dashboard content spacing (like Profile) */
+.dashboard-content {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+@media (min-width: 768px) {
+  .dashboard-content {
+    margin-left: 0;
+    padding: 2rem;
+  }
+}
+
+/* Headings alignment */
+.dashboard-content h1,
+.dashboard-content .page-header {
+  padding-top: 1rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Scale down non-profile cards */
+.cart-card,
+.order-card,
+.saved-address-item,
+.product-card {
+  transform: scale(0.98);
+  transform-origin: center;
+}
+@media (max-width: 768px) {
+  .cart-card,
+  .order-card,
+  .saved-address-item,
+  .product-card {
+    transform: scale(0.95);
+    margin-inline: auto;
+  }
+}
+
+/* Favorites container spacing */
+.cards-container,
+.favorites-container {
+  justify-content: center;
+  padding: 2rem 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+@media (max-width: 640px) {
+  .cards-container,
+  .favorites-container {
+    padding: 1rem;
+    gap: 15px;
+  }
+  .product-card {
+    width: 90vw;
+    max-width: 350px;
+  }
+}
+
+/* Address card wrapper horizontal padding reduced */
+.address-card-wrapper {
+  padding: 20px 16px;
+}
+
+/* Fix product title visibility */
+.prod-name {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 5px 0;
+  color: #fff;
+}
+
+.prod-details {
+  background-color: #1c1c1c;
+  color: var(--text-primary);
+}
+.prod-price {
+  color: var(--accent-primary-light);
+}
+
+.prod-name {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 5px 0;
+  color: #fff; /* FIXED for dark background */
+}
+
+/* Page headings unified spacing */
+.dashboard-content h1,
+.dashboard-content .page-header {
+  padding-top: 1rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.address-card-wrapper {
+  background-color: transparent;
+  border-radius: 10px;
+  padding: 20px 16px; /* Reduced horizontal padding */
+  box-shadow: none;
+}
+
