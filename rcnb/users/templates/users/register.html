@@ -3,7 +3,8 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<style>
+
+{% block extra_css %}
 <style>
     :root {
         --bg-dark: #010101;
@@ -15,6 +16,7 @@
         --gradient-start: #0023d8;
         --gradient-end: #00a3ff;
     }
+    
 
     .auth-container {
         display: flex;
@@ -144,7 +146,7 @@
         text-align: left;
     }
 </style>
-</style>
+{% endblock %}
 
 <div class="auth-container">
     <div class="auth-card">
