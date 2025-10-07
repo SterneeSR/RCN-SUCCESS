@@ -5757,3 +5757,40 @@ main {
   }
 }
 
+/* Desktop/tablet: side-by-side */
+.search-and-filter-form {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 52rem;
+  background-color: #1C1C1E;
+  padding: 0.75rem 1rem;
+  border-radius: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* Search input grows, filters shrink */
+.search-container {
+  flex-grow: 1;
+  min-width: 220px;
+  position: relative;
+}
+.filter-select {
+  flex-shrink: 0;
+  min-width: 120px;
+}
+
+/* Only stack on very small screens */
+@media (max-width: 600px) {
+  .search-and-filter-form {
+    flex-direction: column !important;
+    align-items: stretch;
+  }
+  .search-container,
+  .filter-select {
+    width: 100% !important;
+    min-width: 0;
+  }
+}
