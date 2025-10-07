@@ -5650,3 +5650,110 @@ main {
     width: 100%;
   }
 }
+
+/* ============================= */
+/* 🔍 Final Version – Side-by-Side Search & Filter Bars */
+/* ============================= */
+
+.filter-container {
+  width: 100%;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background: transparent;
+}
+
+.search-and-filter-form {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 52rem;
+  background-color: #1C1C1E;
+  padding: 0.75rem 1rem;
+  border-radius: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* --- Search Input Section --- */
+.search-container {
+  position: relative;
+  flex-grow: 1;
+  min-width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  background-color: transparent;
+  color: #d1d5db;
+  border: 1px solid #4b5563;
+  border-radius: 9999px;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.search-input::placeholder {
+  color: #6b7280;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.search-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding-right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease-in-out;
+}
+
+.search-button:hover {
+  color: #d1d5db;
+}
+
+/* --- Filter Dropdowns --- */
+.filter-select {
+  background-color: #2C2C2E;
+  color: #d1d5db;
+  border: 1px solid #4b5563;
+  border-radius: 9999px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.filter-select:hover {
+  background-color: #374151;
+  border-color: #6b7280;
+}
+
+/* --- Mobile Layout --- */
+@media (max-width: 600px) {
+  .search-and-filter-form {
+    flex-direction: column !important;
+    align-items: stretch;
+  }
+
+  .search-container,
+  .filter-select {
+    width: 100% !important;
+  }
+}
+
