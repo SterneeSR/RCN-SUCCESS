@@ -35,7 +35,7 @@ class Order(models.Model):
     is_paid = models.BooleanField(default=False)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     shipping_address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='Pending')
     payment_screenshot = models.ImageField(upload_to='payment_proofs/', blank=True, null=True)
     
 

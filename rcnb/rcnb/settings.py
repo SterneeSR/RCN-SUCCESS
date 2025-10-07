@@ -23,6 +23,7 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
 if ALLOWED_HOSTS:
     ALLOWED_HOSTS = ALLOWED_HOSTS.split(',')
 else:
+    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
     ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'raise-nanobiotech.up.railway.app', 'rcn-success.onrender.com', 'rcn-web.up.railway.app']
 
 
@@ -121,12 +122,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# --- settings.py ---
-
-# ... (other settings) ...
-
-# --- Media Files (Cloudinary) ---
-
 # --- Static Files (and WhiteNoise) ---
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -163,7 +158,7 @@ print(f"FINAL DEFAULT_FILE_STORAGE is: {DEFAULT_FILE_STORAGE}")
 # --- Email (SendGrid) ---
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
-DEFAULT_FROM_EMAIL = "sterneesr@gmail.com"
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'webmaster@localhost')
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
 # --- Authentication ---
