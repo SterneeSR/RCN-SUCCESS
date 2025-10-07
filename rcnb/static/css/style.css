@@ -6165,3 +6165,136 @@ section.product-navbar select {
     flex: 0 0 auto !important;
   }
 }
+
+/* ============================================== */
+/* ✅ FINAL FIX — Mobile Layout for Products Page  */
+/* ============================================== */
+
+/* Ensure main structure stays centered */
+.product-navbar,
+.product-navbar .filter-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 1rem !important;
+  box-sizing: border-box !important;
+}
+
+.product-navbar .search-and-filter-form {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.75rem !important;
+  width: 100% !important;
+  max-width: 52rem !important;
+  background: #1C1C1E !important;
+  border-radius: 1.5rem !important;
+  padding: 0.75rem 1rem !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+/* Ensure search bar behaves correctly */
+.product-navbar .search-container {
+  flex-grow: 1 !important;
+  flex-shrink: 1 !important;
+  position: relative !important;
+  min-width: 260px !important;
+}
+
+/* Search input full-width */
+.product-navbar .search-input {
+  width: 100% !important;
+  padding: 0.6rem 2.6rem 0.6rem 1rem !important;
+  border-radius: 9999px !important;
+  border: 1px solid #4b5563 !important;
+  background: transparent !important;
+  color: #d1d5db !important;
+  font-size: 0.95rem !important;
+}
+
+/* Search icon position */
+.product-navbar .search-button {
+  position: absolute !important;
+  right: 0.5rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: none !important;
+  border: none !important;
+  color: #6b7280 !important;
+  cursor: pointer !important;
+}
+
+.product-navbar .search-button:hover {
+  color: #d1d5db !important;
+}
+
+/* Filter dropdowns */
+.product-navbar .filter-select {
+  flex: 0 0 auto !important;
+  background: #2C2C2E !important;
+  color: #d1d5db !important;
+  border: 1px solid #4b5563 !important;
+  border-radius: 9999px !important;
+  padding: 0.6rem 1rem !important;
+  font-size: 0.95rem !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.product-navbar .filter-select:hover {
+  background-color: #374151 !important;
+}
+
+/* ================================================== */
+/* 📱 Mobile view — Products page layout adjustment    */
+/* ================================================== */
+@media (max-width: 600px) {
+  .product-navbar .search-and-filter-form {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Search bar takes one full line */
+  .product-navbar .search-container {
+    width: 100% !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Filter selects are side by side below search */
+  .product-navbar .filter-select {
+    width: 48% !important;
+    min-width: 0 !important;
+  }
+
+  /* Make sure the two filters stay next to each other */
+  .product-navbar .search-and-filter-form select[name="category"],
+  .product-navbar .search-and-filter-form select[name="sort"] {
+    display: inline-block !important;
+  }
+
+  /* Wrap filters into their own row under the search bar */
+  .product-navbar .search-and-filter-form {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-row-gap: 0.75rem !important;
+  }
+
+  .product-navbar .search-container {
+    grid-column: 1 / -1 !important;
+  }
+
+  .product-navbar .filter-select {
+    display: inline-block !important;
+    grid-column: auto !important;
+  }
+
+  /* Force filter selects to sit next to each other inside a flex wrap */
+  .product-navbar .search-and-filter-form select[name="category"],
+  .product-navbar .search-and-filter-form select[name="sort"] {
+    width: calc(50% - 0.4rem) !important;
+  }
+}
