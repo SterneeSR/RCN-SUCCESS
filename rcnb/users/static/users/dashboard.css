@@ -89,6 +89,7 @@ Dashboard Layout & Navigation
   background-color: var(--bg-dark);
   border-top: 1px solid var(--border-color);
   z-index: 1000;
+  margin-right: 10px;
 }
 
 .nav-container {
@@ -191,7 +192,6 @@ Desktop Styles (min-width: 768px)
   .dashboard-body {
     padding-bottom: 0;
     padding-left: 16rem; /* Width of the desktop nav */
-    margin-right: 10px;
   }
 
   .dashboard-content {
