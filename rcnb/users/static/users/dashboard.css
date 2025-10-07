@@ -1160,77 +1160,23 @@ Utility & Messages
 .notification.success { background-color: #28a745; }
 .notification.error { background-color: #dc3545; }
 
-/* =========================================================
-   ALIGN DASHBOARD PAGES WITH PROFILE SPACING & PADDING
-   ========================================================= */
 
-/* 1. General page padding fix for all dashboard pages except profile */
+/* =====================================================================
+   FIX: DASHBOARD PAGE LAYOUT, SPACING, & ALIGNMENT
+   ===================================================================== */
+
+/* 1. General Content Wrapper
+   This makes all dashboard pages (Cart, Orders, etc.) have the same
+   max-width and centered layout as the Profile page. */
 .dashboard-content {
   max-width: 1100px;
   margin: 2rem auto;
   padding: 0 1rem;
 }
 
-/* 2. Adjust for desktop sticky sidebar (same margin as profile style) */
-@media (min-width: 768px) {
-  .dashboard-content {
-    margin-left: 0;
-    padding: 2rem 2rem 2rem 2rem;
-  }
-}
-
-/* 3. Card scaling for non-profile pages (Cart, Orders, Address, Favorites) */
-.cart-card,
-.order-card,
-.saved-address-item,
-.product-card {
-  transform: scale(0.98);
-  transform-origin: center;
-}
-
-@media (max-width: 768px) {
-  .cart-card,
-  .order-card,
-  .saved-address-item,
-  .product-card {
-    transform: scale(0.95);
-    margin-inline: auto;
-  }
-}
-
-/* 4. Favorites container spacing mimic profile layout */
-.cards-container,
-.favorites-container {
-  justify-content: center;
-  padding: 2rem 1rem;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-/* 5. Ensure cards don’t touch screen edges on small screens */
-@media (max-width: 640px) {
-  .cards-container,
-  .favorites-container {
-    padding: 1rem;
-    gap: 15px;
-  }
-
-  .product-card {
-    width: 90vw;
-    max-width: 350px;
-  }
-}
-
-/* =========================================================
-   DASHBOARD PAGE FIXES: PADDING, SCALING, AND FAVORITES FIX
-   ========================================================= */
-
-/* General dashboard content spacing (like Profile) */
-.dashboard-content {
-  max-width: 1100px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
+/* 2. Desktop Layout Adjustment
+   On larger screens, this adjusts padding and removes the auto horizontal
+   margin to align correctly with the fixed sidebar. */
 @media (min-width: 768px) {
   .dashboard-content {
     margin-left: 0;
@@ -1238,7 +1184,9 @@ Utility & Messages
   }
 }
 
-/* Headings alignment */
+/* 3. Unified Page Headings
+   Ensures all page titles (e.g., "Your Cart", "Your Orders") have
+   consistent spacing and are aligned to the left. */
 .dashboard-content h1,
 .dashboard-content .page-header {
   padding-top: 1rem;
@@ -1247,7 +1195,9 @@ Utility & Messages
   text-align: left;
 }
 
-/* Scale down non-profile cards */
+/* 4. Visual Spacing for Cards
+   Slightly scales down cards on non-profile pages to create a subtle
+   margin effect and prevent them from looking too bulky. */
 .cart-card,
 .order-card,
 .saved-address-item,
@@ -1265,7 +1215,9 @@ Utility & Messages
   }
 }
 
-/* Favorites container spacing */
+/* 5. Favorites/Product Cards Container
+   Ensures the grid of favorite products is also centered within the main
+   content area and has appropriate padding. */
 .cards-container,
 .favorites-container {
   justify-content: center;
@@ -1285,47 +1237,19 @@ Utility & Messages
   }
 }
 
-/* Address card wrapper horizontal padding reduced */
+/* 6. Minor Theme & Padding Fixes */
 .address-card-wrapper {
-  padding: 20px 16px;
+  padding-inline: 16px; /* Reduces side padding on address cards */
 }
 
-/* Fix product title visibility */
-.prod-name {
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 5px 0;
-  color: #fff;
-}
-
+/* Fixes for product cards on a dark background */
 .prod-details {
-  background-color: #1c1c1c;
+  background-color: var(--bg-surface);
   color: var(--text-primary);
+}
+.prod-name {
+  color: #fff; /* Ensures product name is visible */
 }
 .prod-price {
   color: var(--accent-primary-light);
 }
-
-.prod-name {
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 5px 0;
-  color: #fff; /* FIXED for dark background */
-}
-
-/* Page headings unified spacing */
-.dashboard-content h1,
-.dashboard-content .page-header {
-  padding-top: 1rem;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-  text-align: left;
-}
-
-.address-card-wrapper {
-  background-color: transparent;
-  border-radius: 10px;
-  padding: 20px 16px; /* Reduced horizontal padding */
-  box-shadow: none;
-}
-
