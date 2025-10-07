@@ -6298,3 +6298,43 @@ section.product-navbar select {
     width: calc(50% - 0.4rem) !important;
   }
 }
+
+/* Footer mobile */
+
+/* ===== Improved Footer for Mobile View ===== */
+@media (max-width: 768px) {
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .footer-col {
+    text-align: center;
+  }
+
+  .footer-col h4 {
+    font-size: 20px; /* bigger section titles */
+  }
+
+  .footer-col ul li a {
+    font-size: 16px; /* larger links */
+  }
+
+  .footer-col p {
+    font-size: 14px; /* increase contact text size */
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .footer-logo {
+    width: 200px;
+    margin: 0 auto 20px;
+    padding-right: 0;
+  }
+
+  .footer-container {
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+  }
+}
