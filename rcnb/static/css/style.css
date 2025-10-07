@@ -5794,3 +5794,146 @@ main {
     min-width: 0;
   }
 }
+
+/* ================================ */
+/* STRONG OVERRIDES — force side-by-side
+   for Products (section.product-navbar) and Startups (div.filter-container)
+   Applies to: .filter-container, form.search-and-filter-form, .search-container,
+   .search-button / .search-icon and .filter-select
+   NOTE: these rules use high-specificity + !important to beat existing styles.
+*/
+/* Parent containers (both pages) */
+section.product-navbar .filter-container,
+div.filter-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.5rem 1rem !important;
+  gap: 0.5rem !important;
+  background: transparent !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* The form: keep everything on one row & allow horizontal scroll if needed */
+section.product-navbar .filter-container .search-and-filter-form,
+div.filter-container .search-and-filter-form,
+.search-and-filter-form {
+  display: flex !important;
+  flex-wrap: nowrap !important;        /* <- prevents stacking */
+  align-items: center !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;         /* allow horizontal scroll instead of wrapping */
+  -webkit-overflow-scrolling: touch !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;                /* cancel any "auto" margins that force new lines */
+  padding: 0.25rem !important;
+}
+
+/* Search input wrapper grows to use leftover space */
+section.product-navbar .search-and-filter-form .search-container,
+div.filter-container .search-and-filter-form .search-container,
+.search-and-filter-form .search-container {
+  position: relative !important;
+  flex: 1 1 auto !important;           /* grow to take remaining space */
+  min-width: 140px !important;         /* keep small but usable on tiny screens */
+  margin: 0 !important;
+}
+
+/* Ensure the input fills its wrapper */
+.search-and-filter-form .search-input,
+.search-container .search-input,
+.search-input {
+  width: 100% !important;
+  display: block !important;
+  padding: 0.45rem 2.6rem 0.45rem 0.9rem !important;
+  border-radius: 9999px !important;
+  border: 1px solid #4b5563 !important;
+  background: transparent !important;
+  color: #d1d5db !important;
+  box-sizing: border-box !important;
+  font-size: 0.95rem !important;
+}
+
+/* keep the submit/search button inside the input, but visible */
+.search-and-filter-form .search-button,
+.search-and-filter-form .search-icon,
+.search-container .search-button,
+.search-container .search-icon,
+button.search-button,
+button.search-icon,
+form.search-and-filter-form button[type="submit"] {
+  position: absolute !important;
+  right: 0.25rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  height: auto !important;
+  padding: 0.25rem 0.5rem !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  color: #6b7280 !important;
+  z-index: 5 !important;
+}
+
+/* make icon buttons clearly clickable */
+.search-and-filter-form .search-button:hover,
+.search-and-filter-form .search-icon:hover {
+  color: #d1d5db !important;
+}
+
+/* Filter selects — fixed width, do NOT grow */
+.search-and-filter-form .filter-select,
+.search-and-filter-form select,
+.filter-select,
+.search-and-filter-form select[name="category"],
+.search-and-filter-form select[name="sort"] {
+  flex: 0 0 auto !important;           /* do not grow or shrink to zero */
+  width: auto !important;
+  min-width: 88px !important;          /* small but usable on phones */
+  max-width: 220px !important;
+  padding: 0.45rem 0.95rem !important;
+  border-radius: 9999px !important;
+  border: 1px solid #4b5563 !important;
+  background: #2C2C2E !important;
+  color: #d1d5db !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+}
+
+/* If you have two selects, keep them next to each other */
+.search-and-filter-form .filter-select + .filter-select {
+  margin-left: 0 !important;
+}
+
+/* If some other rules set selects to width:100%, override them */
+.search-and-filter-form select,
+div.filter-container select,
+section.product-navbar select {
+  width: auto !important;
+}
+
+/* Remove accidental block margins that cause stacking */
+.search-and-filter-form .search-container,
+.search-and-filter-form .filter-select,
+.search-and-filter-form input,
+.search-and-filter-form button {
+  margin: 0 !important;
+}
+
+/* Small-screen adjustments — still *side-by-side*, but tighter paddings and fonts */
+@media (max-width: 420px) {
+  .search-and-filter-form { gap: 0.4rem !important; padding: 0.2rem !important; }
+  .search-and-filter-form .search-container { min-width: 120px !important; }
+  .search-and-filter-form .filter-select { min-width: 72px !important; padding: 0.35rem 0.6rem !important; font-size: 0.85rem !important; }
+  .search-and-filter-form .search-input { padding-right: 2.2rem !important; font-size: 0.9rem !important; }
+}
+
+/* Optional visual niceties */
+.search-and-filter-form::-webkit-scrollbar { height: 6px; }
+.search-and-filter-form::-webkit-scrollbar-track { background: transparent; }
+.search-and-filter-form::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 6px; }
