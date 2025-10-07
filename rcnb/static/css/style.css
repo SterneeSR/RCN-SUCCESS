@@ -6038,3 +6038,130 @@ section.product-navbar select {
     width: 100% !important;
   }
 }
+
+/* ============================================== */
+/* 💎 FINAL POLISH — Centered + Mobile Adjustments */
+/* ============================================== */
+
+/* Common layout centering for both pages */
+.product-navbar,
+.filter-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 1rem !important;
+  box-sizing: border-box !important;
+}
+
+.product-navbar .search-and-filter-form,
+.filter-container .search-and-filter-form {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.75rem !important;
+  width: 100% !important;
+  max-width: 52rem !important;
+  background: #1C1C1E !important;
+  border-radius: 1.5rem !important;
+  padding: 0.75rem 1rem !important;
+  box-sizing: border-box !important;
+  overflow: visible !important; /* removes horizontal scroll */
+}
+
+/* --- Search input area --- */
+.search-container {
+  position: relative !important;
+  flex: 1 1 auto !important;
+  min-width: 250px !important;
+}
+
+.search-input {
+  width: 100% !important;
+  padding: 0.6rem 2.6rem 0.6rem 1rem !important;
+  border-radius: 9999px !important;
+  border: 1px solid #4b5563 !important;
+  background: transparent !important;
+  color: #d1d5db !important;
+  font-size: 0.95rem !important;
+  box-sizing: border-box !important;
+}
+
+/* --- Search icon/button --- */
+.search-button {
+  position: absolute !important;
+  right: 0.5rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: none !important;
+  border: none !important;
+  color: #6b7280 !important;
+  cursor: pointer !important;
+  transition: color 0.3s ease !important;
+}
+
+.search-button:hover {
+  color: #d1d5db !important;
+}
+
+/* --- Filter selects --- */
+.filter-select {
+  flex: 0 0 auto !important;
+  background: #2C2C2E !important;
+  color: #d1d5db !important;
+  border: 1px solid #4b5563 !important;
+  border-radius: 9999px !important;
+  padding: 0.6rem 1rem !important;
+  font-size: 0.95rem !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.filter-select:hover {
+  background-color: #374151 !important;
+}
+
+/* ======================================= */
+/* 📱 Product page — special mobile layout */
+/* ======================================= */
+@media (max-width: 600px) {
+  section.product-navbar .search-and-filter-form {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  section.product-navbar .search-container {
+    width: 100% !important;
+    margin-bottom: 0.5rem !important; /* adds space between search and filters */
+  }
+
+  section.product-navbar .filter-select {
+    width: 48% !important;
+    min-width: 0 !important;
+  }
+
+  section.product-navbar .filter-container {
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+  }
+}
+
+/* ======================================= */
+/* 📱 Startups page — keep side by side    */
+/* ======================================= */
+@media (max-width: 600px) {
+  div.filter-container .search-and-filter-form {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  div.filter-container .search-container {
+    flex: 1 1 100% !important;
+  }
+
+  div.filter-container .filter-select {
+    flex: 0 0 auto !important;
+  }
+}
