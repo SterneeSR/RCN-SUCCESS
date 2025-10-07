@@ -2,6 +2,104 @@
 
 {% block title %}Confirm Account Deletion{% endblock %}
 
+{%block extra_css%}
+    <style>
+        /* General Body and Font Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: #d1d5db; /* Light gray text */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        /* Main content container */
+        .container {
+            width: 100%;
+            max-width: 32rem; /* 512px */
+            padding: 2rem;
+            background-color: #1C1C1E;
+            border-radius: 1.5rem; /* rounded-3xl */
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2), 0 4px 6px -2px rgba(0,0,0,0.1);
+        }
+
+        /* Heading style */
+        h2 {
+            font-size: 1.5rem; /* 24px */
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        /* Paragraph style */
+        p {
+            margin-bottom: 1.5rem;
+            color: #a1a1aa; /* Softer gray */
+        }
+
+        /* Form and button wrapper styling */
+        .form-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        /* General button styles */
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px; /* pill shape */
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* Danger button (Delete) */
+        .btn-danger {
+            background-color: #dc2626; /* Red */
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #b91c1c;
+        }
+
+        /* Secondary button (Cancel) */
+        .btn-secondary {
+            background-color: #374151; /* Gray */
+            color: #d1d5db;
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+
+        /* Responsive adjustments for wider screens */
+        @media (min-width: 640px) {
+            .form-actions {
+                flex-direction: row;
+                justify-content: center;
+            }
+            .btn {
+                width: auto;
+            }
+        }
+    </style>
+{%endblock%}
+
 {% block content %}
 <div class="container mt-5">
     <h2>Confirm Account Deletion</h2>
