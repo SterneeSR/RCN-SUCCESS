@@ -279,7 +279,6 @@ def delete_address(request, address_id):
     return render(request, 'users/address_delete_confirm.html', {'address': address})
 
 
-@login_required
 def reset_password(request):
     if request.method == 'POST':
         form = PasswordResetRequestForm(request.POST)
