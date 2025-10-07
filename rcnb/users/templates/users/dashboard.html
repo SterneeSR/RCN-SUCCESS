@@ -1,6 +1,6 @@
 {% load static %}
 
-{% block body_class %}dashboard-body{% endblock %}
+{% block body_class %}{% endblock %}
 
 <html lang="en">
 <head>
@@ -73,7 +73,7 @@
 </nav>
 
 <main class="dashboard-content">
-    {% block%}{% endblock %}
+    {% block dashboard_content %}{% endblock %}
 </main>
 
 <script src="{% static 'js/main.js' %}" defer></script>
