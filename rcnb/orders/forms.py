@@ -17,3 +17,4 @@ class PaymentProofForm(forms.ModelForm):
             if payment_screenshot.size > 10 * 1024 * 1024:  # 10 MB limit
                 raise ValidationError("File size is too large. Maximum size is 10 MB.")
         return payment_screenshot
+    
