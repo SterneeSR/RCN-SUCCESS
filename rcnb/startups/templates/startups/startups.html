@@ -5,6 +5,113 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+/* =================================================================== */
+/* NEW, ACCURATE STYLES FOR SEARCH AND FILTER BARS          */
+/* =================================================================== */
+
+/* Main wrapper for the entire search bar component.
+   This creates the dark, rounded container. */
+.filter-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 1.5rem; /* The 'pill' shape of the outer container */
+    background-color: #1C1C1E;
+    max-width: 42rem;
+    margin: 2rem auto; /* Centers the component on the page */
+    font-family: 'Inter', sans-serif;
+}
+
+/* The form itself, which holds all the interactive elements */
+.search-and-filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+/* Wrapper for just the text input and its icon */
+.search-container {
+    position: relative;
+    flex-grow: 1; /* Allows the search box to take up available space */
+    min-width: 250px; /* Prevents it from getting too small */
+}
+
+/* The actual text input field */
+.search-input {
+    background-color: transparent;
+    color: #d1d5db;
+    border: 1px solid #4b5563;
+    border-radius: 9999px; /* Creates the pill shape for the input */
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 1rem; /* top/bottom, right, left */
+    transition: box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+.search-input::placeholder {
+    color: #6b7280;
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #3b82f6; /* Blue ring on focus */
+}
+
+/* The search button that contains the icon */
+.search-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    padding-right: 0.75rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    transition: color 0.2s ease-in-out;
+}
+
+/* Styling the Font Awesome icon inside the button */
+.search-icon i.fa-search {
+    height: 1.25rem;
+    width: 1.25rem;
+    font-size: 1.25rem; /* Ensure icon size is consistent */
+    line-height: 1;
+}
+
+.search-icon:hover {
+    color: #d1d5db;
+}
+
+/* The <select> dropdowns for categories and sorting */
+.filter-select {
+    background-color: #2C2C2E;
+    color: #d1d5db;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px; /* Pill shape */
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.filter-select:hover {
+    background-color: #374151;
+}
+
+.filter-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #3b82f6;
+}
 {% endblock %}
 
 {% block content %}
