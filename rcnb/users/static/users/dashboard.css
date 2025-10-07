@@ -1162,93 +1162,84 @@ Utility & Messages
 
 
 /* =====================================================================
-   FIX: DASHBOARD PAGE LAYOUT, SPACING, & ALIGNMENT
+   DASHBOARD PAGE LAYOUT — UNIFIED MARGINS LIKE PROFILE
    ===================================================================== */
 
-/* 1. General Content Wrapper
-   This makes all dashboard pages (Cart, Orders, etc.) have the same
-   max-width and centered layout as the Profile page. */
+/* Main dashboard area layout */
 .dashboard-content {
   max-width: 1100px;
   margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+/* Inner wrappers for cart, orders, favorites, and address pages */
+.cart-layout,
+.item-list,
+.address-card-wrapper,
+.cards-container,
+.favorites-container {
+  margin: 1.5rem auto;
+  width: 100%;
+  max-width: 1000px;
   padding: 0 1rem;
 }
 
-/* 2. Desktop Layout Adjustment
-   On larger screens, this adjusts padding and removes the auto horizontal
-   margin to align correctly with the fixed sidebar. */
-@media (min-width: 768px) {
-  .dashboard-content {
-    margin-left: 0;
-    padding: 2rem;
-  }
-}
-
-/* 3. Unified Page Headings
-   Ensures all page titles (e.g., "Your Cart", "Your Orders") have
-   consistent spacing and are aligned to the left. */
+/* Headings aligned and spaced consistently */
 .dashboard-content h1,
 .dashboard-content .page-header {
+  margin-bottom: 1.75rem;
   padding-top: 1rem;
-  margin-bottom: 1.5rem;
   font-weight: 600;
   text-align: left;
 }
 
-/* 4. Visual Spacing for Cards
-   Slightly scales down cards on non-profile pages to create a subtle
-   margin effect and prevent them from looking too bulky. */
+/* Card visual breathing space */
 .cart-card,
 .order-card,
 .saved-address-item,
 .product-card {
   transform: scale(0.98);
   transform-origin: center;
+  margin-bottom: 1.5rem;
 }
+
 @media (max-width: 768px) {
+  .dashboard-content {
+    margin: 1rem auto;
+    padding: 0 1rem;
+  }
   .cart-card,
   .order-card,
   .saved-address-item,
   .product-card {
-    transform: scale(0.95);
+    transform: scale(0.96);
     margin-inline: auto;
   }
 }
 
-/* 5. Favorites/Product Cards Container
-   Ensures the grid of favorite products is also centered within the main
-   content area and has appropriate padding. */
+/* Product/Favorites grid alignment */
 .cards-container,
 .favorites-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
   justify-content: center;
-  padding: 2rem 1rem;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-@media (max-width: 640px) {
-  .cards-container,
-  .favorites-container {
-    padding: 1rem;
-    gap: 15px;
-  }
-  .product-card {
-    width: 90vw;
-    max-width: 350px;
-  }
 }
 
-/* 6. Minor Theme & Padding Fixes */
+/* Address form container consistency */
 .address-card-wrapper {
-  padding-inline: 16px; /* Reduces side padding on address cards */
+  background-color: transparent;
+  border-radius: 10px;
+  padding: 2rem;
 }
 
-/* Fixes for product cards on a dark background */
+/* Product detail readability on dark theme */
 .prod-details {
   background-color: var(--bg-surface);
   color: var(--text-primary);
 }
 .prod-name {
-  color: #fff; /* Ensures product name is visible */
+  color: #fff;
 }
 .prod-price {
   color: var(--accent-primary-light);
