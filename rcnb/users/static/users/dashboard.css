@@ -1244,3 +1244,58 @@ Utility & Messages
 .prod-price {
   color: var(--accent-primary-light);
 }
+
+/* =====================================================================
+   MOBILE REFINEMENTS — BETTER SPACING & ADDRESS VISIBILITY
+   ===================================================================== */
+
+@media (max-width: 768px) {
+
+  /* 1. Page titles shouldn't touch the screen edges */
+  .dashboard-content h1,
+  .dashboard-content .page-header {
+    padding-inline: 0.75rem;
+    font-size: 1.4rem;
+  }
+
+  /* 2. Ensure overall layout still has good side padding */
+  .dashboard-content {
+    padding-inline: 1rem;
+  }
+
+  /* 3. Fix for Address section — make cards full width and not shrink */
+  .address-card-wrapper {
+    padding: 1rem;
+  }
+
+  .saved-address-item {
+    width: 100%;
+    transform: none;
+    margin: 0 auto 1rem auto;
+  }
+
+  .address-details {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  /* 4. Cart and Order cards slight spacing */
+  .cart-card,
+  .order-card {
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  /* 5. Favorites/Product cards centered better on mobile */
+  .cards-container,
+  .favorites-container {
+    grid-template-columns: 1fr;
+    padding: 1rem 0.5rem;
+  }
+
+  .product-card {
+    width: 100%;
+    max-width: 95%;
+    margin: 0 auto 1.5rem;
+  }
+}

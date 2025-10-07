@@ -167,7 +167,7 @@
 
                         <p class="product-price">₹{{ p.price }}</p>
 
-                        <form action="{% url 'cart:cart_add' p.id %}" method="post" class="cart-form-container">
+                        <form action="{% url 'cart:add_to_cart' p.id %}" method="post" class="cart-form-container">
                             {% csrf_token %}
                             {{ cart_product_form }}
                             <button type="submit" class="add-to-cart-btn">
